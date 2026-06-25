@@ -1,246 +1,246 @@
-﻿---
+---
 lab:
-    title: 'Build a canvas app for Contoso field technicians'
-    description: 'Create and customize a canvas app in Microsoft Power Apps that field technicians use to view and update their assigned Work Orders'
-    duration: '60 minutes'
-    level: 300
-    islab: true
+  title: Contoso の現場技術者向けのキャンバス アプリを構築する
+  description: 現場技術者が割り当てられた作業指示書の表示および更新に使用するキャンバス アプリを Microsoft Power Apps で作成してカスタマイズします
+  duration: 60 minutes
+  level: 300
+  islab: true
 ---
 
-# Build a canvas app for Contoso field technicians
+# Contoso の現場技術者向けのキャンバス アプリを構築する
 
-In this exercise, you build a canvas app that Contoso field technicians use on their mobile devices to view their assigned Work Orders and update job status while in the field.
+この演習では、Contoso の現場技術者が現場にいながら割り当てられた作業指示書を表示し、仕事の状態を更新するために自分のモバイル デバイスで使用するキャンバス アプリを構築します。
 
-This exercise should take approximately **60** minutes to complete.
+この演習の所要時間は約 **60** 分です。
 
-## Scenario
+## シナリオ
 
-Contoso field technicians spend their days traveling between customer sites. They need a simple, mobile-friendly app to see which jobs they've been assigned, view the details of each request, and update the status when work is complete — all from their phone.
+Contoso の現場技術者は、顧客の現場間を移動しながら日々を過ごしています。 割り当てられた仕事の確認、各依頼の詳細の表示、作業完了時の状態の更新のすべてを自分の携帯電話から行うために、シンプルでモバイル フレンドリなアプリを必要としています。
 
-You'll build this app connected to the Work Order table you created in Lab 3, with a list screen showing assigned requests and a detail screen where technicians can update status.
+このアプリを構築し、ラボ 3 で作成した作業指示書テーブルに接続します。また、このアプリでは、割り当てられた依頼を示す一覧画面と、技術者が状態を更新できる詳細画面が表示されます。
 
-## Task 1: Create the canvas app
+## タスク 1: キャンバス アプリを作成する
 
-1. Open [**Power Apps**](https://make.powerapps.com) at `https://make.powerapps.com` and sign in with your Microsoft account.
+1. [**Power Apps**](https://make.powerapps.com) (`https://make.powerapps.com`) を開き、Microsoft アカウントでサインインします。
 
-1. Confirm you are in your **Dev One** environment.
+1. 現在の環境が **Dev One** であることを確認します。
 
-1. In the left navigation, select **+ Create**.
+1. 左側のナビゲーションで、**[+ 作成]** を選択します。
 
-1. Select **Create from blank** and select **Phone size**.
+1. **[空から作成]**、**[電話のサイズ]** の順に選択します。
 
-1. Skip any welcome messages that appear.
+1. 表示されたウェルカム メッセージはスキップします。
 
-1. Select the **gear** icon in the bottom left corner. Configure the **App name** as `Contoso Technician App`, then select **Close**.
+1. 左下済みにある **歯車**アイコンを選択します。 **[アプリ名]** を `Contoso Technician App` として構成し、**[閉じる]** を選択します。
 
-## Task 2: Connect to the Work Order table
+## タスク 2: 作業指示書に接続する
 
-1. In the left panel of the canvas studio, select the **Data** icon (it looks like a grid).
+1. キャンバス スタジオの左側のパネルで、**[データ]** アイコン (グリッドのように見えるアイコン) を選択します。
 
-1. Select **+ Add data**.
+1. **[+ データの追加]** を選択します。
 
-1. In the search box, type `Work Order` and select **Work Orders** (`contoso_workorder`).
+1. 検索ボックスで、「`Work Order`」と入力し、**[作業指示書]** (`contoso_workorder`) を選択します。
 
-1. Confirm that **Work Orders** now appears in the data sources list.
+1. データソース リストに **[作業指示書]** が表示されるようになったことを確認します。
 
-## Task 3: Build the request list screen
+## タスク 3: 依頼の一覧画面を作成する
 
-Now you'll set up the main screen to display a gallery of Work Orders.
+次に、作業指示書のギャラリーを表示するようにメイン画面を設定します。
 
-1. Select the **tree view** icon from the left menu (it will look like boxes stacked on top of each other).
+1. 左側のメニューから **[ツリー ビュー]** アイコン (箱を積み重ねたように見えるアイコン) を選択します。
 
-1. Rename the default screen from **Screen1** to `ListScreen` by double-clicking its name in the tree view panel.
+1. ツリー ビュー パネルで既定の画面の名前をダブルクリックして、その名前を **Screen1** から `ListScreen` に変更します。
 
-1. On **ListScreen**, select **+ Insert** from the top menu, then select **Vertical gallery**.
+1. **[ListScreen]** で、上部のメニューから **[+ 挿入]** を選択し、**[垂直ギャラリー]** を選択します。
 
-1. When prompted to connect a data source, select **Work Orders**.
+1. データ ソースへの接続を求められたら、**[作業指示書]** を選択します。
 
-1. Resize and reposition the gallery to fill the screen, leaving space for a title bar at the top.
-
-   > [!NOTE]
-   > Once the gallery is connected to Work Orders, you should see the three sample records you created in Lab 3 (Adatum Corporation, Tailwind Traders, Fabrikam Inc) appear in the gallery. If the gallery is empty, confirm that you selected the correct Work Orders table with the **contoso_** prefix.
-
-1. With the gallery selected, a small popup appears pinned just above the gallery. Select **Layout** in that popup and choose the layout that shows **Title, subtitle, and body**.
-
-1. In the properties panel, select the **Fields** count (for example, 7 selected) to open the field list. The fields are shown using their schema names. Select the schema name next to each field to open the dropdown and choose the correct field:
-    - **Body**: select `contoso_status`
-    - **Subtitle**: select `contoso_issuedescription`
-    - **Title**: select `customername`
-
-1. Select **+ Insert** > **Text label** to add a title bar at the top of the screen.
-
-1. Set the label **Text** property to `"My Work Orders"` in the formula bar.
+1. 上部にタイトル バー用のスペースを残して、画面いっぱいに収まるようにギャラリーのサイズと位置を変更します。
 
    > [!NOTE]
-   > The double quotes are required. Power Apps treats everything in the formula bar as an expression, not plain text. Without quotes, it tries to interpret `My Work Orders` as a formula reference and throws an error. Wrapping the value in double quotes tells Power Apps to treat it as a literal text string.
+   > ギャラリーが作業指示書に接続されると、ラボ 3 で作成した 3 つのサンプル レコード (Adatum Corporation、Tailwind Traders、Fabrikam Inc) がギャラリーに表示されます。 ギャラリーが空の場合は、プレフィックス **contoso_** が付いた正しい作業指示書テーブルを選択していることを確認します。
 
-1. Format the label: set the **Background color** to a dark blue, the **Color** (text) to white, and increase the **FontSize** to `36`.
+1. ギャラリーを選択すると、ギャラリーのすぐ上に小さなポップアップがピン留めされて表示されます。 そのポップアップで **[レイアウト]** を選択し、**[タイトル、サブタイトル、本文]** を表示するレイアウトを選択します。
 
-1. The text box defaults to a small size. Now that the background color is filled in, drag its edges so it stretches the full width of the screen and is tall enough to display the text clearly.
+1. プロパティ パネルで、**[フィールド]** 数 (たとえば 7) を選択してフィールド リストを開きます。 フィールドはスキーマ名を使用して表示されます。 各フィールドの横にあるスキーマ名を選択してドロップダウンを開き、正しいフィールドを選択します。
+    - **本文**: [`contoso_status`] を選択します
+    - **サブタイトル**: [`contoso_issuedescription`] を選択します
+    - **タイトル**: [`customername`] を選択します
 
-## Task 4: Set up the detail screen and form
+1. **[+ 挿入]**  >  **[テキスト ラベル]** の順に選択して、画面の上部にタイトル バーを追加します。
 
-Now you'll add a second screen where technicians can view full details and update the status of a selected request.
-
-1. In the left panel, select the **Tree view** icon. Select **+ New screen** > **Blank**.
-
-1. Rename the new screen to `DetailScreen` by double-clicking its name in the screens panel.
-
-1. On **DetailScreen**, select **+ Insert** > **Edit form**.
-
-1. When prompted to connect a data source, select **Work Orders**.
-
-1. By default, the form is positioned at the very top of the screen, which leaves no room for a Back button. In the **Tree view**, select **Form1**, then drag it down to leave space at the top of the screen for a button.
-
-1. A popup appears directly over the form. Select **Fields** — this surfaces a dropdown with AI-suggested fields based on your data source. Remove the ones you don't need and add the missing one:
-    - **Remove**: `Customer Email`, `Status Reason`, and `Record created on` (select the ellipsis next to each and select **Remove**)
-    - **Add**: select **+ Add field**, search for `Assigned Technician`, and select **Add**
-
-    When done, the form should show: Customer Name, Issue Description, Priority, Request Status, Assigned Technician, and Resolved Date.
-
-1. Assigned Technician will appear at the bottom of the field list. Drag it above **Resolved Date** so the fields are in this order: Customer Name, Issue Description, Priority, Request Status, Assigned Technician, Resolved Date.
-
-## Task 5: Add navigation buttons to the detail screen
-
-Now you'll add Back and Save buttons so technicians can navigate and submit updates.
-
-1. Add a **Back** button at the top of the screen by selecting **+ Insert** > **Button**.
-
-1. When the button is inserted, notice the formula bar at the top of the screen. The property dropdown on the left side already shows **OnSelect** by default.
-
-1. Before using Copilot, clear any existing content from the formula bar — if there's already a formula there, Copilot will append to it rather than replace it.
-
-1. Select the **Copilot** icon in the formula bar and select **Create a formula (preview)**. This button will navigate back to the previous screen, so type `go back to the previous screen` and press **Enter**. Copilot suggests the formula `Back()`. Select **Apply** to apply it.
+1. 数式バーで、ラベルの **[テキスト]** プロパティを `"My Work Orders"` に設定します。
 
    > [!NOTE]
-   > If Copilot isn't available in your environment, or gives you a response you didn't expect, you can type `Back()` directly in the formula bar.
+   > 二重引用符が必要です。 Power Apps では、数式バー内のすべてのものがプレーンテキストではなく式と見なされます。 引用符で囲まれていない場合、Power Apps は `My Work Orders` を数式参照として解釈しようとするため、エラーがスローされます。 値をテキストのリテラル文字列として扱うように Power Apps に指示するには、その値を二重引用符で囲みます。
 
-1. Now set the button label: select the property dropdown and choose **Text**. Type `"Back"` in the formula bar.
+1. ラベルの書式を設定します。**[背景色]** を濃い青、**[色]** (テキスト) を白に設定し、**[FontSize]** を [`36`] に増加します。
 
-1. Add a **Save** button below the form by selecting **+ Insert** > **Button**.
+1. 既定では、テキスト ボックスは小さいサイズです。 背景色が塗りつぶされたので、その端をドラッグして、画面の幅いっぱいに広げ、テキストを明確に表示できる十分な高さになるように調整します。
 
-1. With the Save button selected, confirm the property dropdown shows **OnSelect**, then type `SubmitForm(Form1)` in the formula bar (replace `Form1` with the actual name of your edit form if different).
+## タスク 4: 詳細画面とフォームを設定する
 
-1. Select the **Copilot** icon in the formula bar and select **Explain this formula**. Read the explanation Copilot provides for the `SubmitForm()` function.
+次に、技術者が選択した依頼の詳細を表示し、その状態を更新できる 2 つ目の画面を追加します。
 
-1. Switch the property dropdown to **Text** and type `"Save"`.
+1. 左側のパネルで、**[ツリー ビュー]** を選択します。 **[+ 新しい画面]**  >  **[空]** の順に選択します。
 
-## Task 6: Connect the screens with navigation
+1. 画面パネルで新しい画面の名前をダブルクリックして、その名前を `DetailScreen` に変更します。
 
-Now you'll connect the gallery on the first screen to the detail screen.
+1. **[DetailScreen]** で、**[+ 挿入]**  >  **[編集フォーム]** の順に選択します。
 
-1. Return to **ListScreen** in the screens panel.
+1. データ ソースへの接続を求められたら、**[作業指示書]** を選択します。
 
-1. In the **Tree view**, expand **Gallery1** (or the name of your gallery) to see its child elements. Select **NextArrow** from the list.
+1. 既定では、フォームは画面の一番上に配置されるため、[戻る] ボタンを配置するスペースがありません。 **[ツリー ビュー]** で **[Form1]** を選択し、それを下にドラッグして、画面の上部にボタンを配置するスペースを残します。
 
-1. With **NextArrow** selected, make it easier to see by updating its colors in the **Properties** panel on the right:
-    - Set **Color** to a dark blue or your preferred accent color
-    - Set **Disabled color** to a lighter shade of the same color
-    - Set **Hover color** to a brighter or bolder shade so it's clearly visible when technicians tap it
+1. ポップアップはフォームの上に直接表示されます。 **[フィールド]** を選択します。これにより、データ ソースに基づいて AI が推奨するフィールドを表示したドロップダウンが表示されます。 不要なフィールドを削除し、不足しているフィールドを追加します。
+    - **削除**: `Customer Email`、`Status Reason`、`Record created on` (それぞれの横にある省略番号を選択し、**[削除]** を選択します)
+    - **追加**: **[+ フィールドの追加]** を選択し、`Assigned Technician` を検索して、**[追加]** を選択します
 
-1. Now set the **OnSelect** property of **NextArrow**. When a technician taps the arrow on a gallery item, you want the app to navigate to the detail screen for that request with a slide transition. Confirm the property dropdown in the formula bar shows **OnSelect**.
+    完了すると、フォームに顧客名、問題の説明、優先度、依頼の状態、割り当てられた技術者、解決日が表示されます。
 
-1. Clear any existing content from the formula bar — Copilot appends to whatever is already there.
+1. 割り当てられた技術者はフィールド リストの下部に表示されます。 それを **[解決日]** の上にドラッグして、フィールドを顧客名、問題の説明、優先度、依頼の状態、割り当てられた技術者、解決日の順に配置します。
 
-1. Select the **Copilot** icon and choose **Create a formula (preview)**. Describe what you want — for example, type `navigate to the detail screen with a slide transition` and press **Enter**.
+## タスク 5: 詳細画面にナビゲーション ボタンを追加する
 
-1. Review the formula Copilot suggests. It should be:
+次に、技術者が画面を移動したり、更新内容を送信したりできるように、[戻る] ボタンと [保存] ボタンを追加します。
+
+1. **[+ 挿入]**  >  **[ボタン]** の順に選択して、画面の上部に **[戻る]** ボタンを追加します。
+
+1. ボタンが挿入されたら、画面の上部にある数式バーに注意してください。 左側のプロパティ ドロップダウンには、既定で **[OnSelect]** が既に表示されています。
+
+1. Copilot を使用する前に、数式バーから既存の内容を消去します。数式が既に存在すると、Copilot はそれを置き換えるのではなく、それに追加します。
+
+1. 数式バーで **[Copilot]** アイコンを選択し、**[数式の作成 (プレビュー)]** を選択します。 このボタンによって前の画面に戻るので、「`go back to the previous screen`」と入力して **Enter** キーを押します。 Copilot から数式 `Back()` が提案されます。 **[適用]** を選択して、その数式を適用します。
+
+   > [!NOTE]
+   > お使いの環境で Copilot が利用できない場合、または予期しない応答が返された場合は、数式バーに直接「`Back()`」と入力できます。
+
+1. 次に、ボタンラベルを設定します。プロパティ ドロップダウンを選択し、**[テキスト]** を選択します。 数式バーに「`"Back"`」と入力します。
+
+1. **[+ 挿入]**  >  **[ボタン]** の順に選択して、フォームの下に **[保存]** ボタンを追加します。
+
+1. [保存] ボタンを選択して、プロパティ ドロップダウンに **[OnSelect]** が表示されていることを確認し、数式バーに「`SubmitForm(Form1)`」と入力します (別の名前にする場合は、`Form1` を編集フォームの実際の名前に置き換えてください)。
+
+1. 数式バーで **[Copilot]** アイコンを選択し、**[この数式の説明]** を選択します。 `SubmitForm()` 関数について Copilot が提供する説明に目を通します。
+
+1. プロパティ ドロップダウンを **[テキスト]** に切り替え、「`"Save"`」と入力します。
+
+## タスク 6: ナビゲーションで画面を接続する
+
+次に、最初の画面にあるギャラリーを詳細画面に接続します。
+
+1. 画面パネルで **[ListScreen]** に戻ります。
+
+1. **[ツリー ビュー]** で **[Gallery1]** (またはお使いのギャラリーの名前) を展開して、その子要素を表示します。 一覧から **[NextArrow]** を選択します。
+
+1. **[NextArrow]** を選択した状態で、右側の **[プロパティ]** パネルで色を更新して、見やすくします。
+    - **[色]** を濃い青色、または好みのアクセント カラーに設定します
+    - **[無効時の色]** を同じ色のより明るい網掛けに設定します
+    - **[ポイント時の色]** をより明るいまたはより太い網掛けに設定して、技術者がタップしたときにはっきり見えるようにします
+
+1. 次に、**[NextArrow]** の **[OnSelect]** プロパティを設定します。 技術者がギャラリー アイテムの矢印をタップしたときに、スライド遷移でその依頼の詳細画面に移動できるようにします。 数式バーのプロパティドロップダウンに **[OnSelect]** が表示されていることを確認します。
+
+1. Copilot は、既にそこに入力されている式に追加するため、既存の内容を数式バーから消去します。
+
+1. **[Copilot]** アイコンを選択し、**[数式の作成 (プレビュー)]** を選択します。 必要な説明 (例: `navigate to the detail screen with a slide transition`) を入力し、**Enter** キーを押します。
+
+1. Copilot が提案する数式を確認します。 次のようになります。
 
     `Navigate(DetailScreen, ScreenTransition.Cover)`
 
-    If Copilot's suggestion matches, select **Apply**. If it doesn't match exactly, select **Discard**, then type the formula above directly in the formula bar.
+    Copilot の提案が上記の式と一致する場合は、**[適用]** を選択します。 完全に一致しない場合は、**[破棄]** を選択し、上記の数式を数式バーに直接入力します。
 
-1. With the navigation working, you need to pass the selected item to the detail form. Select the **Form** on **DetailScreen**.
+1. ナビゲーションが機能するようになったら、選択されたアイテムを詳細フォームに渡す必要があります。 **[DetailScreen]** で **[フォーム]** を選択します。
 
-1. The **Properties** pane will appear on the right. Select **Advanced.**
+1. **[プロパティ]** ペインが右側に表示されます。 **[Advanced] \(詳細設定)** を選択します。
 
-1. Set the **Item** property to:
+1. **[アイテム]** プロパティを次のように設定します。
 
     `Gallery1.Selected`
 
-    (Replace `Gallery1` with the actual name of your gallery if different.)
+    (別の名前にする場合は、`Gallery1` をギャラリーの実際の名前に置き換えてください)。
 
-## Task 7: Create the AI Builder flow in Power Automate
+## タスク 7: Power Automate で AI Builder フローを作成する
 
-Now you'll build a Power Automate flow that uses an AI Builder prompt to analyze an issue description and suggest a priority level.
+次に、AI Builder のプロンプトを使用して問題の説明を分析し、優先度レベルを提案する Power Automate フローを構築します。
 
-1. On **DetailScreen**, select **+ Insert** > **Button** and place it below the form, above the **Save** button.
+1. **[DetailScreen]** で、**[+ 挿入]**  >  **[ボタン]** の順に選択し、フォームの下でかつ **[保存]** ボタンの上に配置します。
 
-1. With the button selected, select the **ellipsis (...)** at the bottom of the left panel to reveal more options, then select **Power Automate**.
+1. このボタンを選択した状態で、左側のパネルの下部にある **省略記号 (...)** を選択して、さらに多くのオプションを表示し、**[Power Automate]** を選択します。
 
-1. Select **Create new flow**, then select **+ Create from blank**. A Power Automate flow designer opens in a panel within the canvas app studio, with a pre-configured Power Apps trigger already in place.
+1. **[新しいフローの作成]**、**[+ 空から作成]** を選択します。 キャンバス アプリ スタジオ内のパネルで Power Automate フロー デザイナーが開き、事前構成済みの Power Apps トリガーが既に配置されています。
 
-1. Select the default flow name at the top of the panel and rename it to `SuggestPriorityFlow`.
+1. パネルの上部にある既定のフロー名を選択し、それを `SuggestPriorityFlow` に変更します。
 
-1. Select the trigger step to expand it and select **+ Add an input.**
+1. トリガー ステップを選択して展開し、**[+ 入力の追加]** を選択します。
 
-1. Add a text input named `IssueDescription`.
+1. `IssueDescription` という名前のテキスト入力を追加します。
 
-1. Add a new step: search for **AI Builder** and select **Run a prompt**.
+1. 新しいステップを追加します。「**AI Builder**」を検索し、**[プロンプトの実行]** を選択します。
 
    > [!NOTE]
-   > You may be prompted to authenticate or sign in to AI Builder at this point. Follow the on-screen steps to connect, then continue.
+   > この時点で、AI Builder への認証またはサインインを求められる場合があります。 画面上の手順に従って接続し、続行します。
 
-1. Configure the **Run a prompt** step with the following values:
-    - **Prompt**: select **AI Classify** from the dropdown
-    - **Input text**: select the **Input** from the PowerApps connector in the dynamic value selector (this is the IssueDescription we set up in a previous step)
-    - **Input Categories**: `Low, Normal, High, Critical`
+1. **[プロンプトの実行]** ステップを次の値で構成します。
+    - **プロンプト**: ドロップダウンから **[AI 分類]** を選択します
+    - **入力テキスト**: 動的な値セレクターで、PowerApps コネクタから **[入力]** を選択します (これは、前の手順で設定した IssueDescription です)
+    - **入力カテゴリ**: `Low, Normal, High, Critical`
     - **AdditionalContext**: `You are classifying the urgency of a field Work Order. Choose the priority level that best matches the issue described.`
 
-1. Select **+ New step**.
+1. **[+ New step (+ 新しいステップ)]** を選択します。
 
-1. Add a **Respond to a Power App or flow** step. Select **+ Add an output**, choose **Text**, name it `SuggestedPriority`, and set its value to the **Text** output from the **Run a prompt** step.
+1. **[Power Apps またはフローへの応答]** ステップを追加します。 **[+ 出力の追加]** を選択し、**[テキスト]** を選択し、それに `SuggestedPriority` という名前を付け、その値を、**[プロンプトの実行]** ステップから出力された **[テキスト]** に設定します。
 
-1. **Save** the flow and return to the canvas app.
+1. フローを **[保存]** して、キャンバス アプリに戻ります。
 
-## Task 8: Add the Suggest Priority feature to the app
+## タスク 8: アプリに優先度の提案機能を追加する
 
-Now you'll wire the flow to the canvas app and display the AI suggestion on screen.
+次に、フローをキャンバス アプリに接続し、AI の提案を画面に表示します。
 
-1. Back in the canvas app, select the button you added in the previous task.
+1. キャンバス アプリに戻り、前のタスクで追加したボタンを選択します。
 
-1. Set the button **Text** property to `"Suggest Priority"`.
+1. ボタンの **[テキスト]** プロパティを `"Suggest Priority"` に設定します。
 
-1. Set the button **OnSelect** property to:
+1. ボタンの **[OnSelect]** プロパティを次のように設定します。
 
     `Set(varSuggestedPriority, SuggestPriorityFlow.Run(Gallery1.Selected.contoso_issuedescription).SuggestedPriority)`
 
-1. Select the **Copilot** button and select **Explain this formula.** You should see that Copilot is aware that the expression will set the Suggested Priority value returned by the flow.
+1. **[Copilot]** ボタンを選択し、**[この数式の説明]** を選択します。 この式がフローから返される [推奨される優先度] の値を設定することを Copilot が認識していることがわかります。
 
-1. Add a **Text label** below the button. In the **Properties** panel, set the **Color** to blue so the AI suggestion stands out on screen. Expand the text label so it spans the whole length of the screen.
+1. ボタンの下に **[テキスト ラベル]** を追加します。 **[プロパティ]** パネルで、**[色]** を青に設定し、AI の提案が画面上で目立つようにします。 テキスト ラベルを画面の幅いっぱいに広げます。
 
-1. Set its **Text** property to:
+1. その **[テキスト]** プロパティを次のように設定します。
 
     `If(varSuggestedPriority = "", "", "AI suggestion: " & varSuggestedPriority)`
 
-1. Select the **Copilot** icon in the formula bar and select **Explain this formula**. Read the explanation Copilot provides for the `If()` function and consider how it controls what the label displays before and after the flow runs.
+1. 数式バーで **[Copilot]** アイコンを選択し、**[この数式の説明]** を選択します。 `If()` 関数について Copilot が提供する説明に目を通し、フローの実行前後にラベルに表示される内容をその関数でどのように制御するかを検討します。
 
-## Task 9: Preview and test the app
+## タスク 9: アプリをプレビューしてテストする
 
-1. **Save** your app.
+1. アプリを**保存**します。
 
-1. Press **F5** (or select the **Play** button in the top-right corner) to preview the app.
+1. **F5** キーを押して (または右上隅にある **[再生]** ボタンを選択して)、アプリをプレビューします。
 
-1. You should see the request list screen with any existing Work Order records displayed.
+1. 既存の作業指示書の記録が表示された依頼の一覧画面が表示されます。
 
-1. Select a record in the gallery to navigate to the detail screen.
+1. ギャラリーで記録を選択して詳細画面に移動します。
 
-1. On the detail screen, select **Suggest Priority**. After a few seconds, the label should display a suggested priority based on the issue description.
-
-   > [!NOTE]
-   > AI Builder prompt actions require an AI Builder capacity allocation in your environment. If the flow fails with a licensing error, check with your administrator or use a trial capacity add-on. Results may vary — the AI suggestion is a starting point, not a definitive answer.
-
-1. Change the **Request Status** value and select **Save**.
-
-1. Select **Back** to return to the list and confirm your change was saved.
-
-1. Press **Esc** or select the **X** to exit preview mode.
-
-## Task 10: Save and publish the app
-
-1. Select the **Save** icon on the top-right corner (or press **Ctrl+S**).
-
-1. Select **Publish** and then **Publish this version** to make the app available to users.
+1. 詳細画面で、**[優先度の提案]** を選択します。 数秒後、問題の説明に基づいて推奨される優先度がラベルに表示されます。
 
    > [!NOTE]
-   > Sharing the app with specific users and assigning security roles is covered in a separate module. For now, the app is published and accessible in your environment.
+   > AI Builder のプロンプト アクションを使用するには、環境への AI Builder 容量の割り当てが必要です。 フローがライセンス関連のエラーで失敗する場合は、管理者に確認するか、試用版の容量アドオンを使用してください。 結果は異なる場合があります。AI の提案は出発点であり、決定的な回答ではありません。
+
+1. **[依頼の状態]** の値を変更し、**[保存]** を選択します。
+
+1. **[戻る]** を選択して一覧に戻り、変更が保存されたことを確認します。
+
+1. **Esc** キーを押すか、**[X]** を選択して、プレビュー モードを終了します。
+
+## タスク 10: アプリを保存して公開する
+
+1. 右上隅にある **[保存]** アイコンを選択します (または **Ctrl + S** キーを押します)。
+
+1. **[公開]** を選択し、**[このバージョンを公開する]** を選択して、アプリをエンドユーザーが使用できるようにします。
+
+   > [!NOTE]
+   > 特定のユーザーとのアプリの共有およびセキュリティ ロールの割り当てについては、別のモジュールで取り上げます。 現時点では、アプリは公開され、お使いの環境内でアクセスできます。

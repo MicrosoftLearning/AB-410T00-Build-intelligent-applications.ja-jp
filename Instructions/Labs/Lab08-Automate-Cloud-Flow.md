@@ -1,98 +1,98 @@
-﻿---
-lab:
-    title: 'Automate technician notification with a cloud flow'
-    description: 'Create an automated cloud flow in Microsoft Power Automate that notifies a field technician when a new Work Order is assigned to them'
-    duration: '30 minutes'
-    level: 300
-    islab: true
 ---
-# Automate technician notification with a cloud flow
+lab:
+  title: クラウド フローで技術者通知を自動化する
+  description: Microsoft Power Automate で自動化されたクラウド フローを作成し、新しい作業指示書が割り当てられたときに現場技術者に通知する
+  duration: 30 minutes
+  level: 300
+  islab: true
+---
+# クラウド フローで技術者通知を自動化する
 
-In this exercise, you create an automated cloud flow that triggers when a new Work Order is created in Dataverse and sends an email notification to the assigned technician.
+この演習では、Dataverse で新しい作業指示書が作成されたときにトリガーされ、割り当てられた技術者に電子メールによる通知を送信する自動化されたクラウド フローを作成します。
 
-This exercise should take approximately **30** minutes to complete.
+この演習の所要時間は約 **30** 分です。
 
-## Scenario
+## シナリオ
 
-When a Contoso service manager assigns a technician to a Work Order, the technician has no way of knowing unless someone tells them manually. Managers are currently sending texts and making phone calls — which is time-consuming and unreliable.
+Contoso サービス マネージャーが技術者を作業指示書に割り当てた場合、誰かが手動で伝えない限り、技術者は知る方法がありません。 マネージャーは現在、テキストを送信したり、電話をかけたりしていますが、これは時間がかかり、信頼性が低くなります。
 
-You'll create a cloud flow that runs automatically whenever a new Work Order record is created in Dataverse, checks whether a technician has been assigned, and sends them an email with the job details.
+Dataverse で新しい作業指示書レコードが作成されるたびに自動的に実行され、技術者が割り当てられているかどうかを確認し、ジョブの詳細を含む電子メールを送信するクラウド フローを作成します。
 
-## Task 1: Create the automated cloud flow
+## タスク 1: 自動化されたクラウド フローを作成する
 
-1. Open [**Power Automate**](https://make.powerautomate.com) at `https://make.powerautomate.com` and sign in with your Microsoft account.
+1. [**Power Automate**](https://make.powerautomate.com) (`https://make.powerautomate.com`) を開き、Microsoft アカウントでサインインします。
 
-1. Confirm you are in your **Dev One** environment using the environment picker.
+1. 環境ピッカーを使用して **Dev One** 環境にいることを確認します。
 
-1. In the left navigation, select **+ Create**.
+1. 左側のナビゲーションで、**[+ 作成]** を選択します。
 
-1. Select **Automated cloud flow**.
+1. **[自動クラウド フロー]** を選択します。
 
-1. In the **Build an automated cloud flow** dialog, configure the following:
-    - **Flow name**: `Notify Technician on New Work Order`
-    - **Choose your flow's trigger**: Search for `When a row is added` and select **When a row is added, modified or deleted** (Microsoft Dataverse)
+1. **[自動化したクラウド フローを構築する]** ダイアログで、以下を構成します。
+    - **フロー名**: `Notify Technician on New Work Order`
+    - **フローのトリガーを選択してください**: `When a row is added` を検索し、**[行が追加、変更、または削除されたとき]** (Microsoft Dataverse) を選択します
 
-1. Select **Create**.
+1. **［作成］** を選択します
 
-## Task 2: Configure the Dataverse trigger
+## タスク 2: Dataverse トリガーを構成する
 
-1. The trigger step should already be added to the flow canvas. Select it to configure it:
-    - **Change type**: Added
-    - **Table name**: Work Orders
-    - **Scope**: Organization
+1. トリガー ステップは、フロー キャンバスに既に追加されているはずです。 それを選択して構成します。
+    - **種類の変更**: 追加
+    - **テーブル名**: 作業指示書
+    - **スコープ**: 組織
 
-1. Below the **When a row is added, modified or deleted** trigger, select **+** to add an action.
+1. **[行が追加、変更、または削除されたとき]** トリガーの下で **+** を選択してアクションを追加します。
 
-1. Search for `Get a row by ID` and select **Get a row by ID** under **Microsoft Dataverse**.
+1. `Get a row by ID` を検索し **Microsoft Dataverse** の下の **[ID で行を取得]** を選択します。
 
-1. In the **Get a row by ID** step, configure the following settings:
-    -   **Table name:** Work Orders
-    -   **Row ID:** In **Dynamic content**, search for and select **Work Order**.
+1. **[ID で行を取得]** の手順で、次の設定を構成します。
+    -   **テーブル名:** 作業指示書
+    -   **行 ID:** **[動的コンテンツ]** で、**[作業指示書]** を検索して選択します。
 
-1. Select **+** to add the next action underneath it.
+1. **[+]** を選択して、その下に次のアクションを追加します。
 
-## Task 3: Add a condition to check for an assigned technician
+## タスク 3: 割り当てられた技術者を確認する条件を追加する
 
-Not all new Work Orders will have a technician assigned yet — some will be unassigned when first created. You'll add a condition so the email only sends when a technician name is present.
+すべての新しい作業指示書に技術者が割り当てられているわけではありません。最初の作成時に未割り当てのものもあります。 条件を追加して、技術者名が存在する場合にのみ電子メールが送信されるようにします。
 
-1. Search for and select **Condition** (under Control).
+1. **[条件]** を検索して選択します ([コントロール] の下)。
 
-1. Configure the condition:
-    - **Value** (left side): Type `/` and select **Insert dynamic content**. Search for and select **Assigned Technician (Value)**.
-    - **Operator**: is not equal to
-    - **Value** (right side): leave blank (empty string)
+1. 条件を構成します。
+    - **値** (左側): 「`/`」と入力して、**[動的コンテンツを挿入]** を選択します。 **[割り当てられた技術者 (値)]** を検索して選択します。
+    - **演算子**: 次の値と等しくない
+    - **値** (右側): 空白のままにします (空の文字列)
 
-1. With the condition still selected, open the **Copilot** pane by selecting the Copilot icon in the upper-right corner of the flow designer. Enter the following prompt:
+1. 条件を選択したまま、フロー デザイナーの右上隅にある Copilot アイコンを選択して、**Copilot** ペインを開きます。 次のプロンプトを入力します。
 
     `Explain what this condition does.`
 
-    Copilot should return a response similar to: *"The condition checks if the field contoso_assignedtechnician_value is not empty. If a technician is assigned, the actions inside the True branch will run. If no technician is assigned, the actions inside the False branch will run."*
+    Copilot は次のような応答を返すはずです。*"この条件では、フィールド contoso_assignedtechnician_value が空でないかどうかを確認します。技術者が割り当てられている場合は、True 分岐内のアクションが実行されます。技術者が割り当てられていない場合は、False 分岐内のアクションが実行されます。"*
 
-## Task 4: Add the email notification action
+## タスク 4: 電子メールによる通知アクションを追加する
 
-1. In the **True** branch of the condition, select the plus sign to add an action.
+1. 条件の **True** 分岐で、正符号を選択してアクションを追加します。
 
-1. Search for and select **Get a row by ID** (Microsoft Dataverse).
+1. **[ID で行を取得]** (Microsoft Dataverse) を検索して選択します。
 
-1. Configure the action:
-    - **Table name**: Users
-    - **Row ID**: Type `/` and select **Insert dynamic content**. Search for and select **Assigned Technician (Value)**.
+1. アクションを構成します。
+    - **テーブル名**: ユーザー
+    - **行 ID**: 「`/`」と入力し、**[動的コンテンツを挿入]** を選択します。 **[割り当てられた技術者 (値)]** を検索して選択します。
 
    > [!NOTE]
-   > This action retrieves the full User record for the assigned technician so you can access their email address in the next step.
+   > このアクションにより、割り当てられた技術者の完全なユーザー レコードが取得され、次のステップでメール アドレスにアクセスできるようになります。
 
-1. Select the plus sign below the **Get a row by ID** action to add another action.
+1. **[ID で行を取得する]** の下にある正符号を選択して、別のアクションを追加します。
 
-1. Search for and select **Send an email (V2)** (Office 365 Outlook).
+1. **[メールの送信 (V2)]** (Office 365 Outlook) を検索して選択します。
 
-1. When prompted, select **Sign in** and sign in with your Administrator email address provided by your Authorized Lab Host. Accept the permissions. If the sign-in window doesn't appear, check that your pop-up blocker is turned off.
+1. メッセージが表示されたら **[サインイン]** を選択し、認定ラボ ホストから提供された管理者のメール アドレスでサインインします。 アクセス許可を受け入れます。 サインイン ウィンドウが表示されない場合は、ポップアップ ブロックがオフになっていることを確認してください。
 
-1. Configure the email:
-    - **To**: Select the gear icon above the field and select **Use dynamic content**. Then start typing `/` and select **Insert dynamic content.** Search for and select **Primary Email** (from the **Get a row by ID** step).
+1. メールを構成します。
+    - **宛先**: フィールドの上にある歯車アイコンを選択し、**[動的コンテンツを使用]** を選びます。 その後、「`/`」の入力を開始し、**[動的コンテンツを挿入]** を選択します。 **[プライマリ メール]** を検索して選択します (「**ID で行を取得**」ステップから)。
 
-    - **Subject**: Type `New Work Order Assigned: `, then type `/` and select **Insert dynamic content**. Search for and select **Customer Name**.
+    - **件名**: 「`New Work Order Assigned: `」と入力してから、「`/`」と入力し、**[動的コンテンツを挿入]** を選択します。 **[顧客名]** を検索して選択します。
 
-    - **Body**: Build the following message using a mix of text and dynamic content fields:
+    - **本文**: テキスト フィールドと動的コンテンツ フィールドの組み合わせを使用して、次のメッセージを作成します。
 
         ```
         Hello,
@@ -109,44 +109,44 @@ Not all new Work Orders will have a technician assigned yet — some will be una
         Contoso Field Services
         ```
 
-        For each bracketed placeholder, delete the bracket text, then type `/` and select **Insert dynamic content**. Search for and select the matching field from the Dataverse trigger. For **Priority**, add the following expression: `body('Get_a_row_by_ID')?['contoso_priority@OData.Community.Display.V1.FormattedValue']` to display the priority label instead of the numeric value.
+        角かっこで囲まれたプレースホルダーごとに、角かっこのテキストを削除してから、「`/`」と入力し、**[動的コンテンツを挿入]** を選択します。 Dataverse トリガーから一致するフィールドを検索して選択します。 **[優先度]** には、数値ではなく優先度ラベルを表示するために「`body('Get_a_row_by_ID')?['contoso_priority@OData.Community.Display.V1.FormattedValue']`」という式を追加します。
 
-1. Select **Save** in the top toolbar.
+1. 上部のツール バーの **[保存]** を選択します。
 
-## Task 5: Test the flow
+## タスク 5: フローをテストする
 
-1. Select **Test** in the top-right corner.
+1. 右上隅の **[テスト]** を選択します。
 
-1. Select **Manually** and then **Test**.
+1. **[手動]**、**[テスト]** の順に選択します。
 
-1. Open a new browser tab and go to [**Power Apps**](https://make.powerapps.com) at `https://make.powerapps.com`. Ensure you are in your **Dev One** environment.
+1. 新しいブラウザー タブを開き、[**Power Apps**](https://make.powerapps.com) (`https://make.powerapps.com`) に移動します。 **Dev One** 環境にいることを確かめます。
 
-1. Open the **Contoso Service Management** model-driven app. Select **Work orders** to navigate to the Work Orders page and select **+ New** to create a new Work Order using the form:
-    - **Customer Name**: `Fabrikam Industries`
-    - **Issue Description**: `Cooling system failure in Building A`
-    - **Priority**: `High`
-    - **Request Status**: `Assigned`
-    - **Assigned Technician**: Select your own user account from the lookup (type `MOD` to find the MOD Administrator account)
+1. **Contoso サービス管理**モデル駆動型アプリを開きます。 **[作業指示書]** を選択して作業指示書ページに移動し、**[+ 新規]** を選択してフォームを使って新しい作業指示書を作成します。
+    - **顧客名**: `Fabrikam Industries`
+    - **問題の説明**: `Cooling system failure in Building A`
+    - **優先度**: `High`
+    - **要求の状態**: `Assigned`
+    - **割り当てられた技術者**: ルックアップから自分のユーザー アカウントを選択します (「`MOD`」と入力して MOD 管理者アカウントを見つけます)
 
-1. Select **Save** to save the record.
-
-   > [!NOTE]
-   >  Create the test record through the model-driven app rather than directly in the table editor. The app form ensures the lookup field value is properly committed when the record is saved, so the flow trigger receives a valid Assigned Technician ID. Creating a record directly in the table editor can result in the lookup value not being passed to the trigger correctly.
-
-1. Return to Power Automate and check the test results. The flow should have triggered and show a successful run.
-
-1. Open a new browser tab and go to [**Outlook**](https://outlook.office.com) at `https://outlook.office.com`. Sign in with your MOD Administrator email address provided by your Authorized Lab Host and check your inbox for the notification email.
+1. 保存する場合は **保存** を選択します。
 
    > [!NOTE]
-   > If the flow run shows an error, select the failed step to see the error details. Common issues include connection problems (you may need to sign in to the Outlook connector) or dynamic content mapping errors.
+   >  テスト レコードは、テーブル エディターで直接ではなく、モデル駆動型アプリを使用して作成します。 アプリ フォームではレコードの保存時に確実にルックアップ フィールドの値が正しくコミットされるため、フロー トリガーでは有効な割り当てられた技術者 ID を受け取ります。 テーブル エディターで直接レコードを作成すると、ルックアップ値がトリガーに正しく渡されない可能性があります。
 
-## Task 6: Review the flow run history
+1. Power Automate に戻り、テスト結果を確認します。 フローがトリガーされて、成功した実行が示されるはずです。
 
-1. Close the test panel and select **Back** to return to the flow detail page.
-
-1. Scroll down to **28 day run history**. You should see the test run listed with a **Succeeded** status.
-
-1. Select the run to see a detailed view of each step, the inputs, and the outputs.
+1. 新しいブラウザー タブを開き、[**Outlook**](https://outlook.office.com) (`https://outlook.office.com`) に移動します。 認定ラボ ホストから提供された MOD 管理者のメール アドレスでサインインし、通知メールの受信トレイを確認します。
 
    > [!NOTE]
-   > The run history is your primary debugging tool in Power Automate. Each step shows exactly what data it received and what it returned, making it straightforward to identify where a flow went wrong.
+   > フロー実行でエラーが表示される場合は、失敗したステップを選択してエラーの詳細を表示します。 一般的な問題には、接続の問題 (Outlook コネクタへのサインインが必要な場合があります) や動的コンテンツ マッピング エラーが含まれます。
+
+## タスク 6: フローの実行履歴をレビューする
+
+1. テスト パネルを閉じ、**[戻る]** を選択してフローの詳細ページに戻ります。
+
+1. **[28 日間の実行履歴]** まで下にスクロールします。 **[成功]** 状態でテストの実行が一覧表示されるはずです。
+
+1. 実行を選択すると、各ステップ、入力、出力の詳細ビューが表示されます。
+
+   > [!NOTE]
+   > 実行履歴は、Power Automate のプライマリ デバッグ ツールです。 各ステップでは、受信したデータと返されたデータが正確に表示されるため、フローのどこで問題が発生したかを簡単に特定できます。

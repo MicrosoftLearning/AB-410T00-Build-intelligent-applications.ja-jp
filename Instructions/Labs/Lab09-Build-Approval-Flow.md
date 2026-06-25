@@ -1,84 +1,84 @@
-﻿---
+---
 lab:
-    title: 'Build a Critical request approval flow for Contoso'
-    description: 'Create an approval flow in Microsoft Power Automate that routes Critical priority Work Orders to a service manager before a technician is assigned'
-    duration: '30 minutes'
-    level: 300
-    islab: true
+  title: Contoso の重要な要求承認フローを作成する
+  description: 技術者が割り当てられる前に重要優先度の作業指示書をサービス マネージャーにルーティングする承認フローを、Microsoft Power Automate で作成します
+  duration: 30 minutes
+  level: 300
+  islab: true
 ---
 
-# Build a Critical request approval flow for Contoso
+# Contoso の重要な要求承認フローを作成する
 
-In this exercise, you build an approval flow that automatically routes Critical priority Work Orders to a Contoso service manager for review before any technician is assigned.
+この演習では、技術者が割り当てられる前に、重要優先度の作業指示書をレビューのために Contoso サービス マネージャーに自動的にルーティングする承認フローを作成します。
 
-This exercise should take approximately **30** minutes to complete.
+この演習の所要時間は約 **30** 分です。
 
-## Scenario
+## シナリオ
 
-Contoso's process requires manager approval before a technician can be assigned to any Critical priority Work Order — because these incidents affect production systems and carry higher liability. Currently, managers have to monitor the Work Order queue manually and catch Critical requests on their own. There's no automated way to notify them or capture their decision.
+Contoso のプロセスでは、重要優先度の作業指示書に技術者を割り当てるには、その前にマネージャーの承認が必要です。これらのインシデントは運用システムに影響し、より高い責任を伴うためです。 現状では、マネージャーが作業指示書のキューを手作業で監視し、自分で重大な要求を把握する必要があります。 通知を受け取ったり、決定を記録したりするための自動化された方法はありません。
 
-You'll build an approval flow that triggers when a Work Order's priority is set to Critical, sends an approval request to the service manager, and updates the request status based on their response.
+あなたは、作業指示書の優先度が重大に設定されていたら開始し、承認要求をサービス マネージャーに送信し、応答に基づいて要求の状態を更新する承認フローを作成します。
 
-## Task 1: Create the approval flow
+## タスク 1: 承認フローを作成する
 
-1. Open [**Power Automate**](https://make.powerautomate.com) at `https://make.powerautomate.com` and sign in with your Microsoft account.
+1. [**Power Automate**](https://make.powerautomate.com) (`https://make.powerautomate.com`) を開き、Microsoft アカウントでサインインします。
 
-1. Confirm you are in your training environment.
+1. 自分がトレーニング環境にいることを確認します。
 
-1. In the left navigation, select **+ Create** > **Automated cloud flow**.
+1. 左側のナビゲーションで、**[+ 作成]** > **[自動クラウド フロー]** を選びます。
 
-1. Configure the flow:
-    - **Flow name**: `Critical Request Approval`
-    - **Trigger**: Search for `When a row is added` and select **When a row is added, modified or deleted** (Microsoft Dataverse)
+1. フローを構成します。
+    - **フロー名**: `Critical Request Approval`
+    - **トリガー**: `When a row is added` を検索し、**[行が追加、変更、または削除されたとき]** (Microsoft Dataverse) を選びます
 
-1. Select **Create**.
+1. **［作成］** を選択します
 
-## Task 2: Look up the Priority choice value in Dataverse
+## タスク 2: Dataverse で優先度の選択値を検索する
 
-Before building the condition, you need to find the integer value that Dataverse stores for **Critical** priority. Power Automate receives this integer when the trigger fires, not the display label.
+条件を作成する前に、Dataverse が**重大**優先度の場合に格納する整数値を見つける必要があります。 トリガーが発動すると、Power Automate は表示ラベルではなくこの整数を受け取ります。
 
-1. Open a new browser tab and go to [**Power Apps**](https://make.powerapps.com) at `https://make.powerapps.com`. Ensure you are in your **Dev One** environment.
+1. 新しいブラウザー タブを開き、[**Power Apps**](https://make.powerapps.com) (`https://make.powerapps.com`) に移動します。 **Dev One** 環境にいることを確かめます。
 
-1. In the left navigation, select **Tables** and open the **Work Order** table.
+1. 左側のナビゲーションで、**[テーブル]** を選んで **Work Order** テーブルを開きます。
 
-1. Under **Schema**, select **Columns** and open the **Priority** column.
+1. **[スキーマ]** で、**[列]** を選んで **Priority** 列を開きます。
 
-1. In the **Choices** section, find the **Critical** option and note the **Value** shown next to it. Write this number down — you'll use it in the next task.
-
-   > [!NOTE]
-   > Every choice option in Dataverse has a hidden integer value behind its display label. This number is what gets stored in the database and passed to flows, reports, and integrations. Understanding this helps you debug conditions and filters that compare against choice fields.
-
-1. Close this tab and return to Power Automate.
-
-## Task 3: Configure the trigger and add a filter
-
-1. Configure the Dataverse trigger:
-    - **Change type**: Added or Modified
-    - **Table name**: Work Orders
-    - **Scope**: Organization
-
-1. Select **+** underneath the trigger step, search for `Condition`, and select **Condition** (under Control). Configure the condition:
-    - **Value** (left): Type `/` and select **Insert dynamic content**. Search for and select **Priority** from the trigger
-    - **Operator**: is equal to
-    - **Value** (right): The integer value you noted in Task 2 (the number may have appeared with commas in the text box, but don't include commas)
+1. **[選択肢]** セクションで、**[Critical]** オプションを見つけて、その横に表示される **[値]** を記録しておきます。 この数値を書き留めておきます。次のタスクでそれを使います。
 
    > [!NOTE]
-   > Dataverse stores choice column selections as integers, not text labels. Power Automate receives the integer value when the trigger fires, so your condition must match it exactly.
+   > Dataverse のすべての選択肢オプションには、表示ラベルの背後に非表示の整数値があります。 この数値はデータベースに保存され、フロー、レポート、統合に渡されます。 これを理解しておくと、選択肢フィールドと比較する条件およびフィルターをデバッグするのに役立ちます。
 
-## Task 4: Add the approval action
+1. このタブを閉じて Power Automate に戻ります。
 
-1. In the **True** branch of the condition, select the plus sign to add an action.
+## タスク 3: トリガーを構成してフィルターを追加する
 
-1. Search for and select **Start and wait for an approval** (Approvals connector).
+1. Dataverse のトリガーを構成します。
+    - **種類の変更**: [追加] または [変更]
+    - **テーブル名**: Work Orders
+    - **スコープ**: 組織
 
-1. When prompted to create a connection, select **Create New** and follow the prompts to sign in and authorize the Approvals connector.
+1. トリガー ステップの下にある **[+]** を選び、`Condition` を検索して **[条件]** ([制御] の下) を選びます。 条件を構成します。
+    - **値** (左): 「`/`」と入力して、**[動的なコンテンツの挿入]** を選びます。 トリガーから **[優先度]** を検索して選びます
+    - **演算子**: が次の値に等しい
+    - **値** (右): タスク 2 で書き留めた整数値 (テキスト ボックスでは数値と共にコンマが表示されている可能性がありますが、コンマは含めないでください)
 
-1. Select **Approve/Reject - First to respond** as the approval type.
+   > [!NOTE]
+   > Dataverse では、選択肢列の選択はテキスト ラベルではなく整数として格納されます。 トリガーが発動すると Power Automate は整数値を受け取るので、条件がそれと正確に一致する必要があります。
 
-1. Configure the approval:
-    - **Title**: Type `Critical Work Order Requires Approval: ` then select **Customer Name** from dynamic content
-    - **Assigned to**: Type your MOD Administrator email address provided by your Authorized Lab Host
-    - **Details**: Build a message using dynamic content:
+## タスク 4: 承認アクションを追加する
+
+1. 条件の **True** 分岐で、正符号を選択してアクションを追加します。
+
+1. **[開始して承認を待つ]** を見つけて選びます (承認コネクタ)。
+
+1. 接続の作成を求めるメッセージが表示されたら、**[新規作成]** を選び、指示に従ってサインインして承認コネクタを承認します。
+
+1. 承認の種類として **[承認/拒否 - 最初に応答]** を選びます
+
+1. 承認を構成します。
+    - **タイトル**: 「`Critical Work Order Requires Approval: `」と入力し、動的コンテンツから**顧客名**を選びます
+    - **割り当て先**: 認可されたラボ ホストから提供された MOD 管理者のメール アドレスを入力します
+    - **詳細**: 動的コンテンツを使ってメッセージを作成します。
 
         ```
         A new Critical priority Work Order has been submitted and requires your approval before a technician can be assigned.
@@ -89,72 +89,72 @@ Before building the condition, you need to find the integer value that Dataverse
         Please approve to proceed with technician assignment, or reject to return the request to High priority.
         ```
 
-    - **Item link customer**: Replace `[Customer Name]` with the **Customer Name** dynamic content.
-    - **Item link issue**: Replace `[Issue Description]` with the **Issue Description** dynamic content.
+    - **顧客項目リンク**: `[Customer Name]` を**顧客名**動的コンテンツに置き換えます。
+    - **問題項目リンク**: `[Issue Description]` を**問題の説明**動的コンテンツに置き換えます。
 
-1. Select **Save**.
+1. **[保存]** を選択します。
 
-## Task 5: Handle the approval outcome
+## タスク 5: 承認結果を処理する
 
-Now you'll add actions for both the approved and rejected paths.
+次に、承認パスと拒否パスの両方に対するアクションを追加します。
 
-1. Below the **Start and wait for an approval** step, add a new **Condition**:
-    - **Value** (left): Dynamic content **Outcome** from the **Start and wait for an approval** step
-    - **Operator**: is equal to
-    - **Value** (right): `Approve`
+1. **[開始して承認を待つ]** ステップの下に、新しい **[条件]** を追加します。
+    - **値** (左): **[開始して承認を待つ]** ステップからの動的コンテンツ **Outcome**
+    - **演算子**: が次の値に等しい
+    - **値** (右): `Approve`
 
-### If approved
+### 承認された場合
 
-1. In the **True** branch, select the plus sign and add an action: **Update a row** (Microsoft Dataverse).
+1. **True** 分岐で正符号を選び、アクション「**行の更新**」を追加します (Microsoft Dataverse)。
 
-1. Configure the update a row action:
-    - **Table name**: Work Orders
-    - **Row ID**: Type `/` and select **Insert dynamic content**. Search for and select **Work Order** with the description **Unique Identifier for entity instances**.
-    - **Request Status**: `Assigned`
+1. 行の更新アクションを構成します。
+    - **テーブル名**: Work Orders
+    - **行 ID**: 「`/`」と入力して、**[動的なコンテンツの挿入]** を選びます。 **[Work Order]** と説明 **[エンティティ インスタンスの一意識別子]** を検索して選びます。
+    - **要求の状態**: `Assigned`
 
    > [!NOTE] 
-   > This signals that the request has been approved and is ready for technician assignment. A more complete solution would also include a step to notify the manager's team that assignment can proceed.
+   > これは、要求が承認され、技術者を割り当てる準備ができていることを示します。 さらに完全なソリューションには、割り当てを続けられることをマネージャーのチームに通知するステップも含まれます。
 
-### If rejected
+### 拒否された場合
 
-1. In the **False** branch, select the plus sign and add an action: **Update a row** (Microsoft Dataverse).
+1. **False** 分岐で正符号を選び、アクション「**行を更新する**」を追加します (Microsoft Dataverse)。
 
-1. Configure the update:
-    - **Table name**: Work Orders
-    - **Row ID**: Type `/` and select **Insert dynamic content**. Search for and select **Work Order** with the description **Unique Identifier for entity instances**.
-    - **Priority**: `High`
-    - **Request Status**: `New`
+1. 更新を構成します。
+    - **テーブル名**: Work Orders
+    - **行 ID**: 「`/`」と入力して、**[動的なコンテンツの挿入]** を選びます。 **[Work Order]** と説明 **[エンティティ インスタンスの一意識別子]** を検索して選びます。
+    - **優先度**: `High`
+    - **要求の状態**: `New`
 
-1. Add a second action in the **False** branch: **Send an email (V2)** (Office 365 Outlook):
-    - **To**: Your email address (representing notification back to the submitting agent)
-    - **Subject**: `Critical Request Rejected: ` + **Customer Name** dynamic content
-    - **Body**: `The Critical priority request for [Customer Name] was not approved. The priority has been reset to High and the request is back in the New status for review.`
+1. **False** 分岐に 2 つ目のアクション「**メールを送信する (V2)**」 (Office 365 Outlook) を追加します。
+    - **宛先**: 自分のメール アドレス (送信元エージェントに戻す通知を表します)
+    - **件名**: `Critical Request Rejected: ` + **顧客名**動的コンテンツ
+    - **本文**: `The Critical priority request for [Customer Name] was not approved. The priority has been reset to High and the request is back in the New status for review.`
 
-    Replace `[Customer Name]` with the **Customer Name** dynamic content.
+    `[Customer Name]` を**顧客名**動的コンテンツに置き換えます。
 
-1. Select **Save**.
+1. **[保存]** を選択します。
 
-## Task 6: Test the approval flow
+## タスク 6: 承認フローをテストする
 
-1. Select **Test** > **Manually** > **Test**.
+1. **[テスト]** > **[手動]** > **[テスト]** を選びます。
 
-1. Open a new browser tab and go to [**Power Apps**](https://make.powerapps.com) at `https://make.powerapps.com`. Ensure you are in your **Dev One** environment.
+1. 新しいブラウザー タブを開き、[**Power Apps**](https://make.powerapps.com) (`https://make.powerapps.com`) に移動します。 **Dev One** 環境にいることを確かめます。
 
-1. Open the **Contoso Service Management** model-driven app. Select **Work orders** to navigate to the Work Orders page and select **+ New** to create a new Work Order using the form:
-    - **Customer Name**: `Northwind Traders`
-    - **Issue Description**: `Complete electrical failure across production floor`
-    - **Priority**: `Critical`
-    - **Request Status**: `New`
+1. **Contoso サービス管理**モデル駆動型アプリを開きます。 **[作業指示書]** を選択して作業指示書ページに移動し、**[+ 新規]** を選択してフォームを使って新しい作業指示書を作成します。
+    - **顧客名**: `Northwind Traders`
+    - **問題の説明**: `Complete electrical failure across production floor`
+    - **優先度**: `Critical`
+    - **要求の状態**: `New`
 
-1. Select **Save** to save the record.
+1. 保存する場合は **保存** を選択します。
 
-1. Return to Power Automate and monitor the test run. The flow should trigger and reach the **Start and wait for an approval** step, at which point it will pause and wait for a response.
+1. Power Automate に戻り、テストの実行を監視します。 フローがトリガーされ、**[開始して承認を待つ]** ステップに達する必要があります。そのポイントで、フローは一時停止し、応答を待ちます。
 
-1. Check your email for the approval request. Open it, select **Approve**, optionally add a comment, and then select **Submit**.
+1. 承認要求のメールを確認します。 それを開き、**[承認]** を選びます。必要に応じてコメントを追加し、**[送信]** を選びます。
 
-1. Return to the flow run and confirm it completes successfully, reaching the **Update a row** step.
+1. フロー実行に戻り、正常に完了して、**[行を更新する]** ステップに到達することを確認します。
 
-1. In Power Apps, verify that the **Request Status** of the Work Order has been updated to `Assigned`. (You can refresh the form if you don't see it update immediately.)
+1. Power Apps で、作業指示書の **[要求の状態]** が `Assigned` に更新されていることを確認します。 (すぐに更新されない場合は、フォームを更新してかまいません。)
 
    > [!NOTE]
-   > Approval flows pause execution and wait indefinitely for a response. In production, you would typically add a timeout action (using **Run after** settings or a parallel branch with a delay) to handle requests that are never responded to.
+   > 承認フローは実行を一時停止し、応答を無期限に待ちます。 運用環境では、通常、応答されない要求を処理するためのタイムアウト アクション (**[実行までの期間]** の設定または遅延を含む並列分岐を使用) を追加します。

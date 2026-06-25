@@ -1,164 +1,164 @@
-﻿---
+---
 lab:
-    title: 'Build the Contoso Field Services data model in Dataverse'
-    description: 'Create a solution, build the Work Order table with custom columns, and add sample records in Microsoft Dataverse'
-    duration: '30 minutes'
-    level: 200
-    islab: true
+  title: Dataverse で Contoso Field Services データ モデルを構築する
+  description: ソリューションを作成し、カスタム列を使って Work Order テーブルを構築し、Microsoft Dataverse でサンプル レコードを追加します
+  duration: 30 minutes
+  level: 200
+  islab: true
 ---
 
-# Build the Contoso Field Services data model in Dataverse
+# Dataverse で Contoso Field Services データ モデルを構築する
 
-In this exercise, you create the data model for the Contoso Field Services solution — building the solution, table, and columns that store Work Order data, and adding sample records to test with in later labs.
+この演習では、Contoso Field Services ソリューション用のデータ モデルを作成します。作業指示書のデータを格納するソリューション、テーブル、列を構築し、後のラボでテストするサンプル レコードを追加します。
 
-This exercise should take approximately **30** minutes to complete.
+この演習の所要時間は約 **30** 分です。
 
-## Scenario
+## シナリオ
 
-Your Plans blueprint identified the core data need for Contoso Field Services: a **Work Order** table to track customer issues and the technicians assigned to them.
+Plans ブループリントでは、Contoso Field Services のコア データ ニーズ、つまり顧客の問題とそれに割り当てられた技術者を追跡するための **Work Order** テーブルを明らかにしました。
 
-In this exercise, you create the solution container and build that table. The columns you define here will be used by every app, flow, and portal you build in later exercises.
+この演習では、ソリューション コンテナーを作成して、そのテーブルを構築します。 ここで定義する列は、後の演習で作成するすべてのアプリ、フロー、ポータルで使われます。
 
-## Task 1: Create a solution
+## タスク 1: ソリューションを作成する
 
-All components you build in this course — tables, apps, flows, and pages — belong to a single solution. Working inside a solution keeps everything organized, makes it easy to move your work between environments, and is required for some features such as business process flows.
+このコースで作成するすべてのコンポーネント (テーブル、アプリ、フロー、ページ) が 1 つのソリューションに属しています。 ソリューション内で作業すると、すべてが整理されて環境間での作業の移動が容易になり、ビジネス プロセス フローなどの一部の機能にはソリューションが必要です。
 
-1. Open [**Power Apps**](https://make.powerapps.com) at `https://make.powerapps.com` and sign in with your Microsoft account.
+1. [**Power Apps**](https://make.powerapps.com) (`https://make.powerapps.com`) を開き、Microsoft アカウントでサインインします。
 
-1. Confirm you are in the **Dev One** environment using the environment picker in the top-right corner.
+1. 右上隅の環境ピッカーを使って、**Dev One** 環境にいることを確認します。
 
-1. In the left navigation, select **Solutions**.
+1. 左側のナビゲーションで **ソリューション** を選択します。
 
-1. Select **+ New solution**.
+1. **[+ New solution]\(+ 新しいソリューション\)** を選択します。
 
-1. Configure the solution as follows, then select **Create**:
-    - **Display name**: `Contoso Field Services`
-    - **Name**: `ContosoFieldServices` (auto-filled)
-    - **Publisher**: Select **Contoso (contoso)**
-    - **Version**: `1.0.0.0`
+1. 次のようにソリューションを構成してから、**[作成]** を選びます。
+    - **表示名**: `Contoso Field Services`
+    - **名前**: `ContosoFieldServices` (自動入力)
+    - **発行元**: **Contoso (contoso)** を選びます
+    - **バージョン:** `1.0.0.0`
 
-1. The solution opens. All tables, apps, flows, and pages you create in Labs 3–10 will be added here.
+1. ソリューションが開きます。 ラボ 3 から 10 で作成するすべてのテーブル、アプリ、フロー、ページをここに追加します。
 
-## Task 2: Create the Work Order table
+## タスク 2: Work Order テーブルを作成する
 
-1. Confirm you are in the **Contoso Field Services** solution.
+1. **Contoso Field Services** ソリューション内にいることを確認します。
 
-1. Select **+ New** > **Table** > **Tables**.
+1. **[+ 新規]** > **[テーブル]** > **[テーブル]** を選びます。
 
-1. Select **Start from blank**.
+1. **[一から開始]** を選びます。
 
-1. Select the table name (it will likely say **Table1**) and rename it to `Work Order`.
-
-   > [!NOTE]
-   > Pay extra attention to the naming of this table. In Lab 2, the Plans designer likely already created a table called **Service Request** as part of its suggested data model, so we want to make sure this table has a distinct name. Even though that table lives in a different solution, all tables in a Dataverse environment share the same namespace — meaning tables from different solutions are visible across the environment in selectors, connectors, and security roles. Naming this table **Work Order** keeps the two distinct and avoids confusion when you're choosing tables later in the course. Functionally, it serves the same purpose: tracking customer issues and the technicians assigned to resolve them. **Work Order** is also the industry-standard term used in Dynamics 365 Field Service, so it's a realistic name for this scenario. 
-
-    If Plans actually used the term **Work order** for the table it created, let your instructor know—they will walk you through renaming that table.
-
-## Task 3: Add columns to the Work Order table
-
-Now you add the columns needed to capture the details of each Work Order.
-
-1. On the **Work Order** table card, select the ellipsis (**...**) and then select **View data**. The table opens in the data editor.
-
-1. Select **New column** and then **Edit column**.
-
-1. Configure the column as follows, then select **Save**:
-    - **Display name**: `Customer Name`
-    - **Data type**: Single line of text
-    - **Format**: Text
-    - **Required**: On
-
-1. Select **Update** to save the column.
+1. テーブル名 (おそらく **Table1** と表示されています) を選び、名前を `Work Order` に変更します。
 
    > [!NOTE]
-   > You'll notice that **Customer Name** appears on the Work Order table card with a key icon next to it. This means it's the **primary column** — the field Dataverse uses to identify and display a record throughout the system. When other tables or apps reference a Work Order, they display the primary column value as the record's label. Every Dataverse table has exactly one primary column, and it's set when the table is created. In this case, we're using Customer Name as the primary column so that Work Orders are identified by the customer they belong to.
+   > このテーブルの命名には特に注意してください。 ラボ 2 で、Plans デザイナーが提案されたデータ モデルの一部として **Service Request** という名前のテーブルを既に作成している可能性があるため、このテーブルには別の名前を付ける必要があります。 そのテーブルは別のソリューションに存在しますが、Dataverse 環境内ではすべてのテーブルが同じ名前空間を共有します。つまり、異なるソリューションのテーブルであっても、セレクター、コネクタ、セキュリティ ロールでは環境全体で表示されます。 このテーブルに **Work Order** という名前を付けると、2 つが区別され、コースの後半でテーブルを選ぶときに混乱しないですみます。 機能的には、顧客の問題と、それらを解決するために割り当てられた技術者を追跡するという、同じ目的を果たします。 **Work Order** は Dynamics 365 Field Service で使われる業界標準の用語でもあるため、このシナリオのための現実的な名前です。 
 
-1. Add a second column with the following settings, then select **Save**:
-    - **Display name**: `Customer Email`
-    - **Data type**: Text > Email
-    - **Required**: Off
+    実際には Plans によって作成されたテーブルで **Work Order** という用語が使われていた場合は、講師に伝えてください。テーブルの名前を変更する手順について説明してくれます。
 
-1. Add a third column with the following settings, then select **Save**:
-    - **Display name**: `Issue Description`
-    - **Data type**: Text > Text Area
-    - **Required**: On
+## タスク 3: Work Order テーブルに列を追加する
 
-1. Add a fourth column with the following settings, then select **Save**:
-    - **Display name**: `Priority`
-    - **Data type**: Choice > Choice
-    - **Choices**: `Low`, `Normal`, `High`, `Critical`
-    - **Default choice**: `Normal`
-    - **Required**: On
+ここでは、各作業指示書の詳細をキャプチャするために必要な列を追加します。
 
-1. Add a fifth column with the following settings, then select **Save**:
-    - **Display name**: `Request Status`
-    - **Data type**: Choice > Choice
-    - **Choices**: `New`, `Assigned`, `In Progress`, `Resolved`, `Closed`
-    - **Default choice**: `New`
-    - **Required**: On
+1. **Work Order** テーブル カードで、省略記号 (**...**) を選んでから **[データの表示]** を選びます。 データ エディターでテーブルが開きます。
 
-1. Add a sixth column with the following settings, then select **Save**:
-    - **Display name**: `Resolved Date`
-    - **Data type**: Date and time > Date only
-    - **Required**: Off
+1. **[新しい列]** を選んで、**[列の編集]** を選びます。
 
-1. Before adding the final column, you need to add the **User** table to your solution so it's available as a lookup target. Select **+ Existing table** from the top menu, search for **User**, select it, and then select **Add Selected**. 
+1. 列を次のように構成して、**[保存]** を選びます。
+    - **表示名**: `Customer Name`
+    - **データの種類**: 1 行テキスト
+    - **形式**: テキスト
+    - **必須**: オン
 
-1. Return to the **Work Order** table data editor. Add a seventh column with the following settings, then select **Save**:
-    - **Display name**: `Assigned Technician`
-    - **Data type**: Lookup
-    - **Related table**: User
-    - **Required**: Off
+1. **[更新]** を選んで列を保存します。
 
    > [!NOTE]
-   > A lookup column creates a relationship between the Work Order table and the User table. When a manager assigns a technician in the app, they'll pick from a list of real users in the environment rather than typing a name. The column stores a reference to the selected user record.
+   > 横に鍵のアイコンが付いた **Customer Name** が Work Order テーブル カードに表示されることがわかります。 これは、それが、システム全体でレコードを識別して表示するために Dataverse で使われるフィールドである**プライマリ列**であることを意味します。 他のテーブルまたはアプリが作業指示書を参照するときは、レコードのラベルとしてプライマリ列の値が表示されます。 すべての Dataverse テーブルにはプライマリ列が 1 つだけあり、テーブルの作成時に設定されます。 この場合、作業指示書がその属する顧客によって識別されるように、Customer Name をプライマリ列として使っています。
 
-1. Review the columns you've added. Your Work Order table should now have the primary column (**Customer Name**) plus six additional columns: Customer Email, Issue Description, Priority, Request Status, Resolved Date, and Assigned Technician. System columns such as **Created On** may be present but were added automatically by Dataverse. You should also see a **Relationship** connecting the Work Order table to the User table.
+1. 次の設定で 2 番目の列を追加して、**[保存]** を選びます。
+    - **表示名**: `Customer Email`
+    - **データ型**: [テキスト] > [電子メール]
+    - **必須**: オフ
 
-1. Select **Save and exit**. (You may need to select **Save and exit** again to confirm.)
+1. 次の設定で 3 番目の列を追加して、**[保存]** を選びます。
+    - **表示名**: `Issue Description`
+    - **データ型**: [テキスト] > [テキスト領域]
+    - **必須**: オン
 
-## Task 4: Add sample Work Order records
+1. 次の設定で 4 番目の列を追加して、**[保存]** を選びます。
+    - **表示名**: `Priority`
+    - **データ型**: [選択肢] > [選択肢]
+    - **選択肢**: `Low`、`Normal`、`High`、`Critical`
+    - **既定の選択肢**: `Normal`
+    - **必須**: オン
 
-You'll need some data in the Work Order table to test the canvas app you build in the next lab. Add a few sample records now.
+1. 次の設定で 5 番目の列を追加して、**[保存]** を選びます。
+    - **表示名**: `Request Status`
+    - **データ型**: [選択肢] > [選択肢]
+    - **選択肢**: `New`、`Assigned`、`In Progress`、`Resolved`、`Closed`
+    - **既定の選択肢**: `New`
+    - **必須**: オン
 
-1. Open [**Power Apps**](https://make.powerapps.com) at `https://make.powerapps.com` and confirm you are in the **Dev One** environment.
+1. 次の設定で 6 番目の列を追加して、**[保存]** を選びます。
+    - **表示名**: `Resolved Date`
+    - **データ型**: [日付と時刻] > [日付のみ]
+    - **必須**: オフ
 
-1. In the left navigation, select **Solutions**, then open the **Contoso Field Services** solution.
+1. 最後の列を追加する前に、**User** テーブルをソリューションに追加し、参照先として使用できるようにする必要があります。 上部のメニューから **[+ 既存のテーブル]** を選び、**User** を検索して選んだら、**[選択項目を追加]** を選びます。 
 
-1. Select **Tables**, then select the **Work Order** table.
+1. **Work Order** テーブルのデータ エディターに戻ります。 次の設定で 7 番目の列を追加して、**[保存]** を選びます。
+    - **表示名**: `Assigned Technician`
+    - **データ型**: 検索
+    - **関連テーブル**: User
+    - **必須**: オフ
 
-1. Select **Edit** to open the table data editor.
+   > [!NOTE]
+   > 検索列では、Work Order テーブルと User テーブルの間のリレーションシップが作成されます。 マネージャーがアプリで技術者を割り当てるときは、名前を入力するのではなく、環境内の実際のユーザーの一覧から選びます。 この列には、選ばれたユーザーのレコードへの参照が格納されます。
+
+1. 追加した列を確認してください。 Work Order テーブルには、プライマリ列 (**Customer Name**) に加えて、Customer Email、Issue Description、Priority、Request Status、Resolved Date、Assigned Technician の 6 つの列が含まれるようになっているはずです。 **Created On** などのシステム列が存在する可能性がありますが、それらは Dataverse によって自動的に追加されたものです。 また、Work Order テーブルを User テーブルに接続する**リレーションシップ**も表示されているはずです。
+
+1. **[保存して終了]** を選択します。 (**[保存して終了]** をもう一度選んで確認することが必要な場合があります。)
+
+## タスク 4: サンプルの作業指示書レコードを追加する
+
+次のラボで作成するキャンバス アプリをテストするには、Work Order テーブルにデータがいくつか必要です。 ここでサンプル レコードをいくつか追加しておきます。
+
+1. [**Power Apps**](https://make.powerapps.com) (`https://make.powerapps.com`) を開き、現在の環境が **Dev One** であることを確認します。
+
+1. 左のナビゲーションで **[ソリューション]** を選択してから **[Contoso Field Services]** ソリューションを開きます。
+
+1. **[テーブル]** を選んで、**Work Order** テーブルを選びます。
+
+1. **[編集]** を選んで、テーブル データ エディターを開きます。
 
    > [!TIP] 
-   >The data editor may not show all columns by default. If a column such as **Request Status** or **Priority** is missing, select the **+ (number) more** button at the right end of the column headers to add it to the view.
+   >既定では、データ エディターにすべての列が表示されない場合があります。 **Request Status** や **Priority** などの列が表示されない場合は、列ヘッダーの右端にある **[さらに (数) 件]** ボタンを選んでビューに追加します。
 
-1. Select **+ New row** and enter the following values:
+1. **[+ 新しい行]** を選んで、次の値を入力します。
     - **Customer Name**: `Adatum Corporation`
     - **Issue Description**: `Air conditioning unit is making loud noise and not cooling properly`
-    - **Priority**: `High`
+    - **優先度**: `High`
     - **Request Status**: `New`
 
-1. Select **+ New row** and enter the following values:
+1. **[+ 新しい行]** を選んで、次の値を入力します。
     - **Customer Name**: `Tailwind Traders`
     - **Issue Description**: `Elevator panel buttons are unresponsive on floors 3 and 4`
-    - **Priority**: `Critical`
+    - **優先度**: `Critical`
     - **Request Status**: `Assigned`
 
-1. Select **+ New row** and enter the following values:
+1. **[+ 新しい行]** を選んで、次の値を入力します。
     - **Customer Name**: `Fabrikam Inc`
     - **Issue Description**: `Exterior lighting not turning on at dusk`
-    - **Priority**: `Normal`
+    - **優先度**: `Normal`
     - **Request Status**: `In Progress`
 
-1. Confirm that all three records appear in the table data editor and the data was saved successfully.
+1. 3 つのレコードがすべてテーブル データ エディターに表示され、データが正常に保存されたことを確認します。
 
-## Verify your work
+## 作業内容を検証する
 
-Before moving on, confirm the following:
+先に進む前に、次のことを確認します。
 
-- The **Contoso Field Services** solution exists in the **Dev One** environment
-- The **Work Order** table exists with custom columns including Priority (Choice) and Request Status (Choice)
-- A relationship exists between **Work Order** and **User** tables
-- The **Priority** column has the choices: Low, Normal, High, Critical
-- The **Request Status** column has the choices: New, Assigned, In Progress, Resolved, Closed
-- 3 sample rows exist in the **Work Order** table
+- **Contoso Field Services** ソリューションが **Dev One** 環境に存在します
+- Priority (選択肢) や Request Status (選択肢) などのカスタム列を含む **Work Order** テーブルが存在します
+- **Work Order** と **User** テーブルの間にリレーションシップが存在します
+- **Priority** 列に、Low、Normal、High、Critical の選択肢があります
+- **Request Status** 列に、New、Assigned、In Progress、Resolved、Closed の選択肢があります
+- **Work Order** テーブルに 3 つのサンプル行があります

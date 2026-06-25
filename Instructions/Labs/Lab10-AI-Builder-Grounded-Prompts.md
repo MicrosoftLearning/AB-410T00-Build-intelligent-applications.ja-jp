@@ -1,51 +1,51 @@
 ---
 lab:
-    title: 'Query Contoso service history with AI Builder grounded prompts'
-    description: 'Create an AI Builder prompt grounded in Dataverse data that lets Contoso service agents ask natural language questions about customer service history, and configure a row summary to surface AI-generated record summaries in the model-driven app'
-    duration: '45 minutes'
-    level: 400
-    islab: true
+  title: AI Builder の典拠付きプロンプトを使って Contoso サービスの履歴のクエリを実行する
+  description: Contoso のサービス担当者が顧客サービスの履歴に関する質問を自然言語で行うことができる、Dataverse データを典拠とする AI Builder プロンプトを作成し、AI 生成のレコード要約をモデル駆動型アプリで表示するように行の要約を構成します
+  duration: 45 minutes
+  level: 400
+  islab: true
 ---
 
-# Query Contoso service history with AI Builder grounded prompts
+# AI Builder の典拠付きプロンプトを使って Contoso サービスの履歴のクエリを実行する
 
-In this exercise, you create an AI Builder grounded prompt that uses the Contoso Work Order table as a knowledge source, allowing service agents to ask natural language questions and receive AI-generated responses based on real business data. You also configure a row summary so Copilot can generate an instant AI summary of any Work Order record in the model-driven app.
+この演習では、ナレッジ ソースとして Contoso Work Order テーブルを使用する AI Builder の典拠付きプロンプトを作成し、サービス担当者が自然言語の質問を行って、実際のビジネス データに基づく AI 生成の応答を受け取ることができるようにします。 また、Copilot がモデル駆動型アプリで作業指示書レコードの AI 分析の概要を即座に生成できるように、行の要約を構成します。
 
-This exercise should take approximately **45** minutes to complete.
+この演習の所要時間は約 **45** 分です。
 
-## Scenario
+## シナリオ
 
-Contoso service agents frequently need to look up a customer's service history before responding to a new inquiry — questions like "Has this customer had this problem before?" or "What was done to resolve their last Critical request?" Currently, agents search through the model-driven app manually, which is slow.
+Contoso のサービス担当者は、新しい問い合わせに回答する前に、顧客のサービス履歴の検索が必要になることがよくあります。たとえば、次のような質問を行います: "この顧客からは以前にもこの問題の問い合わせがあったか?" または "最後の重大な要求を解決するために何を行ったか?" 現在、担当者はモデル駆動型アプリを使って手作業で検索していますが、これには時間がかかります。
 
-You'll explore two different ways to surface AI-generated insights from Contoso's Work Order data:
+ここでは、Contoso の作業指示書データから AI によって生成された分析情報を表示する 2 つの異なる方法を調べていきます。
 
-- **A standalone grounded prompt** — an interactive prompt that searches across all Work Order records and answers natural language questions in real time. Agents can run it on demand to look up a customer's history.
-- **A row summary** — a Copilot configuration on the Work Order table that tells the model-driven app which fields to use when generating an on-demand AI summary of a record. Agents can open any Work Order and instantly see a concise summary in the Copilot panel, with no manual action required.
+- **スタンドアロン典拠付きプロンプト** — すべての作業指示書レコードを検索して、自然言語の質問にリアルタイムで回答する対話型のプロンプト。 担当者は、それをオンデマンドで実行して、顧客の履歴を検索できます。
+- **行の要約** — レコードの AI 分析の概要をオンデマンドで生成するときに使用するフィールドをモデル駆動型アプリに指示する、Work Order テーブルでの Copilot の構成。 担当者は任意の作業指示書を開き、簡潔な要約を Copilot パネルですぐに見ることができます。手作業で何かを行う必要ありません。
 
-Both patterns are useful in different situations. The standalone prompt is flexible and query-driven. The row summary is always available and requires no extra steps from the agent.
+どちらのパターンも、さまざまな状況で役立ちます。 スタンドアロン プロンプトは柔軟でクエリ駆動型です。 行の要約は常に使用でき、担当者が加えて行う必要がある手順はありません。
 
-## Task 1: Open AI Builder and create a new prompt
+## タスク 1: AI Builder を開いて新しいプロンプトを作成する
 
-1. Open [**Power Apps**](https://make.powerapps.com) at `https://make.powerapps.com` and sign in with your Microsoft account.
+1. [**Power Apps**](https://make.powerapps.com) (`https://make.powerapps.com`) を開き、Microsoft アカウントでサインインします。
 
-1. Confirm you are in your training environment.
+1. 自分がトレーニング環境にいることを確認します。
 
-1. In the left navigation, select **AI hub**.
+1. 左側のナビゲーションで **[AI ハブ]** を選択します。
 
    > [!NOTE]
-   > If you don't see **AI hub**, look for **AI Builder** in the left navigation instead. The entry point may vary depending on your environment.
+   > **[AI ハブ]** が表示されない場合は、代わりに左側のナビゲーションで **[AI Builder]** を探します。 エントリ ポイントは、環境によって異なる場合があります。
 
-1. Select **Prompts** from the AI hub menu.
+1. AI ハブのメニューから **[プロンプト]** を選びます。
 
-1. Select **Build your own prompt**.
+1. **[独自のプロンプトを作成する]** を選びます。
 
-1. Name the prompt `Contoso Service History Assistant`.
+1. プロンプトに `Contoso Service History Assistant` という名前を付けます。
 
-## Task 2: Write the prompt instruction
+## タスク 2: プロンプトの指示を記述する
 
-The prompt instruction tells the AI what it should do and how it should behave. This is similar to the system prompt you wrote in Lab 1.
+プロンプトの指示は、何をどのように行う必要があるかを AI に伝えます。 これは、ラボ 1 で記述したシステム プロンプトに似ています。
 
-1. In the **Prompt** field, enter the following instruction:
+1. **[プロンプト]** フィールドに次の指示を入力します。
 
     ```
     You are a helpful service assistant for Contoso Field Services. You have access to the company's Work Order records. When an agent describes a customer situation or asks about a customer's history, use the available Work Order data to provide a clear, accurate, and concise response.
@@ -55,90 +55,90 @@ The prompt instruction tells the AI what it should do and how it should behave. 
     Always respond in a professional tone suitable for internal use by service agents.
     ```
 
-1. Select **Save** to save the prompt instruction.
+1. **[保存]** を選んでプロンプトの指示を保存します。
 
-## Task 3: Add the Work Order table as a data source
+## タスク 3: Work Order テーブルをデータ ソースとして追加する
 
-Grounding the prompt in Dataverse data means the AI will base its answers on actual records, not just general knowledge.
+Dataverse のデータをプロンプトの典拠とするとは、AI が一般的な知識だけでなく、実際のレコードを回答の基にすることを意味します。
 
-1. In the prompt editor, select **+ Add content**.
+1. プロンプト エディターで **[+ コンテンツの追加]** を選びます。
 
-1. Select **Dataverse** as the data source type.
+1. データ ソースの種類として **[Dataverse]** を選びます。
 
-1. Search for and select the **Work Order** table.
+1. **Work Order** テーブルを検索して選びます。
 
-1. Configure which columns the AI can use. Select the following fields:
-    - Customer Name
-    - Issue Description
-    - Priority
-    - Request Status
-    - Resolved Date
+1. AI が使用できる列を構成します。 次のフィールドを選択します:
+    - 顧客名
+    - 問題の説明
+    - 優先順位
+    - 要求の状態
+    - 解決日
 
-1. Select **Add**.
+1. **[追加]** を選択します。
 
    > [!NOTE]
-   >  Grounding limits the AI's responses to information from your selected data source. This is critical for accuracy in business scenarios — you want the AI to answer based on Contoso's actual data, not make up plausible-sounding answers.
+   >  典拠は、AI の応答をユーザーが選んだデータ ソースからの情報に制限します。 これは、ビジネス シナリオでの正確さ、つまりもっともらしい答えを作り上げるのではなく、Contoso の実際のデータに基づいて回答することを、ユーザーが AI に求める場合に非常に重要です。
 
-## Task 4: Add an input variable
+## タスク 4: 入力変数を追加する
 
-Input variables let you pass dynamic values into the prompt at runtime — for example, the name of the customer the agent is asking about.
+入力変数を使うと、担当者が求めている顧客の名前といった動的な値を、実行時にプロンプトに渡すことができます。
 
-1. In the **Instructions** panel, place your cursor at the end of the prompt text and type `/`. A dropdown menu appears.
+1. **[指示]** パネルで、プロンプト テキストの末尾にカーソルを置き、「`/`」と入力します。 ドロップダウン メニューが表示されます。
 
-1. Under the **Input** section of the dropdown, select **Text**. A text input placeholder is inserted inline into your prompt.
+1. ドロップダウンの **[入力]** セクションで、**[テキスト]** を選びます。 テキスト入力プレースホルダーがプロンプトの行内に挿入されます。
 
-1. Select the input placeholder that appears and rename it from **Text input** to `CustomerName`.
+1. 表示される入力プレースホルダーを選び、その名前を **[テキスト入力]** から `CustomerName` に変更します。
 
-1. Optionally, add sample data to the input by selecting it and entering a test value such as `Fabrikam Industries`. This is used when you test the prompt.
+1. 必要に応じて、入力を選んで `Fabrikam Industries` などのテスト値を入力し、入力にサンプル データを追加します。 これは、プロンプトをテストする際に使われます。
 
-1. Ensure the end of your prompt instruction reads:
+1. プロンプトの指示が最終的に次のようになることを確認します。
 
     `Focus your response on Work Orders for the customer named: {CustomerName}`
 
    > [!NOTE]
-   > The input variable appears as a pill in the instructions panel but is referenced as `{CustomerName}` in the prompt text. At runtime, the value entered by the user replaces this placeholder.
+   > 入力変数は指示パネルではピルとして表示されますが、プロンプトのテキストでは `{CustomerName}` という参照になります。 実行時に、このプレースホルダーはユーザーが入力した値に置き換えられます。
 
-1. Select **Save**.
+1. **[保存]** を選択します。
 
-## Task 5: Test the prompt
+## タスク 5: プロンプトをテストする
 
-1. In the prompt editor, select **Test**.
+1. プロンプト エディターで **[テスト]** を選びます。
 
-1. Review the response. The AI should reference any Work Order records linked to Fabrikam Industries and summarize the relevant history.
+1. 応答を確認します。 AI は、Fabrikam Industries にリンクされている作業指示書レコードを参照し、関連する履歴を要約するはずです。
 
-1. Test with another customer name by selecting the **CustomerName** input pill, changing the sample data to `Northwind Traders`, and selecting **Test** again.
-
-   > [!NOTE]
-   > The quality of grounded responses depends on how much data exists in the table. In a production environment with hundreds of records, the AI's responses become significantly more useful.
-
-## Task 6: Configure a row summary for the Work Order table
-
-The standalone prompt you built in Tasks 1–5 is interactive — an agent runs it on demand and asks questions. Now you'll configure a **row summary** for the Work Order table. A row summary tells Copilot in model-driven apps which fields to use when generating an AI-powered summary of a record, shown automatically when an agent opens a Work Order.
-
-1. Open [**Power Apps**](https://make.powerapps.com) at `https://make.powerapps.com` and navigate to **Tables** > **Work Order**.
-
-1. Select **Row summary** in the Customizations section.
-
-1. In **Row summary,** a prompt will open. It will say *Summarize Work Order with*.
-
-1. Place your cursor after *with* and select **+ Add data**. Select **Work Order** and add the following fields as Knowledge:
-    - Customer Name
-    - Issue Description
-    - Priority
-    - Request Status
-    - Resolved Date
+1. **CustomerName** 入力ピルを選び、サンプル データを `Northwind Traders` に変更し、もう一度 **[テスト]** を選んで、別の顧客名でテストします。
 
    > [!NOTE]
-   > The row summary uses these fields to generate a concise AI summary whenever Copilot summarizes a Work Order record. Unlike a prompt column, it does not store text on the record — the summary is generated on demand when an agent views the record.
+   > 典拠付きの応答の品質は、テーブル内に存在するデータの量に依存します。 何百件ものレコードがある運用環境では、AI の応答はさらに役に立つものになります。
 
-1. Select **Test**.
+## タスク 6: Work Order テーブルの行の要約を構成する
 
-1. Select **Apply to main forms.**
+タスク 1 から 5 で作成したスタンドアロン プロンプトは対話型です。つまり、担当者が必要に応じて実行して質問します。 ここでは、Work Order テーブルの**行の要約**を構成していきます。 行の要約は、モデル駆動型アプリの Copilot に、AI を利用してレコードの要約を生成するときに使うフィールドを示します。担当者が作業指示を開くとそれが自動的に表示されます。
 
-## Task 7: View the row summary in the model-driven app
+1. [**Power Apps**](https://make.powerapps.com) (`https://make.powerapps.com`) を開き、**[テーブル]** > **[Work Order]** に移動します。
 
-1. Open the **Contoso Service Management** model-driven app.
+1. [カスタマイズ] セクションで **[行の要約]** を選びます。
 
-1. Navigate to a **Work Order** record that has values in the **Customer Name**, **Issue Description**, **Priority**, and **Request Status** fields.
+1. **[行の要約]** でプロンプトが開きます。 *Summarize Work Order with* と表示されます。
 
-1. Copilot displays an AI-generated summary of the record based on the columns you configured. The summary updates each time you open a record with no manual action required from the agent.
+1. カーソルを *with* の後に置き、**[+ データの追加]** を選びます。 **Work Order** を選び、[ナレッジ] として以下のフィールドを追加します。
+    - 顧客名
+    - 問題の説明
+    - 優先順位
+    - 要求の状態
+    - 解決日
+
+   > [!NOTE]
+   > 行の要約は、Copilot が Work Order のレコードを要約するとき常に、これらのフィールドを使って簡潔な AI 分析の概要を生成します。 プロンプト列とは異なり、テキストがレコードに格納されることはありません。担当者がレコードを表示すると、オンデマンドで要約が生成されます。
+
+1. **[Test]** を選択します。
+
+1. **[メイン フォームに適用する]** を選びます。
+
+## タスク 7: モデル駆動型アプリで行の要約を表示する
+
+1. **Contoso サービス管理**モデル駆動型アプリを開きます。
+
+1. **[顧客名]**、**[問題の説明]**、**[優先度]**、**[要求の状態]** フィールドに値がある**作業指示書**レコードに移動します。
+
+1. Copilot は、ユーザーが構成した列に基づいて、レコードの AI 生成の要約を表示します。 担当者が手作業で何も行わなくても、レコードを開くたびに要約は更新されます。

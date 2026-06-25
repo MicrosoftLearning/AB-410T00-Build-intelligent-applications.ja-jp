@@ -1,107 +1,107 @@
-﻿---
+---
 lab:
-    title: 'Configure Contoso security roles in Dataverse'
-    description: 'Create Dataverse security roles for field technicians and service managers to control what each user type can see and do'
-    duration: '20 minutes'
-    level: 200
-    islab: true
+  title: Dataverse で Contoso のセキュリティ ロールを構成する
+  description: 現場技術者とサービス マネージャーの各ユーザーの種類が表示および実行できる内容を制御する Dataverse のセキュリティ ロールを作成します
+  duration: 20 minutes
+  level: 200
+  islab: true
 ---
 
-# Configure Contoso security roles in Dataverse
+# Dataverse で Contoso のセキュリティ ロールを構成する
 
-In this exercise, you create two security roles in Dataverse — one for field technicians and one for service managers — to control what each type of user can see and do with Work Order data.
+この演習では、現場技術者用とサービス マネージャー用の 2 つのセキュリティ ロールを Dataverse で作成し、各ユーザーの種類が作業指示書データで表示および実行できることを制御します。
 
-This exercise should take approximately **20** minutes to complete.
+この演習の所要時間は約 **20** 分です。
 
-## Scenario
+## シナリオ
 
-Now that the Work Order table is in place, you need to make sure the right people have the right level of access. Contoso Field Services has two distinct user types:
+Work Order テーブルが配置されたので、適切なユーザーが適切なアクセス レベルを持つようにする必要があります。 Contoso Field Services には、2 種類のユーザーがいます。
 
-- **Field technicians** should only see and update Work Orders assigned to them — not every request in the system.
-- **Service managers** need full visibility and control over all Work Orders so they can assign, escalate, and report across the whole team.
+- **現場技術者**は、システム内のすべての要求ではなく、自分に割り当てられた作業指示書のみを表示および更新する必要があります。
+- **サービス マネージャー**は、チーム全体についての割り当て、エスカレーション、レポートを行えるよう、すべての作業指示書を完全に表示および制御する必要があります。
 
-You'll create a Dataverse security role for each user type and configure the appropriate table privileges.
+ユーザーの種類ごとに Dataverse のセキュリティ ロールを作成し、適切なテーブル特権を構成します。
 
-## Task 1: Create the Field Technician security role
+## タスク 1: 現場技術者のセキュリティ ロールを作成する
 
-Security roles in Dataverse control what records each user can read, create, update, and delete. You configure privileges per table, and you can scope each privilege to the user's own records, their business unit, or the entire organization.
+Dataverse のセキュリティ ロールは、各ユーザーが閲覧、作成、更新、削除できるレコードを制御します。 テーブルごとに特権を構成し、各特権のスコープをユーザー自身のレコード、部署、または組織全体に設定できます。
 
-1. Open a new tab and navigate to the [**Power Platform Admin Center**](https://admin.powerplatform.microsoft.com) at `https://admin.powerplatform.microsoft.com`.
+1. 新しいタブを開き、[**Power Platform 管理センター**](https://admin.powerplatform.microsoft.com) (`https://admin.powerplatform.microsoft.com`) に移動します。
 
-1. In the left navigation, select **Manage**, then select **Environments**.
+1. 左側のナビゲーションで、**[管理]** を選んでから、**[環境]** を選びます。
 
-1. Select your **Dev One** environment.
+1. 自分の **Dev One** 環境を選びます。
 
-1. Select **Settings** in the command bar.
+1. コマンド バーで、**設定** を選択します。
 
-1. Expand **Users + permissions** and select **Security roles**.
+1. **[ユーザーとアクセス許可]** を展開して、**[セキュリティ ロール]** を選びます。
 
-1. Select **+ New role** to open the **Create New Role** panel.
+1. **[+ 新しいロール]** を選んで、**[新しいロールを作成する]** パネルを開きます。
 
-1. Enter `Contoso Field Technician` as the role name.
+1. ロール名として「`Contoso Field Technician`」と入力します。
 
-1. For **Business Unit**, select your organization. It appears as a prefix in the format `orgXXXXXXXX`.
+1. **[部署]** では、自分の組織を選びます。 `orgXXXXXXXX` という形式のプレフィックスとして表示されます。
 
-1. For **Description**, enter `Grants field technicians access to view and update their own assigned Work Orders.`
+1. **[説明]** に「`Grants field technicians access to view and update their own assigned Work Orders.`」と入力します
 
-1. For **Applies to**, enter `Field Technicians`.
+1. **[適用対象]** に「`Field Technicians`」と入力します。
 
-1. For **Summary of Core table privileges**, enter `Read, Write (User): Work Order`.
+1. **[コア テーブルの特権の要約]** に「`Read, Write (User): Work Order`」と入力します。
 
-1. Select **Save**.
+1. **[保存]** を選択します。
 
-1. The role opens in the privilege editor. In the **Search** box, enter `Work Order` to find the table.
+1. ロールが特権エディターで開きます。 **[検索]** ボックスに「`Work Order`」と入力してテーブルを検索します。
 
-1. Select **Work Order** (`contoso_workorder`), then set the following permissions:
-    - **Create**: None (technicians don't create new Work Orders)
-    - **Read**: User (the technician can read their own assigned records)
-    - **Write**: User (the technician can update their own records)
-    - **Delete**: None (technicians can't delete records)
-    - **Append**: User (the technician can associate notes or activities with their own records)
-    - **Append To**: User (records can be appended to the technician's Work Orders)
-    - **Assign**: None (technicians can't reassign records to others)
-    - **Share**: None (technicians can't share records with others)
+1. **Work Order** (`contoso_workorder`) を選んで、次のアクセス許可を設定します。
+    - **作成**: なし (技術者は新しい作業指示書を作成しません)
+    - **読み取り**: ユーザー (技術者は自分に割り当てられたレコードを読むことができます)
+    - **書き込み**: ユーザー (技術者は自分のレコードを更新できます)
+    - **削除**: なし (技術者はレコードを削除できません)
+    - **追加**: ユーザー (技術者はメモやアクティビティを自分のレコードと関連付けることができます)
+    - **追加先**: ユーザー (技術者の作業指示書にレコードを追加できます)
+    - **割り当て**: なし (技術者はレコードを他のユーザーに再割り当てできません)
+    - **共有**: なし (技術者は他のユーザーとレコードを共有できません)
 
-1. Select **Save** in the command bar.
+1. コマンド バーの **[保存]** を選択します。
 
-1. Select **Security roles** to return to the security role list.
+1. **[セキュリティ ロール]** を選んで、セキュリティ ロールの一覧に戻ります。
 
-## Task 2: Create the Service Manager security role
+## タスク 2: サービス マネージャーのセキュリティ ロールを作成する
 
-1. Select **+ New role**.
+1. **+ 新しいロール** を選択します。
 
-1. Enter `Contoso Service Manager` as the role name.
+1. ロール名として「`Contoso Service Manager`」と入力します。
 
-1. For **Business Unit**, select your organization.
+1. **[部署]** では、自分の組織を選びます。
 
-1. For **Description**, enter `Grants service managers full access to all Work Orders across the organization.`
+1. **[説明]** に「`Grants service managers full access to all Work Orders across the organization.`」と入力します
 
-1. For **Applies to**, enter `Service Managers`.
+1. **[適用対象]** に「`Service Managers`」と入力します。
 
-1. For **Summary of Core table privileges**, enter `Read, Write, Create, Delete (Organization): Work Order`.
+1. **[コア テーブルの特権の要約]** に「`Read, Write, Create, Delete (Organization): Work Order`」と入力します。
 
-1. Select **Save**.
+1. **[保存]** を選択します。
 
-1. In the **Search** box, enter `Work Order` to find the table. Select the **Work Order** (contoso_workorder) table.
+1. **[検索]** ボックスに「`Work Order`」と入力してテーブルを検索します。 **Work Order** (contoso_workorder) テーブルを選びます。
 
-1. Set the following permissions:
-    - **Create**: Organization (the manager can create new Work Orders)
-    - **Read**: Organization (the manager can read all records in the environment)
-    - **Write**: Organization (the manager can update any record)
-    - **Delete**: Organization (the manager can delete any record)
-    - **Append**: Organization (the manager can associate notes or activities with any record)
-    - **Append To**: Organization (records can be appended to any Work Order)
-    - **Assign**: Organization (the manager can assign Work Orders to technicians)
-    - **Share**: Organization (the manager can share records with others)
+1. 次のアクセス許可を設定します。
+    - **作成**: 組織 (マネージャーは新しい作業指示書を作成できます)
+    - **読み取り**: 組織 (マネージャーは環境内のすべてのレコードを読むことができます)
+    - **書き込み**: 組織 (マネージャーは任意のレコードを更新できます)
+    - **削除**: 組織 (マネージャーは任意のレコードを削除できます)
+    - **追加**: 組織 (マネージャーはメモやアクティビティを任意のレコードと関連付けることができます)
+    - **追加先**: 組織 (任意の作業指示書にレコードを追加できます)
+    - **割り当て**: 組織 (マネージャーは技術者に作業指示書を割り当てることができます)
+    - **共有**: 組織 (マネージャーは他のユーザーとレコードを共有できます)
 
-1. Select **Save + close** from the command bar.
+1. コマンド バーで**保存して閉じる**を選択します。
 
    > [!NOTE]
-   > The **Organization** scope means the user can access all records in the environment, regardless of who created or owns them. The **User** scope limits access to records the user owns or has been explicitly shared with them.
+   > **[組織]** スコープは、レコードの作成者または所有者に関係なく、ユーザーが環境内のすべてのレコードにアクセスできることを意味します。 **[ユーザー]** スコープは、ユーザーが所有している、または明示的に共有されているレコードに、アクセスを制限します。
 
-## Verify your work
+## 作業内容を検証する
 
-Before moving on, confirm the following:
+先に進む前に、次のことを確認します。
 
-- The **Contoso Field Technician** security role exists with User-scoped Read and Write access on the `contoso_workorder` table
-- The **Contoso Service Manager** security role exists with Organization-scoped Create, Read, Write, Delete, Assign, and Share access on the `contoso_workorder` table
+- **Contoso Field Technician** セキュリティ ロールが存在し、`contoso_workorder` テーブルに対するユーザー スコープの読み取りおよび書き込みアクセス権を持っています
+- **Contoso Service Manager** セキュリティ ロールが存在し、`contoso_workorder` テーブルに対する組織スコープの作成、読み取り、書き込み、削除、割り当て、共有アクセス権を持っています

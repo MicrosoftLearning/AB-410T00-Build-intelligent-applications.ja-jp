@@ -1,322 +1,322 @@
 ---
 lab:
-    title: 'Create a Contoso customer portal with Power Pages'
-    description: 'Build an external-facing Power Pages site where Contoso customers can submit Work Orders and check their status'
-    duration: '60 minutes'
-    level: 300
-    islab: true
+  title: Power Pages で Contoso のカスタマー ポータルを作成する
+  description: Contoso の顧客が作業指示書を送信し、その状況を確認できる外部向けの Power Pages サイトを構築します
+  duration: 60 minutes
+  level: 300
+  islab: true
 ---
 
-# Create a Contoso customer portal with Power Pages
+# Power Pages で Contoso のカスタマー ポータルを作成する
 
-In this exercise, you build an external-facing portal using Microsoft Power Pages that allows Contoso customers to submit new Work Orders and check the status of existing ones without needing a Power Platform license.
+この演習では、Microsoft Power Pages を使用して外部向けのポータルを構築します。これにより、Contoso の顧客は新しい作業指示書を送信したり、Power Platform ライセンスがなくても既存の作業指示書の状態を確認したりすることができます。
 
-This exercise should take approximately **60** minutes to complete.
+この演習の所要時間は約 **60** 分です。
 
-## Scenario
+## シナリオ
 
-Contoso customers currently report equipment failures by phone. Agents then manually create Work Orders in the system. This process is slow and error-prone. Customers don't get confirmation numbers, and they have to call back to check status.
+Contoso の顧客は現在、電話で機器の故障を報告しています。 その後、エージェントがシステム内で手動で作業指示書を作成します。 これは遅く、ミスが起こりやすいプロセスです。 顧客は確認番号を受け取れず、状況を確認するためにもう一度電話しなければなりません。
 
-Contoso wants an external portal where customers can submit requests themselves and track progress online. You'll build this portal using Power Pages connected to the Work Order table from Lab 3.
+Contoso は、顧客自身が要求を送信し、進捗をオンラインで追跡できる外部ポータルを必要としています。 このポータルを、ラボ 3 の作業指示書テーブルに接続された Power Pages を使って構築します。
 
-Before we get started, a quick **note on AI-generated output**: Because you'll use Copilot to generate this site, your portal may look different from your classmates', and that's intentional. Copilot produces different layouts, color schemes, and page structures each time. Treat this as an opportunity to apply your own user experience design judgment: evaluate what Copilot gives you, keep what works, simplify what doesn't, and make design choices that reflect what a real Contoso customer would expect to see.
+開始する前に、**AI 生成の出力に関する簡単な注意点があります**。Copilot を使用してこのサイトを生成するため、あなたのポータルはクラスメートのそれとは異なる場合がありますが、これは意図的なものです。 Copilot では毎回異なるレイアウト、カラー スキーム、ページ構成が作成されます。 これをご自分のユーザー エクスペリエンス デザインの判断を適用する機会と捉えてください。Copilot が提供するものを評価し、機能する部分は使用して、そうでないものは簡素化し、実際の Contoso の顧客が期待するデザインを選択します。
 
-### Working with two tabs
-This lab moves back and forth between **Power Apps** (`make.powerapps.com`) and **Power Pages** (`make.powerpages.microsoft.com`). Keep both open in separate browser tabs throughout. At the start of each task, make sure you're in the right tab before you begin.
+### 2 つのタブの操作
+このラボでは、**Power Apps** (`make.powerapps.com`) と **Power Pages** (`make.powerpages.microsoft.com`) の間を行き来します。 両方を別々のブラウザー タブで開いたままにします。 各タスクの開始時に、正しいタブにいることを確認してから始めます。
 
-## Task 1: Create a site with Copilot
+## タスク 1: Copilot でサイトを作成する
 
-Make sure you are in your **Power Pages** tab (`make.powerpages.microsoft.com`) before starting this task.
+この作業を始める前に、必ず **[Power Pages]** タブ (`make.powerpages.microsoft.com`) にいることを確認します。
 
-Power Pages includes a Copilot-powered site creation experience. Instead of starting from a blank template and building everything manually, you describe what you need in plain language and Copilot generates the site structure for you.
+Power Pages には Copilot を使ったサイト作成環境が含まれています。 白紙のテンプレートから手作業ですべてを構築するのではなく、必要なものを平易な言葉で説明すれば、Copilot がサイト構造を生成します。
 
-1. Open [**Power Pages**](https://make.powerpages.microsoft.com) at `https://make.powerpages.microsoft.com` and sign in with your Microsoft account. (If prompted, select **Get started**, select **Other** for Industry, and then select **Next**.)
+1. [**Power Pages**](https://make.powerpages.microsoft.com) (`https://make.powerpages.microsoft.com`) を開き、Microsoft アカウントでサインインします。 (ダイアログが表示されたら、**[開始する]** を選択し、業界で **[その他]** を選択し、**[次へ]** を選択します)。
 
-1. Confirm you are in your **Dev One** environment using the environment picker in the top right.
+1. 右上の環境ピッカーを使用して **[Dev One]** 環境にいることを確認します。
 
-1. You'll see a prompt box that says **Describe the site you want and let AI create the first draft**. Enter the following prompt:
+1. **[必要なサイトを説明し、AI で最初の下書きを作成する]** というプロンプト ボックスが表示されます。 次のプロンプトを入力します。
 
     `Contoso Field Services customer portal. Customers can submit Work Orders for equipment failures and check request status. Pages: home, submit a request, contact.`
 
-1. Select the arrow (send) button to submit your prompt. Copilot will generate a site name, web address, and a suggested page structure based on your description.
+1. 矢印 (送信) ボタンを選択してプロンプトを送信します。 Copilot は、説明に基づいて、サイト名、Web アドレス、推奨されるページ構造を生成します。
 
-1. Review what Copilot proposes:
-    - Confirm the **Site name** is something like `Contoso Field Services Portal`
-    - Adjust the **Web address** if needed — it must be unique in your environment (for example, `contoso-fs-portal-[your initials]`)
+1. Copilot の提案を確認します。
+    - **サイト名**が `Contoso Field Services Portal` のようなものであることを確認します
+    - 必要に応じて **Web アドレス** を調整します。環境内で一意である必要があります (例: `contoso-fs-portal-[your initials]`)
 
-1. Select **Next**.
+1. [**次へ**] を選択します。
 
-1. Power Pages displays a suggested site layout with the prompt **"Pick the site layout that meets your needs."** Review the suggested layout. If you'd like a different option, select **Try again** to generate another.
+1. Power Pages に、**"ニーズに合ったサイト レイアウトを選択してください" ** というプロンプトと共に、推奨されるサイト レイアウトが表示されます。 提案されたレイアウトを確認します。 別のオプションが必要な場合は **[もう一度試してみる]** を選択して、もう一度生成します。
 
-1. When you find a layout you like, select **Next**.
+1. 気に入ったレイアウトを見つけたら **[次へ]** を選択します。
 
-1. Review the pages that Copilot suggests. You should see the following pages. Select them to add them to your site:
-    - Submit a request
-    - Request status
-    - About us
-    - Contact us
-
-   > [!NOTE]
-   > Copilot may not suggest all of these pages depending on your prompt results. If any are missing, you can ask Copilot to create them once the site is provisioned — you'll do this in the next task. If you run into any issues, ask your instructor for help.
-
-1. Select **Done** to provision the site. This may take 1–2 minutes.
+1. Copilot が提案したページを確認します。 次のページが表示されます。 これらを選択してサイトに追加します。
+    - 要求を送信する
+    - 要求の状態
+    - 会社紹介
+    - お問い合わせ
 
    > [!NOTE]
-   > Copilot generates a starter site with pages, navigation, and placeholder content — all from your description. You'll review and refine it in the next task.
+   > Copilot では、プロンプトの結果によって、これらのページの一部が提案されない場合があります。 もし不足しているものがあれば、サイトがプロビジョニングされた後に Copilot に作成を依頼できます。これは次のタスクで行います。 問題が発生した場合は、講師にお問い合わせください。
 
-## Task 2: Review and refine the generated site
-
-Make sure you are in your **Power Pages** tab before starting this task.
-
-Once provisioning completes, Power Pages Studio opens with a preview of your generated site. Take a moment to explore what Copilot built before making any changes.
-
-1. Look at the **Pages** panel on the left. Confirm Copilot created at least a **Home** page and a page for submitting requests.
+1. **[完了]** を選択してサイトをプロビジョニングします。 これには 1、2 分かかる場合があります。
 
    > [!NOTE]
-   > If any expected pages are missing, open the Copilot panel and ask it to create them — for example: `Add a page called "Submit a Request" for customers to submit new Work Orders.` Copilot will add the page to your site. Ask your instructor if you run into any issues.
+   > Copilot が、あなたの説明からページ、ナビゲーション、プレースホルダー コンテンツを含むスターター サイトを生成します。 次のタスクで確認し、調整します。
 
-1. Select the **Home** page to preview it. Review the generated heading and body text.
+## タスク 2: 生成されたサイトを確認し、調整する
 
-1. Locate the Copilot panel: select the **Copilot** icon in the toolbar if it isn't already open.
+この作業を始める前に、必ず **[Power Pages]** タブにいることを確認します。
 
-1. Use the Copilot panel to add a button to the home page. Enter the following prompt:
+プロビジョニングが完了すると、Power Pages Studio が開き、生成されたサイトのプレビューが表示されます。 変更を加える前に、少し時間を取って Copilot が構築したものを調べてみてください。
+
+1. 左側の **[ページ]** パネルを確認します。 Copilot が少なくとも **[ホーム]** ページと要求送信のページを作成していることを確認します。
+
+   > [!NOTE]
+   > 必要なページが見つからない場合は、[Copilot] パネルを開き、作成を、次のように依頼します。`Add a page called "Submit a Request" for customers to submit new Work Orders.` Copilot によってサイトにページが追加されます。 問題が発生した場合は、講師にお問い合わせください。
+
+1. **[ホーム]** ページを選択してプレビューします。 生成された見出しと本文を確認します。
+
+1. Copilot パネルを探します。まだ開いていない場合は、ツールバーの **[Copilot]** アイコンを選択します。
+
+1. [Copilot] パネルを使ってホームページにボタンを追加します。 次のプロンプトを入力します。
 
     `Add a button to the home page labeled "Submit a Work Order" that links to the Submit a Request page.`
    
-1. Review the changes Copilot suggests and select **Keep it** to accept them.
+1. Copilot が提案する変更を確認し、**[保持]** を選択して受け入れます。
 
    > [!NOTE]
-   > Copilot suggestions might not always produce the expected result. If Copilot doesn't add a working button, add one manually. Hover over a component and select the **+** button, then select **Button**. In the **Edit button** dialog, rename the **Button label** to Submit a Work Order, select the **Link to a page** checkbox, select the **Submit a Request** page, and then select **OK**. Before continuing, verify that the button is displayed on the home page and navigates to the correct page.
+   > Copilot の提案によって、期待される結果が得られるとは限りません。 Copilot が動作するボタンを追加していない場合は、手動で追加します。 コンポーネントにホバーし、[**+**] ボタンを選択し、次に **[ボタン]** を選択します。 **[ボタンの編集]** ダイアログで、**[ボタンのラベル]** の名前を "作業指示書を送信" に変更し、**[ページにリンクする]** チェック ボックスをオンにして、**[要求の送信]** ページを選択し、**[OK]** を選択します。 続ける前に、ボタンがホームページに表示され、正しいページに遷移することを確認します。
 
-1. Now update the home page text manually. Select the main heading on the page and change it to:
+1. 次に、ホームページのテキストを手動で更新します。 ページのメイン見出しを選択して、次のように変更します。
 
     `Contoso Field Services: Your everyday service solution`
 
-1. Select the subheading or body text below the heading. With the text box selected, select the **Copilot** icon that appears, then select **Rewrite**. Copilot will suggest a few alternative versions of the text. Review the options and select the one that best fits a customer-facing field services portal. Select **Replace text** when you're ready.
+1. 見出しの下の小見出し、または本文を選択します。 テキストボックスを選択した状態で、表示される **[Copilot]** アイコンを選択し、**[再生成する]** を選択します。 Copilot からテキストのいくつかの代替バージョンが提案されます。 選択肢を確認し、顧客向けのフィールド サービス ポータルに最適なものを選択します。 準備ができたら、**[テキストを置き換える]** を選択します。
 
    > [!NOTE]
-   > If you're not happy with any of the suggestions, select **Try again** to generate more options, or select **Edit** to tweak the text manually before accepting.
+   > どの提案にも納得できない場合は、**[もう一度試してみる]** を選択して他のオプションを生成するか、**[編集]** を選択してテキストを手動で調整してから承諾します。
 
-1. Select **Sync** in the top toolbar to save your changes.
+1. 上部のツール バーの **[同期]** を選択して変更を保存します。
 
-1. Keep the Power Pages tab open for the next task.
+1. 次のタスクのために、[Power Pages] タブを開いたままにします。
 
-## Task 3: Create a customer-facing form
+## タスク 3: 顧客向けフォームを作成する
 
-Make sure you are in your **Power Apps** tab (`make.powerapps.com`) before starting this task.
+この作業を始める前に、必ず **[Power Apps]** タブ (`make.powerapps.com`) にいることを確認します。
 
-Before you can add a form to the portal, you need to create a dedicated form on the Work Order table that only exposes the fields a customer should see. Forms are defined at the table level and reused across apps and portals. It's the same pattern you used in Lab 4 for the model-driven app, but for a different audience.
+ポータルにフォームを追加する前に、顧客に表示するフィールドのみを公開する専用フォームを作業指示書テーブルに作成する必要があります。 フォームはテーブル レベルで定義され、アプリやポータル間で再利用されます。 これは、ラボ 4 のモデル駆動型アプリで使用したのと同じパターンですが、対象ユーザーが異なります。
 
-1. Open a new browser tab and navigate to [**Power Apps**](https://make.powerapps.com) at `https://make.powerapps.com`.
+1. 新しいブラウザー タブを開き、[**Power Apps**](https://make.powerapps.com) (`https://make.powerapps.com`) に移動します。
 
-1. In the left navigation, select **Solutions** and open **Contoso Field Services**.
+1. 左ナビゲーションで **[ソリューション]** を選択し、**[Contoso Field Services]** を開きます。
 
-1. Select **Objects**, expand **Tables**, and expand the **Work Order** table.
+1. **[オブジェクト]** を選択し、**[テーブル]** を展開し、**[作業指示書]** テーブルを展開します。
 
-1. Select **Forms**, then select **+ New form**.
+1. **[フォーム]** を選択し、**[+ 新しいフォーム]** を選択します。
 
-1. In the **Create a form** window, configure the following:
-    - **Type of form**: Main form
-    - **Form name**: `Customer Portal`
-    - **Form description**: `External-facing form for customers to submit new Work Orders through the portal`
+1. **[フォームの作成]** ウィンドウで、次のものを構成します。
+    - **フォームの種類**: メイン フォーム
+    - **フォーム名**: `Customer Portal`
+    - **フォームの説明**: `External-facing form for customers to submit new Work Orders through the portal`
 
-    Select **Create**. The form designer opens.
+    **［作成］** を選択します フォーム デザイナーが開きます。
 
-1. Remove all fields from the form body except:
-    - **Customer Name**
-    - **Customer Email**
-    - **Issue Description**
+1. フォームボディから以下を除くすべてのフィールドを除去します:
+    - **顧客名**
+    - **顧客のメール**
+    - **問題の説明**
 
-    To remove a field, select it and select the **ellipses (...)**, then choose **Delete**. For required fields that can't be deleted, choose **Hide** instead — they'll be excluded from the form without breaking validation.
+    フィールドを削除するには、そのフィールドを選択し、**省略記号 (...)** を選択し、次に **[削除]** を選択します。 削除できない必須フィールドの場合は、代わりに **[非表示]** を選択すると検証を中断せずにフォームから除外できます。
 
    > [!NOTE]
-   > Designing the form this way — with only customer-facing fields — means there's no risk of accidentally exposing internal fields in the portal. It's safer and cleaner than trying to hide fields after the fact in Power Pages.
+   > 顧客向けのフィールドのみをデザインする方法を採用すると、ポータルで内部フィールドが誤って公開されるリスクがなくなります。 Power Pages で後からフィールドを非表示にするよりも安全でクリーンです。
 
-1. Select **Save and publish**, then close the form designer tab.
+1. **[保存して公開]** を選択し、[フォーム デザイナー] タブを閉じます。
 
-## Task 4: Add the form to the portal page
+## タスク 4: フォームをポータル ページに追加する
 
-Make sure you are in your **Power Pages** tab before starting this task.
+この作業を始める前に、必ず **[Power Pages]** タブにいることを確認します。
 
-With the Customer Portal form published, you can now add it as a component on the Submit a Request page in Power Pages.
+顧客ポータル フォームを公開したので、Power Pages の [要求の送信] ページにコンポーネントとして追加できるようになりました。
 
-1. Return to the Power Pages tab and refresh it.
+1. [Power Pages] タブに戻って最新の情報に更新します。
 
-1. In the **Pages** panel, select the page created for submitting requests. (Copilot probably named it something like **Submit a Request**.)
+1. **[ページ]** パネルで要求の送信用に作成されたページを選択します。 (Copilot により、おそらく**要求を送信する**というような名前が付けられます)。
 
-1. Your page may look different depending on the layout and content Copilot generated, and that's expected. Regardless of what's already on the page, you'll add a form section. Under the first section, select **+ Add a section**, then select **1 Column**.
+1. Copilot が生成したレイアウトとコンテンツによっては、ページの外観が異なる場合があることが想定されています。 ページに既にある内容に関わらず、フォーム セクションを追加します。 最初のセクションで **[+ セクションを追加]** を選択し、**[1 列]** を選択します。
 
    > [!TIP]
-   > Copilot may have generated several sections on this page that you don't need. To clean it up before adding the form, select a section you want to remove, select the **ellipses (...)** that appears on the section, and select **Delete**. Repeat until the page is as simple as you'd like.
+   > Copilot が、このページに不要なセクションをいくつか生成していることがあります。 これを、フォームを追加する前にクリーンアップするには、削除するセクションを選択し、セクションに表示される**省略記号 (...)** を選択し、**[削除]** を選択します。 ページが希望どおりにシンプルになるまで繰り返します。
 
-1. Select **+ Add component** in the new section, then select **Form**. If you're prompted to describe the form, select **+ New form** under **Other ways to get started**.
+1. 新しいセクションで **[+ コンポーネントの追加]** を選択し、次に **[フォーム]** を選択します。 フォームの説明を求めるダイアログが表示されたら、**[その他の開始方法]** の下にある **[+ 新しいフォーム]** を選択します。
 
-1. In the form configuration panel, select the **Form** tab and configure the following:
-    - **Choose a table**: Search for and select **Work Order** (`contoso_workorder`)
-    - **Select a form**: Choose **Customer Portal**
-    - **Name your copy of the selected form**: `Submit a Work Order`
+1. フォーム構成パネルで、**[フォーム]** タブを選択し、次のように構成します。
+    - **テーブルを選択する**: **作業指示書** (`contoso_workorder`) を検索して選択します
+    - **フォームを選択する**: **カスタマーポータル**を選択します
+    - **選択したフォームのコピーに名前を付ける**: `Submit a Work Order`
 
-1. Select the **Data** tab and set **Data from this form** to **Creates a new record**.
+1. **[データ]** タブを選択し、**[このフォームのデータ]** を **[新しいレコードを作成する]** に設定します。
 
-1. Select the **On Submit** tab and configure the submission message:
-    - **When the form is submitted**: Select **Display a message**
-    - **Display this message**: `Thank you. Your Work Order has been submitted. A Contoso technician will contact you within 4 business hours.`
+1. **[送信時]** タブを選択し、送信メッセージを次のように設定します。
+    - **フォームを送信したとき**: **[メッセージを表示する]** を選択します
+    - **このメッセージを表示する**: `Thank you. Your Work Order has been submitted. A Contoso technician will contact you within 4 business hours.`
 
-1. Leave the **CAPTCHA** and **Attachments** tabs at their defaults. Select **OK**.
+1. **[HIP チャレンジ]** および **[添付ファイル]** タブは既定のままにします。 **[OK]** を選択します。
 
-1. Select **Sync** to save the page.
+1. **[同期]** を選択してページを保存します。
 
-## Task 5: Configure table permissions
+## タスク 5: テーブルのアクセス許可を構成する
 
-Make sure you are in your **Power Pages** tab before starting this task.
+この作業を始める前に、必ず **[Power Pages]** タブにいることを確認します。
 
-Power Pages uses an explicit security model; external users cannot read or write Dataverse table data unless you grant permission. This applies even if the form is on the page. Without this step, the form will appear but submissions will fail.
+Power Pages では、明示的なセキュリティ モデルが使用されます。権限を付与しない限り、外部ユーザーは Dataverse テーブル データの読み取りまたは書き込を行えません。 これは、フォームがページ上にある場合も該当します。 この手順を実行しないと、フォームは表示されますが、送信は失敗します。
 
-1. In the Power Pages Studio left navigation, select **Security** > **Table permissions**.
+1. Power Pages Studio の左のナビゲーションで **[セキュリティ]** > **[テーブルのアクセス許可]** を選択します。
 
-1. Select **+ New permission**.
+1. **+ 新しいアクセス許可** を選択します。
 
-1. Configure the permission:
-    - **Name**: `Work Order Access`
-    - **Table**: Work Order (`contoso_workorder`)
-    - **Access type**: Global access
-    - **Permission to**: Create, Read
-    - **Roles**: Select **+Add roles** and select **Anonymous Users**
+1. 権限を次のように構成します:
+    - **名前**: `Work Order Access`
+    - **表**: 作業指示書 (`contoso_workorder`)
+    - **アクセスの種類:** グローバル アクセス
+    - **アクセス許可の目的**: 作成、読み取り
+    - **役割**: **[+役割を追加]**、**[匿名ユーザー]** の順に選択します
 
-1. Select **Save** and **Save** again to confirm.
-
-   > [!NOTE]
-   > **Anonymous Users** allows anyone to submit without signing in — appropriate for a public submission form. In a production portal, you would use **Authenticated Users** and add row-level filtering so customers can only see their own requests.
-
-## Task 6: Extend the Work Order data model
-
-Make sure you are in your **Power Apps** tab before starting this task.
-
-Before testing the portal, you'll add two new columns to the Work Order table: an **autonumber** column that generates a unique reference number for every submission, and a **formula column** that calculates the estimated resolution date based on the 48-hour SLA.
-
-1. In [**Power Apps**](https://make.powerapps.com) at `https://make.powerapps.com`, navigate to **Solutions** > **Contoso Field Services** > **Objects** > **Tables** > **Work Order** > **Columns**.
-
-1. Select **+ New column** and configure the autonumber column:
-    - **Display name**: `Work Order Number`
-    - **Description:** `Unique number autogenerated for each work order.`
-    - **Data type**: Autonumber
-    - **Autonumber type**: String prefixed number
-    - **Prefix**: `WO`
-    - **Minimum number of digits**: `5`
-    - **Seed value**: `1`
-
-    Leave **Required** set to **Optional** — the value is generated automatically when the record is created, so it will never be empty.
+1. **[保存]** を選択してから、**[保存]** をもう一度選択して確定します。
 
    > [!NOTE]
-   > The seed value is the starting number for the sequence. The default is `1000`, which would produce `WO-01000` for the first record. Setting it to `1` starts the sequence at `WO-00001`.
+   > **匿名ユーザー**の場合は、誰でもサインインせずに送信できます。公開投稿フォームに適しています。 運用ポータルでは、**認証されたユーザー**を使用し、顧客が自分の要求のみを表示できるように行レベルのフィルター処理を追加します。
 
-1. Select **Save**. Every new Work Order record will now automatically receive a unique reference number like `WO-00001`.
+## タスク 6: 作業指示書データ モデルを拡張する
 
-1. Select **+ New column** again and configure the estimated resolution column:
-    - **Display name**: `Estimated Resolution`
-    - **Description**: `Calculated date representing the expected resolution time, based on the 48-hour SLA from record creation.`
-    - **Data type**: Formula
-    - **Formula**: `DateAdd(ThisRecord.'Created On', 48, TimeUnit.Hours)`
-    - **Format**: Date and time
+この作業を始める前に、必ず **[Power Apps]** タブにいることを確認します。
 
-    Select **Save**. This column calculates 48 hours from the time the record was created, representing Contoso's standard SLA.
+ポータルをテストする前に、次の 2 つの新しい列を作業指示書テーブルに追加します。1 つ目は、**オートナンバー型**の列で、送信ごとに一意の参照番号を生成します。2 つ目は、**数式列**で、48 時間の SLA に基づいて推定解決日を計算します。
 
-   > [!NOTE]
-   > Formula columns recalculate dynamically. The Estimated Resolution date will always reflect 48 hours from when the record was first created, which is the correct SLA baseline.
+1. [**Power Apps**](https://make.powerapps.com) (`https://make.powerapps.com`) で、**[ソリューション]** > **[Contoso Field Services]** > **[オブジェクト]** > **[テーブル]** > **[作業指示書]** > **[列]** の順に移動します。
 
-1. Now create a dedicated view for the portal status page. In the **Work Order** table, select **Views**, then select **+ New view**. Configure it:
-    - **Name**: `Portal Status View`
-    - **Description**: `Simplified view for the customer portal showing Work Order Number, Request Status, and Estimated Resolution.`
+1. **[+ 新しい列]** を選択し、オートナンバー型の列を次のように構成します。
+    - **表示名**: `Work Order Number`
+    - **説明**: `Unique number autogenerated for each work order.`
+    - **データ型**: オートナンバー
+    - **オートナンバーの種類**: 文字列が先頭に付く番号
+    - **プレフィックス**: `WO`
+    - **最小桁数**: `5`
+    - **シード値**: `1`
 
-1. Select **Create**.
-
-1. In the view designer, keep or add the following columns by selecting **+ View column**, removing any others:
-    - **Customer Name** (this is the primary column and can't be removed — it also helps customers identify their record)
-    - **Work Order Number**
-    - **Request Status**
-    - **Estimated Resolution**
-
-1. Sort the view by Estimated Resolution so the most urgent requests appear first. On the right pane, select **Sort by** and select **Estimated Resolution**.
-
-1. Select **Save and publish**.
+    **[必須]** を **[省略可能]** のままにします。レコードの作成時に値が自動的に生成されるため、空になることはありません。
 
    > [!NOTE]
-   > You may notice that the **Work Order Number** column is blank for existing records in the view. This is expected. Autonumber columns only generate values for records created after the column is added, so existing records are not backfilled. The Work Order Number will populate correctly for any new record submitted through the portal, including the test record you'll create next.
+   > シード値は、シーケンスの開始番号です。 既定値は `1000` です。これにより、最初のレコードの `WO-01000` が生成されます。 これを `1` に設定すると、シーケンスは `WO-00001` で開始されます。
+
+1. **[保存]** を選択します。 これで、新しい作業指示書レコードごとに、`WO-00001` などの一意の参照番号を自動的に受け取るようになりました。
+
+1. **[+ 新しい列]** をもう一度選択し、推定解決列を構成します。
+    - **表示名**: `Estimated Resolution`
+    - **説明**: `Calculated date representing the expected resolution time, based on the 48-hour SLA from record creation.`
+    - **データ型**: 数式
+    - **数式**: `DateAdd(ThisRecord.'Created On', 48, TimeUnit.Hours)`
+    - **形式**: 日付と時刻
+
+    **[保存]** を選択します。 この列は、レコードが作成された時刻から 48 時間を計算し、Contoso の標準 SLA を表します。
+
+   > [!NOTE]
+   > 数式列は動的に再計算されます。 推定解決日には、レコードが最初に作成されてから 48 時間が常に反映されます。これが正しい SLA ベースラインです。
+
+1. 次に、ポータルの状態ページ専用のビューを作成します。 **作業指示書**テーブルで、**[ビュー]** を選択してから、**[+ 新しいビュー]** を選択します。 それを構成します。
+    - **名前**: `Portal Status View`
+    - **説明**: `Simplified view for the customer portal showing Work Order Number, Request Status, and Estimated Resolution.`
+
+1. **［作成］** を選択します
+
+1. ビュー デザイナーで、**[+ 列の表示]** を選択し、他の列を削除して、次の列を保持または追加します。
+    - **顧客名** (これは主要な列であり削除できません。顧客が自分の記録を特定するのにも役立ちます)
+    - **作業指示書番号**
+    - **要求の状態**
+    - **推定解決**
+
+1. 最も緊急の要求が最初に表示されるように、推定解決でビューを並べ替えます。 右側のペインで、**[並べ替え]** を選択し、**[推定解決]** を選択します。
+
+1. **保存と公開**を選択します。
+
+   > [!NOTE]
+   > ビュー内の既存のレコードの **作業指示番号**列が空白になっている場合があります。 これは "予期されること" です。 オートナンバー型の列では、列が追加された後に作成されたレコードの値のみが生成されるため、既存のレコードはバックフィルされません。 作業指示番号は、ポータルから送信されるすべての新しいレコード (次に作成するテスト レコードを含む) に対して正しく設定されます。
 
 
-1. Select the **Back** arrow (←) in the top-left corner and return to the **Work Order** table.
+1. 左上隅にある **[戻る]** 矢印 (←) を選択し、**作業指示書**テーブルに戻ります。
 
-1. Now add the two new columns to the **Main Information** form so service managers can see them in the model-driven app. In the **Work Order** table, select **Forms** and open the **Main Information** form.
+1. 次に、新しい 2 つの列を**メイン情報**フォームに追加し、サービス マネージャーがモデル駆動型アプリで確認できるようにします。 **作業指示書**テーブルで **[フォーム]** を選択し、**[メイン情報]** フォームを開きます。
 
-1. In the form designer, add **Work Order Number** to the form and drag it to be the first field in the form.
+1. フォーム デザイナーで、**作業指示番号**をフォームに追加し、フォームの最初のフィールドにドラッグします。
 
-1. Add **Estimated Resolution** to the form and drag it to be the first field in the **Resolution Details** section.
+1. フォームに**推定解決**を追加し、**[解決の詳細]** セクションの最初のフィールドになるようにドラッグします。
 
-1. Select **Save and publish**, then close the form designer tab.
+1. **[保存して公開]** を選択し、[フォーム デザイナー] タブを閉じます。
 
-## Task 7: Build the Request Status page
+## タスク 7: [要求の状態] ページを構築する
 
-Make sure you are in your **Power Pages** tab before starting this task.
+この作業を始める前に、必ず **[Power Pages]** タブにいることを確認します。
 
-Now that the new columns and views are ready, you'll build the Request Status page where customers can look up their Work Order.
+新しい列とビューの準備ができたので、顧客が自身の作業指示書を検索できる [要求の状態] ページを作成します。
 
-1. In the **Pages** panel, select the **Request Status** page (or whatever Copilot named the status-tracking page). If it doesn't exist, open the Copilot panel and enter:
+1. **[ページ]** パネルで、**[要求の状態]** ページ (または Copilot が名前を付けた状態追跡ページ) を選択します。 存在しない場合は、[Copilot] パネルを開き、次のように入力します。
 
     `Add a page called "Request Status" where customers can view the status of their submitted Work Orders.`
 
-1. In the first section, select the subheading and replace the text with the following:
+1. 最初のセクションで、小見出しを選択し、テキストを次のように置き換えます。
 
     `Orders are worked on in the order they are received. Please find your Work Order number in the queue below to check your current status and estimated resolution time.`
 
-1. With the text component selected, select the **Copilot** icon and select **Change the tone.** Select **Friendly** to generate a friendlier, more customer-facing version. Review the suggestions and accept the one that fits best.
+1. テキスト コンポーネントを選択した状態で、**[Copilot]** アイコンを選択し、**[トーンの変更]** を選択します。 **[フレンドリ]** 選択して、より親しみやすい、より顧客向けのバージョンを生成します。 提案を確認し、最適なものを採用します。
 
-1. Add a **1-column section** below the text and select a **List**.
+1. テキストの下に **[1 列のセクション]** を追加し **[リスト]** を選択します。
 
-1. Configure the list:
-    - **Choose a table**: Work Order (`contoso_workorder`)
-    - **Select the data views**: Portal Status View
-    - **Name your list**: `Work Order Queue`
+1. 次のようにリストを構成します。
+    - **テーブルを選ぶ**: 作業指示書 (`contoso_workorder`)
+    - **データ ビューを選択する**: ポータル状態ビュー
+    - **リストに名前を付ける**: `Work Order Queue`
 
-1. Select **Done**, then select **Sync** to save the page.
+1. **[完了]** を選択してから、**[同期]** を選択してページを保存します。
 
-1. Now reorder the site navigation so the most important pages appear first. In the **Pages** panel, drag the pages into the following order:
-    1. Home
-    1. Submit a request
-    1. Request status
-    1. Contact us (and any other pages, in whatever order you prefer)
+1. ここで、最も重要なページが最初に表示されるように、サイト ナビゲーションの順序を変更します。 **[ページ]** パネルで、ページを次の順になるようにドラッグします。
+    1. ホーム
+    1. 要求を送信する
+    1. 要求の状態
+    1. お問い合わせ先 (その他のページは、任意の順序)
 
    > [!NOTE]
-   > To reorder a page, select and hold the page in the **Pages** panel, then drag it to the new position. The navigation menu on the live site will reflect this order.
+   > ページの順序を変更するには、**[ページ]** パネルでページを選択したまま、新しい位置にドラッグします。 ライブ サイトのナビゲーション メニューに、この順序が反映されます。
 
-1. Select **Sync** to save the updated navigation.
+1. **[同期]** を選択して、更新されたナビゲーションを保存します。
 
-## Task 8: Test the end-to-end scenario
+## タスク 8: エンドツーエンドのシナリオをテストする
 
-Start in your **Power Pages** tab for this task — you'll switch to Power Apps partway through.
+このタスクは **[Power Pages]** タブから始めて、途中で Power Apps に切り替えます。
 
-You'll now run through the complete customer journey: submit a Work Order through the portal, look up the Work Order Number in the model-driven app, and then verify it appears in the portal queue.
+次に、顧客体験の全体を順に確認します。ポータルから作業指示書を送信し、モデル駆動型アプリで作業指示番号を検索し、それがポータル キューに表示されていることを確認します。
 
-1. In the top toolbar, select **Preview** > **Desktop** to open the portal in a new browser tab.
+1. 上部のツール バーで **[プレビュー]** > **[デスクトップ]** を選択し、新しいブラウザー タブでポータルを開きます。
 
    > [!NOTE] 
-   > If prompted with a permissions request, select **Accept** to allow the preview to access your Dataverse environment. This is expected the first time you preview a Power Pages site.
+   > アクセス許可を要求するダイアログが表示されたら **[承諾する]** を選択して、プレビューで Dataverse 環境にアクセスできるようにします。 これは Power Pages サイトを初めてプレビューする際に想定されます。
 
-1. Select **Submit a Work Order** and fill in the form:
-    - **Customer Name**: `Southridge Video`
-    - **Customer Email**: `support@southridgevideo.com`
-    - **Issue Description**: `Video editing workstation won't power on`
-    - If prompted for a CAPTCHA, fill it out.
+1. **[作業指示書の送信]** を選択し、フォームに次のように入力します。
+    - **顧客名**: `Southridge Video`
+    - **顧客のメール アドレス**: `support@southridgevideo.com`
+    - **問題の説明**: `Video editing workstation won't power on`
+    - HIP チャレンジのダイアログが表示されたら、入力します。
   
    > [!NOTE] 
-   > You may see an error message saying that the **Customer Name** field won't display, and it may be omitted from the form. This is a known UI bug. If your **Customer Name** field is missing, fill out the other two fields and submit the form - the row will still be created. Afterwards, you can return to your model-driven app tab, select **Work Orders**, select the row with the empty name field and **support@southridgevideo.com** email address, and fill in the name there. 
+   > **[顧客名]** フィールドが表示されないというエラー メッセージが表示され、フォームから省略される場合があります。 これは、既知の UI のバグです。 **[顧客名]** フィールドが欠けている場合は、他の 2 つのフィールドに入力してフォームを送信します。この場合もその行は作成されます。 その後、モデル駆動型アプリのタブに戻り、**[作業指示書]** を選択し、空の名前フィールドとメール アドレス (**support@southridgevideo.com**) を含む行を選択し、そこに名前を入力します。 
 
-1. Submit the form and confirm the success message appears.
+1. フォームを送信し、成功のメッセージが表示されることを確認します。
 
-1. Select the **Request Status** from the site navigation menu. Find the Southridge Video Work Order in the queue and confirm:
-    - The **Work Order Number** is generated and is in a WO- format
-    - The **Request Status** shows **New**
-    - The **Estimated Resolution** date is visible
+1. サイト ナビゲーション メニューから **[要求の状態]** を選択します。 キュー内の Southridge Video Work Order を見つけて、次の内容を確認します。
+    - **作業指示番号**が WO- 形式で生成されている
+    - **[要求の状態]** に**新規**と表示されている
+    - **推定解決**の日付が表示されている
 
    > [!NOTE] 
-   > If the status hasn't updated yet, refresh the portal preview page. Portal pages pull live data from Dataverse, so changes made in the model-driven app are immediately reflected.
+   > 状態がまだ更新されていない場合は、ポータルのプレビュー ページを更新します。 ポータル ページでは Dataverse からライブ データがプルされるため、モデル駆動型アプリで加えられた変更が直ちに反映されます。
    

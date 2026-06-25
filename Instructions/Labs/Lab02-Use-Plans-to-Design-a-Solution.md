@@ -1,76 +1,76 @@
-﻿---
+---
 lab:
-    title: 'Use AI-powered Plans to design the Contoso Field Services solution'
-    description: 'Use Microsoft Power Apps Plans to translate a business need into a structured solution blueprint'
-    duration: '30 minutes'
-    level: 200
-    islab: true
+  title: AI 搭載の Plans を使って Contoso Field Services ソリューションを設計します
+  description: Microsoft Power Apps の Plans を使用して、ビジネス ニーズを構造化されたソリューション ブループリントに変換する
+  duration: 30 minutes
+  level: 200
+  islab: true
 ---
 
-# Use AI-powered Plans to design the Contoso Field Services solution
+# AI 搭載の Plans を使って Contoso Field Services ソリューションを設計します
 
-In this exercise, you use AI-powered Plans in Microsoft Power Apps to describe Contoso's business challenge and generate a structured solution blueprint, identifying the data model, apps, and automations you'll build in later exercises.
+この演習では、Microsoft Power Apps の AI 搭載の Plans を使用して、Contoso のビジネス上の課題を説明し、構造化されたソリューション ブループリントを生成し、この後の演習で構築するデータ モデル、アプリ、自動化を特定します。
 
-This exercise should take approximately **30** minutes to complete.
+この演習の所要時間は約 **30** 分です。
 
-## Scenario
+## シナリオ
 
-Contoso Field Services needs a centralized solution to manage service requests from customers who report equipment failures. Today, requests arrive by phone and email and are tracked manually in spreadsheets. Technicians don't always know which jobs they've been assigned to, customers have no way to check their request status, and managers struggle to prioritize escalations.
+Contoso Field Services は、機器の故障を報告する顧客からのサービス要求を管理するための一元化されたソリューションを必要としています。 今日、要求は電話とメールで届き、スプレッドシートで手動で追跡しています。 技術者は、割り当てられているジョブを常に把握しているわけではありません。顧客は要求の状態を確認する方法がなく、マネージャーはエスカレーションの優先順位付けに苦労しています。
 
-You've been asked to design an AI-first Power Platform solution that addresses these problems. Rather than designing from scratch, you use AI-powered Plans to describe the business need and let the AI generate the solution blueprint.
+あなたは、これらの問題に対処する AI ファーストの Power Platform ソリューションの設計を依頼されました。 ゼロから設計するのではなく、AI 搭載の Plans を使ってビジネス ニーズを説明し、AI がソリューション ブループリントを生成します。
 
-## Task 1: Describe the business problem to Plans
+## タスク 1: ビジネス上の問題を Plans に説明する
 
-1. Open [**Power Apps**](https://make.powerapps.com) at `https://make.powerapps.com` and sign in with your Microsoft account.
+1. [**Power Apps**](https://make.powerapps.com) (`https://make.powerapps.com`) を開き、Microsoft アカウントでサインインします。
 
-1. Ensure you are in the correct environment. Select the environment picker in the top-right corner and confirm or select your training environment.
+1. 正しい環境にいることを確認します。 右上隅にある環境ピッカーを選択し、トレーニング環境を確認または選択します。
 
-1. Select **Plans** in the left navigation. 
+1. 左側のナビゲーションで **[Plans]** を選択します。 
 
-1. Select **Create a plan**.
+1. **[プランの作成]** を選択します。
 
-1. In the description box, enter the following description of the business problem:
+1. 説明ボックスに、ビジネス問題を次のように入力します。
 
     ```
     Contoso Field Services needs to manage service requests from business customers whose industrial equipment has failed. When a customer reports an issue, a service request should be created. Service requests should have a priority field — Low, Normal, High, and Critical. A service manager needs to view and prioritize all open requests and assign a technician. Requests marked Critical should automatically trigger a manager approval before a technician is assigned. The assigned technician needs a mobile app to view their jobs and update the status. Customers should be able to submit new requests and check the status of existing ones online. When a request is submitted, the assigned technician should receive a notification automatically.
     ```
 
-1. Select **Generate** (or press **Enter**) and wait for Plans to process your description.
+1. **[生成]** を選択し (または **Enter** キー押して)、Plans で説明が処理されるまで待ちます。
 
-## Task 2: Review the generated solution blueprint
+## タスク 2: 生成されたソリューション ブループリントを確認する
 
-1. Review the **Requirements**. The Requirements Agent summarizes the business problem it understood from your description. Confirm that the key needs are captured — service request management, technician assignment, customer portal, notifications, and Critical request approvals.
+1. **[要件]** を確認します。 要件エージェントが、あなたの説明から解釈したビジネスの問題を要約します。 サービス要求管理、技術者割り当て、顧客ポータル、通知、重要な要求の承認など、主要なニーズが確実に取り込まれていることを確認します。
 
-1. If everything looks correct, select **Looks good.** The Process Agent will now generate the processes.
+1. 内容に問題がなければ、**[問題ありません]** を選択します。 プロセス エージェントがプロセスを生成します。
 
-1. Review the **Processes** section. The Process Agent surfaces the key business processes it identified, such as submitting a service request, assigning a technician, and routing Critical requests for approval. Confirm that the main workflows from your description are represented. You can select **View process** to view a branching flow chart of the business process.
+1. **[プロセス]** セクションを確認します。 プロセス エージェントにより、サービス要求の送信、技術者の割り当て、重要な要求承認のルーティングなど、特定された主要なビジネス プロセスが表示されます。 あなたの説明のメイン ワークフローが反映されていることを確認します。 **[プロセスの表示]** を選択すると、ビジネス プロセスの分岐フロー チャートを表示できます。
 
-1. If everything looks correct, select **Looks good**.
+1. 内容に問題がなければ、**[問題ありません]** を選択します。
 
-1. Review the **Data** section. Note which tables Plans suggests (for example, Service Requests, Customers, Technicians). When you're satisfied, select **Looks good.**
+1. **[データ]** セクションを確認します。 Plans で提案されたテーブル (例: サービス要求、顧客、技術者) に注目します。 問題がなければ、**[問題ありません]** を選択します。
 
-1. Review the **Technology** section. This combines apps, automations, and pages into a single view. Confirm that you see references to a canvas app for technicians, a model-driven app for managers, flows for notifications and approvals, and a Power Pages site for external customers. When you're satisfied, select **Looks good.**
-
-   > [!NOTE] 
-   > Plans uses your description to suggest solution components — the exact output may vary. What matters is the overall shape of the solution: data → apps → automation → portal. This is the same structure you'll build across Labs 3 through 10.
-
-## Task 3: Review the blueprint as your build guide
-
-Take a few minutes to review the full blueprint and connect it to the exercises ahead.
-
-1. Identify the **tables and columns** Plans recommends — you'll create these in Lab 3.
-
-1. Identify the **canvas app** for field technicians — you'll build this in Lab 5.
-
-1. Identify the **model-driven app** for service managers — you'll build this in Lab 6.
-
-1. Identify the **customer portal** — you'll create this in Lab 7.
-
-1. Identify the **automated flow** for technician notification — you'll build this in Lab 8.
-
-1. Identify the **approval flow** for Critical requests — you'll build this in Lab 9.
-
-1. Note where AI-generated responses from your Dataverse data could add value for agents — you'll build this in Lab 10.
+1. **[テクノロジー]** セクションを確認します。 ここにはアプリ、オートメーション、ページが 1 つのビューにまとめられています。 技術者向けのキャンバス アプリ、マネージャー向けのモデル駆動型アプリ、通知と承認のためのフロー、外部顧客向けの Power Pages サイトへの参照が表示されていることを確認します。 問題がなければ、**[問題ありません]** を選択します。
 
    > [!NOTE] 
-   > We won't build on these tables and objects at the moment. Plans was a design tool — it helped you understand *what* to build and *why*. In the remaining labs, you'll build each component yourself from scratch, so you understand exactly how everything works. You'll start by creating a new solution in Lab 3.
+   > Plans は、あなたの説明を使用してソリューション コンポーネントを提案します (正確な出力は異なる可能性があります)。 データ → アプリ → オートメーション → ポータル、というソリューションの全体的な形が重要です。 これはラボ 3 からラボ 10 を通して構築されるのと同じ構造です。
+
+## タスク 3: ブループリントをビルド ガイドとして確認する
+
+少し時間をかけて、ブループリント全体を確認し、今後の演習と関連付けてみてください。
+
+1. Plans で推奨された**テーブルと列**を特定します。これらはラボ 3 で作成します。
+
+1. フィールド技術者向けの**キャンバス アプリ**を特定します。これは、ラボ 5 で構築します。
+
+1. サービス マネージャー向けの**モデル駆動型アプリ**を特定します。これは、ラボ 6 で構築します。
+
+1. **顧客ポータル**を特定します。これは、ラボ 7 で作成します。
+
+1. 技術者への通知用の**自動フロー**を特定します。これはラボ 8 で構築します。
+
+1. 重要な要求の **承認フロー**を特定します。ラボ 9 で構築します。
+
+1. Dataverse データからの AI 生成による応答から、エージェントにもたらされる付加価値に注目します。ラボ 10 でこれを構築します。
+
+   > [!NOTE] 
+   > ここでは、これらのテーブルやオブジェクトを基に構築はしません。 Plans は設計ツールであり、"何を" 構築するのか、その "理由" を理解するのに役立ちました。**** このほかのラボでは、各コンポーネントを自分で一から構築するので、その仕組みを正確に理解できます。 まず、ラボ 3 で新しいソリューションを作成するところから始めます。

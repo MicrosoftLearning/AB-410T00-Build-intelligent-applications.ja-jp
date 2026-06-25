@@ -1,16 +1,16 @@
-# Microsoft Lab Exercises
+# Microsoft ラボの演習
 <!-- Change the title above as appropriate -->
 
 <!-- Review the notes in the index.md file to set up the repo for GitHub Pages -->
 
-This repo contains exercises and supporting files for Microsoft skilling content.
+このリポジトリには、Microsoft スキルアップ コンテンツの演習とサポート ファイルが含まれています。
 
-The exercises may be used in both self-paced skilling experiences on [Microsoft Learn](https://learn.microsoft.com) and in Microsoft authorized instructor-led training.
+この演習は、[Microsoft Learn](https://learn.microsoft.com) でマイペースで進められる学習体験と Microsoft 認定講師による指導付きトレーニングの両方で使用されます。
 <!-- Update the paragraph above with a link to a specific Learning Path or course as appropriate -->
 
-## Information for MCTs
+## MCT 向けの情報
 <!-- You can remove this section if the exercises will not be used to support Microsoft Official Curriculum ILT -->
 
-**Are you an MCT?** - Have a look at our [GitHub User Guide for MCTs](https://microsoftlearning.github.io/MCT-User-Guide/)
+**あなたは MCT ですか?** - [MCT 向けの GitHub ユーザー ガイド](https://microsoftlearning.github.io/MCT-User-Guide/)をご覧ください
 
-Any MCT (Microsoft Certified Trainer) can submit a pull request to the code or content in the GitHub repro. Microsoft and the course author will then triage and include content and lab code changes as needed. You can submit bugs, changes, improvement, and ideas. Find a new Azure or Microsoft 365 feature before we have? Submit a new demo!
+すべての MCT (Microsoft 認証トレーナー) は、GitHub リポジトリ内のコードまたはコンテンツに pull request を送信できます。 Microsoft とコースの作成者は、必要に応じて、コンテンツとラボ コードの変更をトリアージして含めます。 バグ、変更、改善、アイデアを提出できます。 新しい Azure または Microsoft 365 の機能を先に見つけたら、 新しいデモを提出しましょう。

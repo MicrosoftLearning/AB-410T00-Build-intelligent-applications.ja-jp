@@ -1,137 +1,137 @@
-﻿---
+---
 lab:
-    title: 'Build and evaluate a Copilot Studio agent for Contoso service managers'
-    description: 'Create a Copilot Studio agent grounded on the Work Order table, add suggested prompts and a custom escalation topic, and use a second agent to compare the AI-generated plan from Lab 2 to the solution you built'
-    duration: '45 minutes'
-    level: 400
-    islab: true
+  title: Contoso サービス マネージャーのための Copilot Studio エージェントを構築して評価する
+  description: 作業指示テーブルを典拠とする Copilot Studio エージェントを作成し、推奨プロンプトと独自のエスカレーション トピックを追加し、ラボ 2 で AI が生成した計画と自分が構築したソリューションとの比較を 2 つ目のエージェントを使って行う
+  duration: 45 minutes
+  level: 400
+  islab: true
 ---
 
-# Build and evaluate a Copilot Studio agent for Contoso service managers
+# Contoso サービス マネージャーのための Copilot Studio エージェントを構築して評価する
 
-In this exercise, you build two Copilot Studio agents. The first is a practical field service assistant grounded on your Work Order data — the kind of agent a real Contoso service manager would use. The second is a learning tool built for you as a student: a Plan Comparison assistant that lets you interrogate the AI-generated plan from Lab 2 and compare it to the solution you actually built across the course.
+この演習では、Copilot Studio エージェントを 2 つ作成します。 1 つは、作業指示データを典拠とする実務向けのフィールド サービス アシスタントであり、実際の Contoso サービス マネージャーが使うことを想定したエージェントです。 2 つ目は、学習者であるあなたのために学習ツールとして作られる、プラン比較アシスタントです。あなたはこれを使用して、ラボ 2 で AI が生成したプランについて質問し、このコースであなたが実際に作成したソリューションと比較します。
 
-This exercise should take approximately **45** minutes to complete.
+この演習の所要時間は約 **45** 分です。
 
-## Scenario
+## シナリオ
 
-Service managers at Contoso Field Services spend significant time manually searching for information: which technician is overloaded, which customers have open Critical requests, and what was the resolution history for a specific account. The Copilot panel you enabled in Lab 7 helps with simple queries, but managers need a more guided, conversational assistant that understands Contoso-specific context.
+Contoso Field Services のサービス マネージャーたちは、手作業での情報検索にかなりの時間を費やしています。たとえばどの技術者が過負荷か、どの顧客に未完のクリティカルな要求があるか、ある特定のアカウントの解決履歴はどうなっているかといったことです。 ラボ 7 で有効にした Copilot パネルは単純な問い合わせに便利ですが、マネージャーに必要なのは Contoso 特有のコンテキストを理解して導いてくれる、会話型のアシスタントです。
 
-In this exercise, you build a custom Copilot Studio agent grounded in the Work Order table, configure suggested prompts and a custom escalation topic, and test it against your data. You then build a second agent grounded on the three tables Plan Designer created in Lab 2 — **Account**, **Field Technician**, and **Service Request** — and use it to compare what was planned to what you actually built.
+この演習では、作業指示テーブルを典拠とする独自の Copilot Studio エージェントを作成し、推奨プロンプトと独自のエスカレーション トピックを構成し、自分のデータに対してテストします。 その後で、2 つ目のエージェントを作成します。これはラボ 2 でプラン デザイナーが作成した 3 つのテーブル (**Account**、**Field Technician**、**Service Request**) を典拠とするものであり、計画されたものとあなたが実際に作成したものを比較するために使用します。
 
-## Task 1: Open the model-driven app and initiate agent creation
+## タスク 1: モデル駆動型アプリを開いてエージェント作成を開始する
 
-You'll create the agent from inside the model-driven app's designer. This approach opens Copilot Studio already scoped to your environment, avoiding the sign-in and loading issues that can occur when navigating to Copilot Studio directly.
+エージェントの作成は、モデル駆動型アプリのデザイナーの中から行います。 このアプローチを使用すると、Copilot Studio はあなたの環境が選択された状態で開くため、Copilot Studio に直接移動するときに発生するサインインや読み込みの問題を回避できます。
 
-1. Open [**Power Apps**](https://make.powerapps.com) at `https://make.powerapps.com` and sign in with your Microsoft account.
+1. [**Power Apps**](https://make.powerapps.com) (`https://make.powerapps.com`) を開き、自分の Microsoft アカウントでサインインします。
 
-1. Confirm you are in your **Dev One** environment.
+1. 現在の環境が **Dev One** であることを確認します。
 
-1. In the left navigation, select **Solutions**, then open the **Contoso Field Services** solution.
+1. 左のナビゲーションで **[ソリューション]** を選択してから **[Contoso Field Services]** ソリューションを開きます。
 
-1. Open the **Contoso Service Management** model-driven app and select **Edit** to open it in the app designer.
+1. **Contoso Service Management** というモデル駆動型アプリを開き、**[編集]** を選択してアプリ デザイナーで開きます。
 
-1. In the app designer, select the **Agents** tab in the left navigation pane.
+1. アプリ デザイナーの画面で、左側のナビゲーション ペインの **[エージェント]** タブを選択します。
 
-1. Select **+ Create agent**. Copilot Studio opens in a new browser tab, already scoped to your Dev One environment.
+1. **[+ エージェントの作成]** を選択します。 Copilot Studio が新しいブラウザー タブで開き、既に Dev One 環境が選択された状態になっています。
 
-1. You may be prompted to **Start a trial** when Copilot Studio opens. Select it to proceed. You may also be prompted to sign in with your email address. Follow the prompts to complete sign-in before continuing.
+1. Copilot Studio が開くときに、**[試用版の開始]** の画面が表示されることがあります。 これを選択して続行します。 メール アドレスでサインインするための画面が表示されることもあります。 続行するには画面の指示に従ってサインインしてください。
 
-## Task 2: Configure the agent in Copilot Studio
+## タスク 2: Copilot Studio でエージェントを構成する
 
-1. In Copilot Studio, skip any welcome messages that appear.
+1. Copilot Studio でようこそメッセージが表示された場合は、スキップします。
 
-1. Confirm you are in the **Dev One** environment.
+1. 現在の環境が **Dev One** であることを確認します。
 
-1. In the **What would you like to build?** text box on the Copilot Studio home page, enter the following description:
+1. Copilot Studio のホーム ページの **[何を構築しますか?]** のテキストボックスに、次に示す説明を入力します。
 
     ```
     An AI assistant for Contoso service managers. Answers questions about Work Orders, technician assignments, and resolution status using live Dataverse data.
     ```
 
-1. Select the arrow or press Enter to submit. Copilot Studio generates a name, description, and instructions for the agent and opens the **Overview** page.
+1. 矢印を選択するか Enter キーを押して送信します。 Copilot Studio によってエージェントの名前、説明、指示が生成され、**[概要]** ページが開きます。
 
-1. Review the generated values. Under the **Details** section, select **Edit** and update the **Name** to `Contoso Service Assistant`. The description and instructions don't have to be exact, but they should roughly match the following:
-    - **Name**: `Contoso Service Assistant`
-    - **Description**: `An AI assistant for Contoso service managers. Answers questions about Work Orders, technician assignments, and resolution status using live Dataverse data.`
-    - **Instructions**:
+1. 生成された値を確認します。 **[詳細]** セクションの **[編集]** を選択し、**[名前]** を `Contoso Service Assistant` に更新します。 説明と指示は、正確に一致していなくてもかまいませんが、おおよそ次のようになるはずです。
+    - **名前**: `Contoso Service Assistant`
+    - **説明**: `An AI assistant for Contoso service managers. Answers questions about Work Orders, technician assignments, and resolution status using live Dataverse data.`
+    - **手順**:
 
         ```
         You are a service management assistant for Contoso Field Services. You help service managers find information about open Work Orders, technician workloads, and customer histories. Always be concise and professional. When referencing Work Orders, include the customer name, priority, and current status. If you can't find the information requested, say so clearly and suggest how the manager might find it themselves.
         ```
 
-1. Select **Save** in each section to save your changes.
+1. 各セクションの **[保存]** を選択して変更を保存します。
 
-## Task 3: Ground the agent on the Work Order table
+## タスク 3: エージェントが作業指示テーブルを典拠とするように設定する
 
-Grounding connects the agent to your Dataverse data so it can answer questions using real records rather than general knowledge.
+典拠を設定すると (グラウンディング)、エージェントが Dataverse のデータに結びつけられるため、質問に回答するときに普遍的な知識ではなく実際のレコードを使用できるようになります。
 
 > [!IMPORTANT]
-> Two prerequisites are required before Dataverse knowledge sources will work:
-> - **Dataverse Search** must be enabled in your environment. If you can't add a Dataverse table in the steps below, ask your administrator to enable Dataverse Search in the Power Platform admin center.
-> - The agent's authentication must be set to **Authenticate with Microsoft**. To verify or set this, in the agent designer, select **Settings**, then **Security**, then **Authentication**, choose **Authenticate with Microsoft**, and select **Save**.
+> Dataverse の知識ソースを機能させるには、次の 2 つの前提条件が満たされている必要があります。
+> - **Dataverse 検索**が自分の環境で有効化されている必要があります。 下記の手順で Dataverse テーブルを追加できない場合は、Power Platform 管理センターで Dataverse 検索を有効にするよう管理者に依頼してください。
+> - エージェントの認証が **[Microsoft で認証する]** に設定されている必要があります。 これを確認または設定するには、エージェント デザイナーで **[設定]** を選択し、次に **[セキュリティ]**、**[認証]**、**[Microsoft で認証する]** の順に選択して **[保存]** を選択します。
 
-1. In the agent designer, select the **Knowledge** tab in the top navigation.
+1. エージェント デザイナーで、上部のナビゲーションの **[ナレッジ]** タブを選択します。
 
-1. Select **+ Add knowledge**.
+1. **[+ Add knowledge]** を選択します。
 
-1. Select **Dataverse** as the knowledge source.
+1. **Dataverse** を知識ソースとして選択します。
 
-1. Search for and select the **Work Order** table (`contoso_workorder`).
+1. **作業指示**テーブル (`contoso_workorder`) を検索して選択します。
 
-1. Select **Add to agent**. The agent is now grounded on your Work Order data.
+1. **[エージェントへの追加]** を選択します。 これで、エージェントはあなたの作業指示データを典拠とするようになりました。
 
    > [!NOTE]
-   > When grounded on a Dataverse table, the agent can retrieve and summarize records using natural language queries. It respects Dataverse security — it only returns records that the signed-in user has permission to see based on their assigned security role.
+   > Dataverse テーブルを典拠としているときは、エージェントは自然言語クエリを使用してレコードを取り出して要約することができます。 Dataverse のセキュリティが尊重されるため、返されるレコードはサインイン済みのユーザーに閲覧許可があるものだけとなり、これは割り当てられたセキュリティ ロールに基づいて決定します。
 
-## Task 4: Configure suggested prompts
+## タスク 4: 推奨プロンプトを構成する
 
-Suggested prompts appear at the start of a conversation, giving users ready-made questions to choose from. They help service managers get value from the agent immediately without having to think of what to ask.
+推奨プロンプトとは、会話の開始時に表示されるものであり、これでユーザーは既製の質問から選ぶことができます。 これを用意しておくと、サービス マネージャーは何を尋ねるかを考えなくても即座にエージェントから価値を引き出せるようになります。
 
-1. In the agent designer, select the **Overview** tab.
+1. エージェント デザイナーの **[概要]** タブを選択します。
 
-1. Scroll down to the **Suggested prompts** section and select **+ Add suggested prompts**.
+1. **[推奨プロンプト]** セクションまで下にスクロールし、**[+ 推奨プロンプトを追加する]** を選択します。
 
-1. Add the following suggested prompts. For each one, enter a **Title** (the label users see) and a **Prompt** (the text sent to the agent):
+1. 次に示す推奨プロンプトを追加します。 それぞれの**タイトル** (ユーザーに表示されるラベル) と**プロンプト** (エージェントに送られるテキスト) を入力してください。
 
-    | Title | Prompt |
+    | Title | プロンプト |
     |---|---|
-    | Show open Work Orders | `Show me all open Work Orders` |
-    | Critical requests | `Which Critical requests need attention?` |
-    | Unassigned Work Orders | `Are there any Work Orders without an assigned technician?` |
-    | Recent status | `What's the status of recent Work Orders?` |
+    | 未完の作業指示を表示する | `Show me all open Work Orders` |
+    | クリティカルな要求 | `Which Critical requests need attention?` |
+    | 未割り当ての作業指示 | `Are there any Work Orders without an assigned technician?` |
+    | 最近の状態 | `What's the status of recent Work Orders?` |
 
-1. Select **Save**.
+1. **[保存]** を選択します。
 
    > [!NOTE]
-   > Suggested prompts are not visible in the Copilot Studio test panel. They appear on the agent's welcome page only when the agent is deployed to a channel such as Teams or an embedded app. You won't see them during testing in this lab, but they would be ready in a published or deployed agent.
+   > 推奨プロンプトは、Copilot Studio のテスト パネルには表示されません。 これらは、エージェントがチャネル (たとえば Teams や組み込みアプリ) に展開されたときのエージェントのようこそページのみに表示されます。 このラボでのテスト中に表示されることはありませんが、エージェントが発行またはデプロイされるときには表示できる状態になっています。
 
-## Task 5: Create an escalation topic
+## タスク 5: エスカレーション トピックを作成する
 
-Topics let your agent respond to specific phrases with a guided, structured response — going beyond open-ended Q&A to deliver a consistent workflow. Unlike knowledge-based answers (which are generative), topics follow a defined path you control. You'll create an escalation topic that walks a service manager through a checklist when they need to escalate a Critical Work Order.
+トピックとは、エージェントが特定のフレーズに対して、手引きに従った構造化された応答ができるようにするためのものであり、自由応答形式の Q&A を超えて一貫性のあるワークフローを作ることができます。 知識に基づく回答 (生成的) とは異なり、トピックはあなたがコントロールする定義済みのパスに従います。 ここでは、エスカレーション トピックを作成します。これは、サービス マネージャーがクリティカルの作業指示をエスカレーションする必要があるときにチェックリストの項目を順に調べるものです。
 
-1. In the agent designer, select the **Topics** tab in the top navigation.
+1. エージェント デザイナーで、上部のナビゲーションの **[トピック]** タブを選択します。
 
-1. Select **+ Add a topic** > **From blank**.
+1. **[+ トピックの追加]** > **[空白から]** を選択します。
 
-1. At the top of the canvas, name the topic `Work Order Escalation`.
+1. キャンバスの上部で、トピック名を `Work Order Escalation` と入力します。
 
-1. Select the **Trigger** node. Because your agent uses generative orchestration, the trigger shows **The agent chooses** rather than a list of phrases. In the description text box, enter the following:
+1. **[トリガー]** ノードを選択します。 このエージェントが生成オーケストレーションを使用することが理由で、トリガーにはフレーズのリストではなく **[エージェントが選択する]** が表示されます。 説明のテキスト ボックスに、次のとおりに入力します。
 
     ```
     Trigger this topic when the user wants to escalate a Work Order, mentions a critical issue, or asks for help with an urgent situation that needs immediate attention.
     ```
 
    > [!NOTE]
-   > With generative orchestration, you describe the topic's purpose in plain language rather than listing exact phrases. The AI reads this description to decide when to route the conversation to this topic — so a clear, specific description produces more reliable triggering.
+   > 生成オーケストレーションが使用されるときは、トピックの目的を平易な言葉で記述します (正確なフレーズを列挙するのではなく)。 AI はこの説明を読んで、会話をいつこのトピックに回すかを決めます。したがって、説明が明確で具体的ならば、トリガー処理の信頼性が向上します。
 
-1. Below the trigger node, select **+** to add a node, then select **Send a message**. Enter the following:
+1. トリガー ノードの下で、**+** を選択してノードを追加してから、**[メッセージを送信]** を選択します。 次のように入力します。
 
     ```
     I can help you escalate this Work Order. Let's make sure everything is in order before we proceed.
     ```
 
-1. Add another **Send a message** node with the following escalation checklist:
+1. 別の **[メッセージを送信]** ノードを追加し、次に示すエスカレーション チェックリストを入力します。
 
     ```
     Before escalating, confirm the following:
@@ -143,136 +143,136 @@ Topics let your agent respond to specific phrases with a guided, structured resp
     Update the Work Order record with any missing information before proceeding.
     ```
 
-1. Add a final **Send a message** node:
+1. 最後の **[メッセージを送信]** ノードを追加して、次のとおりに入力します。
 
     ```
     Once the checklist is complete, contact the assigned technician directly and notify your service lead. Document the escalation in the Work Order's resolution notes.
     ```
 
-1. Select **Save** to save the topic.
+1. **[保存]** を選択してトピックを保存します。
 
    > [!NOTE]
-   > Topics take priority over generative answers. When a user sends a message that matches a trigger phrase, the agent follows the topic's defined path rather than generating a free-form response. This makes topics ideal for high-stakes scenarios — like escalations — where you want consistent, predictable behavior.
+   > トピックは、生成型の回答よりも優先されます。 ユーザーから送信されたメッセージがトリガー フレーズに一致する場合は、エージェントは自由形式の応答を生成する代わりにそのトピックの定義済みのパスをたどります。 したがって、トピックは失敗が許されない重要な場面 (エスカレーションもその一例です) において、一貫性があり予測可能な挙動が求められる場合に最適です。
 
-## Task 6: Test the agent in Copilot Studio
+## タスク 6: Copilot Studio でエージェントをテストする
 
-Before evaluating, test the agent to confirm it responds correctly — both to Work Order data questions and to the escalation topic you created.
+評価の前に、エージェントが作業指示データの質問と、あなたが作成したエスカレーション トピックの両方に正しく応答していることをテストで確認します。
 
-1. In the agent designer, select **Test** (in the top-right area) to open the test chat panel.
+1. エージェント デザイナーで **[テスト]** (右上のエリアにあります) を選択してテスト チャット パネルを開きます。
 
-1. Try the following in the test chat:
+1. 次の質問をテスト チャットで試します。
     - `How many open Work Orders do we have?`
     - `Show me all Critical priority requests`
     - `Which requests don't have an assigned technician?`
     - `I need to escalate this`
 
-1. Review the responses. The first three should return data-driven answers from your Work Order table. The last should trigger the **Work Order Escalation** topic and walk through the checklist.
+1. 応答を確認します。 最初の 3 つについては、データに基づく回答が作業指示テーブルから返されるはずです。 最後のテキストを入力すると、**作業指示エスカレーション** トピックがトリガーされて、チェックリスト項目の点検が行われるはずです。
 
    > [!NOTE]
-   > If your environment doesn't have any Work Order records yet, create a few test records in the model-driven app from Lab 6 before testing. Use different customers, priorities, and statuses to get useful responses.
+   > あなたの環境にまだ作業指示のレコードがない場合は、テスト前に、ラボ 6 のモデル駆動型アプリでテスト レコードを何件か作成してください。 有益な回答が得られるように、さまざまな顧客、優先度、状態を使用してください。
 
-1. If responses are inaccurate or overly generic, select the response and use the **Feedback** controls to help improve the agent.
+1. 応答が不正確である、または普遍的すぎる場合は、その応答を選択し、**フィードバック**のコントロールを使ってエージェントの改良を試みてください。
 
-## Task 7: Explore the Plan Designer solution
+## タスク 7: プラン デザイナー ソリューションを調べる
 
-In Lab 2, Plan Designer generated a solution with three tables: **Account**, **Field Technician**, and **Service Request**. Before grounding your comparison agent on them, take a moment to understand what each table represents — and how it relates to what you actually built.
+ラボ 2 で、プラン デザイナーによって生成されたソリューションには **Account**、**Field Technician**、**Service Request** の 3 つのテーブルがありました。 これらをあなたの比較エージェントの典拠とする前に、少し時間を取って、各テーブルが何を表しているのか、およびあなたが実際に構築したものにどう関連しているかを理解しましょう。
 
-1. Keep the Copilot Studio tab open. In a new tab, open [**Power Apps**](https://make.powerapps.com) at `https://make.powerapps.com` and navigate to **Solutions**.
+1. Copilot Studio のタブは開いたままにしておきます。 新しいタブで [**Power Apps**](https://make.powerapps.com) (`https://make.powerapps.com`) を開き、**[ソリューション]** に移動します。
 
-1. Locate the solution you created in Lab 2 with Plan Designer and open it. (It may be named something like **Field Service Request Manager** — if you're not sure which one it is, ask your instructor.)
+1. ラボ 2 でプラン デザイナーを使用して作成したソリューションを見つけて開きます。 (名前は **Field Service Request Manager** などとなりますが、どれであるかが不明な場合は講師に尋ねてください。)
 
-1. Select **Objects** and expand **Tables**. The tables listed here are the ones the Data Agent created in Lab 2. Your tables might not match a peer's — that's fine. Take note of the **Display Name** of each table. You'll use those names in Task 8 to ground the comparison agent.
+1. **[オブジェクト]** を選択し、**[テーブル]** を展開します。 ここに一覧表示されるテーブルは、ラボ 2 でデータ エージェントが作成したものです。 あなたのテーブルは、比較対象のテーブルと一致しないこともありますが、問題はありません。 各テーブルの**表示名**を書き留めてください。 これらの名前は、タスク 8 で比較エージェントの典拠とするために使います。
 
-## Task 8: Create a Plan Comparison agent
+## タスク 8: プラン比較エージェントを作成する
 
-Now you'll create a second agent, a **Plan Comparison Assistant**, grounded on the Plan Designer tables and your Work Order table. You'll use the test panel to ask it comparison questions that surface the architectural differences between what was planned and what you built.
+ここでは、2 つ目のエージェントである**プラン比較アシスタント**を作成し、その典拠としてプラン デザイナーのテーブルと、あなたの作業指示テーブルを指定します。 テスト パネルを使って比較の質問をすると、計画されたものとあなたが構築したものとの間にある、アーキテクチャ面の違いが明らかになります。
 
-1. Switch to your **Copilot Studio** browser tab. In the left navigation, select **Agents**.
+1. ブラウザーの **Copilot Studio** のタブに切り替えます。左のナビゲーションにある **[エージェント]** を選択します。
 
-1. In the Copilot text box, enter:
+1. Copilot テキスト ボックスに、次のとおりに入力します。
 
     ```
     An assistant that helps compare an AI-generated solution plan to the actual solution that was built. It can answer questions about what was planned, what was built, and what differences exist between the two.
     ```
     
-1. Select the arrow to submit and wait for the agent to provision.
+1. 矢印を選択して送信し、エージェントがプロビジョニングされるまで待ちます。
 
-1. Review the generated name. Under the **Details** section, select **Edit** and update the name to `Plan Comparison Assistant`, then select **Save**.
+1. 生成された名前を確認します。 **[詳細]** セクションの **[編集]** を選択して名前を `Plan Comparison Assistant` に更新してから、**[保存]** を選択します。
 
-1. On the **Overview** page, find the **Instructions** section and select **Edit.**
+1. **[概要]** ページの **[指示]** セクションを見つけて **[編集]** を選択します。
 
-1. Update it to include the following, substituting your own plan table names where indicated:
+1. 次に示すテキストが含まれるように更新します。計画のテーブル名を示しているところは、あなたの計画テーブル名で置き換えてください。
 
     ```
     You have access to two sets of data. The [your **Plan** table names] tables represent an AI-generated solution plan created in Lab 2. The Work Order (contoso_workorder) table represents the solution that was actually built during this course. When asked comparison questions, always frame your answers in terms of "what the plan suggested" versus "what was built."
     ```
 
    > [!NOTE]
-   > This context is critical. Without it, the agent sees all four tables equally and can't reason about which represents the plan and which represents the built solution.
+   > このコンテキストは非常に重要です。 これがなければ、エージェントは 4 つのテーブルすべてを同じように認識するため、どれが計画を表し、どれが構築されたソリューションを表しているかを推論することはできません。
 
-1. Select **Save**.
+1. **[保存]** を選択します。
 
-1. Select the **Knowledge** tab, then select **+ Add knowledge**.
+1. **[ナレッジ]** タブを選択し、次に **[+ ナレッジの追加]** を選択します。
 
-1. Select **Dataverse**. Search for and add each of the Plan Designer-created tables you noted in Task 7.
+1. **Dataverse** を選択します。 タスク 7 で書き留めた、プラン デザイナーで作成されたテーブルのそれぞれを検索して追加します。
 
-1. Select **Add to agent.**
+1. **[エージェントへの追加]** を選択します。
 
-1. Select **+ Add knowledge** again, select **Dataverse**, and add the **Work Order** table (`contoso_workorder`). 
+1. もう一度 **[+ ナレッジの追加]** を選択し、**[Dataverse]** を選択し、**作業指示**テーブル (`contoso_workorder`) を追加します。 
 
-1. Select **Add to agent**.
+1. **[エージェントへの追加]** を選択します。
 
-1. Select **Test** to open the test panel and try the following questions:
+1. **[テスト]** を選択してテスト パネルを開き、次に示す質問を入力します。
     - `Can you summarize the tables I built versus the tables the Plan created?`
     - `What fields does the Service Request table have?`
     - `How does the Field Technician table relate to Service Requests?`
     - `What fields does our Work Order table have?`
     - `How is the Work Order table different from the Service Request table?`
 
-1. Review the responses and take notes on what the agent returns for each question. You'll use these observations in Task 9.
+1. 応答を確認し、各質問に対してエージェントから何が返されたかを書き留めます。 これらの観察の結果は、タスク 9 で使います。
 
    > [!NOTE]
-   > The quality of the agent's responses depends on how much data is in your tables. If the Plan Designer tables are mostly empty, responses will be sparse — which is itself a useful observation about the limits of plan-only data as a knowledge source.
+   > エージェントの応答の質は、あなたのテーブルに存在するデータの量に左右されます。 プラン デザイナーのテーブルがほとんど空である場合は、応答の情報量は乏しくなりますが、このこと自体は、計画のみのデータを知識ソースとして使うことには限界があるという有益な観察となります。
 
-## Task 9: Reflect and share out
+## タスク 9: 振り返りと発表
 
-The Plan Comparison agent can reason about table schemas and data, but a solution is more than tables. Cloud flows, apps, and security roles exist only as solution components, not as Dataverse records, so the agent has no visibility into them. To get the full picture, you'll browse the solution manually alongside your agent observations.
+プラン比較エージェントは、テーブルのスキーマとデータについて推論できますが、ソリューションはテーブルだけで構成されるわけではありません。 クラウド フロー、アプリ、セキュリティ ロールはソリューションの構成要素としてのみ存在し、Dataverse のレコードではないため、エージェントからは認識されません。 全体像を把握するために、ここでエージェントによる観察に加えてソリューションの内容を手作業で調べてみましょう。
 
-1. Open [**Power Apps**](https://make.powerapps.com) at `https://make.powerapps.com` and navigate to **Solutions**. Open the solution you created in Lab 2 with Plan Designer.
+1. [**Power Apps**](https://make.powerapps.com) (`https://make.powerapps.com`) を開いて **[ソリューション]** に移動します。 ラボ 2 でプラン デザイナーを使用して作成したソリューションを開きます。
 
-1. Select **Objects** and spend 2–3 minutes browsing through the full component list. Look at each category:
-    - **Tables:** compare to what the agent told you about the plan's data model
-    - **Cloud flows:** did the plan generate any automation?
-    - **Apps:** what app structure did the plan suggest?
-    - **Security roles:** did the plan include any roles?
+1. **[オブジェクト]** を選択し、2、3 分間ほどかけてコンポーネント リスト全体を閲覧します。 次の各カテゴリーに注目してください。
+    - **テーブル:** 計画のデータ モデルについてのエージェントからの回答と比較する
+    - **クラウド フロー:** この計画によって自動化が生成されたか?
+    - **アプリ:** この計画ではどのようなアプリ構造が提案されたか?
+    - **セキュリティ ロール:** この計画にはロールが含まれているか?
 
-1. Review your notes from the Plan Comparison agent. Use these questions to guide your thinking:
-    - Did your plan create a dedicated technician table? In the course labs, technician assignment was handled as a lookup field on the Work Order rather than a separate entity — did your plan do the same, or something different?
-    - Did your Work Order table relate to an Account entity, or did it store customer information as a plain text field? What did the plan do?
-    - Compare the columns on your plan's core service request table to the fields on your Work Order table. What concepts overlap? What's missing from one side?
+1. プラン比較エージェントからの出力のメモを確認します。 次に示す質問を思考の参考にしてください。
+    - あなたの計画では、専用の技術者テーブルが作られましたか?  このコースのラボでは、技術者の割り当ては作業指示のルックアップ フィールドとして扱われており、独立したエンティティではありませんでした。あなたの計画も同じでしたか、それとも異なっていますか?
+    - 作業指示テーブルは 1 つのアカウント エンティティに関連付けられていましたか、それとも顧客情報がプレーン テキスト フィールドとして保存されていましたか? その計画ではどのようにしていましたか?
+    - あなたの計画のコア サービス要求テーブルの列を、作業指示テーブルのフィールドと比較してください。 どの概念が重複していますか? 一方にしかないものはどれですか?
 
-1. Based on what you saw in the solution and what the Plan Comparison agent returned, identify:
-    - **One thing that matched** (for example, did both solutions have a concept of a service request/work order and technician assignment?)
-    - **One thing that diverged** (for example, the plan used a separate **Field Technician** table while you used a lookup field, or the plan used the **Account** entity while you used a plain text customer name field)
-    - **One thing you added** (something meaningful you built that wasn't in the plan at all, like the escalation topic, security roles, the model-driven app dashboard, or the Copilot Studio agent itself)
+1. ソリューションを調べて判明したことと、プラン比較エージェントからの回答に基づいて、次のものを特定します。
+    - **一致するものを 1 つ** (たとえば、両方のソリューションにサービス要求/作業指示と技術者の割り当てという概念があったか?)
+    - **異なっているものを 1 つ** (たとえば、計画では独立した **Field Technician** テーブルが使用されているが、あなたはルックアップ フィールドを使用している、または計画では **Account** エンティティが使用されているが、あなたはプレーンテキストの顧客名フィールドを使用している)
+    - **あなたが追加したものを 1 つ** (あなたが構築した有意義なもののうち、計画にはまったくなかったもの、たとえばエスカレーション トピック、セキュリティ ロール、モデル駆動型アプリ ダッシュボード、あるいは Copilot Studio エージェント自体)
 
-1. Be prepared to share at least one of your findings with the class. Here are a few discussion points to get you started:
-   - *"Did anyone's plan accurately predict the security role structure?"*
-   - *"What did the plan get right about the data model?"*
-   - *"What did you build in these labs that surprised you — things the plan never anticipated?"*
-   - *"If you were starting a real field service project tomorrow, how would you use Plan Designer differently?"*
-   - *"What seems easier: creating the model from scratch like we did, or editing components that the Plan Designer created?"*
+1. 発見したもののうち、少なくとも 1 つをクラスで発表できるように準備します。 次のディスカッションのポイントを参考にしてください。
+   - *「計画においてセキュリティ ロール構造を正確に予測できた人はいますか?」*
+   - *「計画はデータ モデルの何について正しくできていましたか?」*
+   - *「これらのラボであなたが構築したものの中で、意外だったもの、つまり計画ではまったく予想されていなかったものは何ですか?」*
+   - *「仮に、実際のフィールド サービス プロジェクトを明日から始めるとしたら、プラン デザイナーの使い方をどのように変えますか?」*
+   - *「今回のようにモデルを一から作成するのと、プラン デザイナーで作成されたコンポーネントを編集するのと、どちらが簡単だと思いますか?」*
 
    > [!TIP]
-   > AI-assisted planning is a powerful starting point, not a finished blueprint. The gap between what a plan generates and what a real solution requires is exactly where human judgment, domain expertise, and iterative testing add value. You've experienced that gap firsthand across these labs.
+   > AI を使用した計画策定は出発点として優れていますが、完成した設計図が作られるわけではありません。 計画によって生成されるものと、実際のソリューションに必要なものの間にはギャップがありますが、まさにそこで人間の判断力、特定分野の専門知識、反復テストが価値をもたらします。 あなたはこのギャップを、これまでのラボで身をもって体験してきました。
 
-## Verify your work
+## 作業内容を検証する
 
-Before moving on, confirm the following:
+先に進む前に、次のことを確認してください。
 
-- The **Contoso Service Assistant** agent exists in Copilot Studio
-- The agent is grounded on the **Work Order** (`contoso_workorder`) Dataverse table
-- The agent has at least four suggested prompts configured
-- The **Work Order Escalation** topic exists and triggers correctly on escalation phrases
-- The **Plan Comparison Assistant** agent exists in Copilot Studio and is grounded on tables you identified in Task 7 and the **Work Order** table.
-- You can articulate at least one thing the plan predicted correctly, one divergence, and one thing you built beyond the plan
+- **Contoso Service Assistant** エージェントが Copilot Studio に存在する
+- このエージェントは**作業指示** (`contoso_workorder`) Dataverse テーブルを典拠とする
+- このエージェントには少なくとも 4 つの推奨プロンプトが構成済みである
+- **作業指示エスカレーション**というトピックが存在し、エスカレーションのフレーズに対して正しくトリガーされる
+- **Plan Comparison Assistant** エージェントが Copilot Studio に存在し、その典拠はタスク 7 で特定したテーブルと**作業指示**テーブルである。
+- あなたは、計画で正しく予測されたものを 1 つ以上、異なっていたものを 1 つ以上、および計画にはなかったが構築できたものを 1 つ以上、言葉で説明できる

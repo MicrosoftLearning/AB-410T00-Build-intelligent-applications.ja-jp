@@ -1,221 +1,221 @@
-﻿---
+---
 lab:
-    title: 'Build a model-driven app for Contoso service managers'
-    description: 'Create a model-driven app in Microsoft Power Apps that service managers use to track, prioritize, and manage all open Work Orders'
-    duration: '45 minutes'
-    level: 300
-    islab: true
+  title: Contoso サービス マネージャー向けのモデル駆動型アプリを構築する
+  description: サービス マネージャーが未処理のすべての作業指示書を追跡し、優先度を付け、管理するモデル駆動型アプリを Microsoft Power Apps で作成する
+  duration: 45 minutes
+  level: 300
+  islab: true
 ---
 
-# Build a model-driven app for Contoso service managers
+# Contoso サービス マネージャー向けのモデル駆動型アプリを構築する
 
-In this exercise, you build a model-driven app that Contoso service managers use to view and manage all open Work Orders, configure views for different scenarios, and work with the data model you created in Lab 3.
+この演習では、Contoso サービス マネージャーが未処理のすべての作業指示書を表示および管理し、異なるシナリオに応じたビューを設定し、ラボ 3 で作成したデータ モデルを活用するためのモデル駆動型アプリを構築します。
 
-This exercise should take approximately **45** minutes to complete.
+この演習の所要時間は約 **45** 分です。
 
-## Scenario
+## シナリオ
 
-Contoso service managers need a full-featured desktop interface to manage the incoming queue of Work Orders. Unlike field technicians (who only need to see their own assigned jobs), managers need to see all requests across all customers, filter by priority, reassign technicians, and track resolution progress.
+Contoso サービス マネージャーは、作業指示書を受信するキューを管理するためのフル機能のデスクトップ インターフェイスを必要とします。 自分に割り当てられた仕事だけを見る必要がある現場技術者とは異なり、マネージャーはすべての顧客のすべてのリクエストを確認し、優先度でフィルター処理し、技術者の再割当を行い、解決の進行状況を追跡する必要があります。
 
-A model-driven app is the right tool for this — it's built directly on your Dataverse data model, and it automatically inherits the forms and views you've already configured.
+この場合、モデル駆動型アプリが最適なツールです。Dataverse のデータ モデルに直接構築されており、既に設定したフォームやビューを自動的に継承します。
 
-## Task 1: Create the model-driven app
+## タスク 1: モデル駆動型アプリを作成する
 
-1. Open [**Power Apps**](https://make.powerapps.com) at `https://make.powerapps.com` and sign in with your Microsoft account.
+1. `https://make.powerapps.com` で [**Power Apps**](https://make.powerapps.com) を開き、Microsoft アカウントでサインインします。
 
-1. Confirm you are in your **Dev One** environment.
+1. **Dev One** 環境にいることを確認します。
 
-1. In the left navigation, select **Solutions**.
+1. 左側のナビゲーションで **ソリューション** を選択します。
 
-1. Open the **Contoso Field Services** solution.
+1. **[Contoso Field Services]** ソリューションを開きます。
 
-1. In the left menu, select **Objects**.
+1. 左側のメニューで **[オブジェクト]** を選択します。
 
-1. On the command bar, select **+ New** > **App** > **Model-driven app**.
+1. コマンド バーで、**[+ 新規]** > **[アプリ]** > **[モデル駆動型アプリ]** を選択します。
 
-1. In the **New model-driven app** dialog, configure the app:
-    - **Name**: `Contoso Service Management`
-    - **Description**: `Internal app for service managers to track and manage all Work Orders`
+1. **[新しいモデル駆動アプリ]** ダイアログで、次のようにアプリを設定します。
+    - **名前**: `Contoso Service Management`
+    - **説明**: `Internal app for service managers to track and manage all Work Orders`
 
-1. Select **Create**. The model-driven app opens in the modern app designer.
+1. **［作成］** を選択します モデル駆動型アプリが、最新のアプリ デザイナーで起動します。
 
-## Task 2: Add the Work Order table to the app
+## タスク 2: 作業指示書テーブルをアプリに追加する
 
-1. In the app designer, select **+ Add page**.
+1. アプリ デザイナーで、**[+ ページの追加]** を選択します。
 
-1. Select **Dataverse table**.
+1. **[Dataverse テーブル]** を選択します。
 
-1. Search for and select **Work Order** (`contoso_workorder`), then select **Add**.
+1. 「**作業指示書**」(`contoso_workorder`) を検索して選択してから、**[追加]** を選択します。
 
-1. Confirm that **Work Orders** now appears as a page in the left navigation of the app designer. You should also see the three sample Work Orders you created in Lab 3 (Adatum Corporation, Tailwind Traders, Fabrikam Inc) displayed in the view in the center of the app designer.
+1. **[作業指示書]** がアプリ デザイナーの左ナビゲーションにページとして表示されたことを確認します。 また、ラボ 3 で作成した 3 つのサンプル作業指示書 (Adatum Corporation、Tailwind Traders、Fabrikam Inc) も、アプリ デザイナーの中央のビューに表示されているはずです。
 
-1. In the left **Pages** pane, select **New Group** — the group that Work Orders is nested under. In the right properties pane, change the **Title** to `Service Management`, then select **Save**.
+1. 左側の **[ページ]** ペインで、作業指示書が入れ子になっているグループ **[新しいグループ]** を選択します。 右側の [プロパティ] ペインで **[タイトル]** を `Service Management` に変更し、**[保存]** を選択します。
 
-## Task 3: Configure views for the app
+## タスク 3: アプリのビューを設定する
 
-Views control which records are shown and which columns are displayed in the list. By default, all views for the table are included in the app — you'll trim this down to the two most useful ones for service managers.
+ビューによって、どのレコードを表示し、どの列をリストに表示するかが制御されます。 既定では、テーブルのすべてのビューがアプリに含まれているので、サービス マネージャーにとって特に有用な 2 つのビューに絞ることにします。
 
-1. In the left **Pages** pane of the app designer, select **Work Orders view** (not the form).
+1. アプリ デザイナーの左側の **[ページ]** ペインで (フォームではなく) **[作業指示書ビュー]** を選択します。
 
-1. On the right properties pane (if you don't see it, you might need to expand it), select the **Views** tab. You'll see views listed under **In this app**.
+1. 右側の [プロパティ] ペイン (見つからない場合は展開が必要な場合もあります) で **[ビュー]** タブを選択します。ビューは **[In this app]\(このアプリ内\)** の項目に表示されます。
 
-1. Under **In this app**, you'll see two default views: **Active Work Orders** and **Inactive Work Orders**. Select **...** next to **Inactive Work Orders** and select **Remove** — service managers only need to see active records. You should see **Inactive Work Orders** under **Not in this app** after the change.
+1. **[In this app]\(このアプリ内\)** には、**[アクティブな作業指示書]** と **[非アクティブな作業指示書]** という 2 つの既定のビューがあります。 サービス マネージャーはアクティブなレコードだけを見る必要があるため、**[非アクティブな作業指示書]** の横にある **[...]** を選択し、**[削除]** を選択します。 変更後は **[非アクティブな作業指示書]** が **[Not in this app]\(このアプリ以外\)** の下に表示されるはずです。
 
-1. Select **Save**.
+1. **[保存]** を選択します。
 
-## Task 4: Configure the Work Order form
+## タスク 4: 作業指示書フォームを構成する
 
-Forms control what fields are shown when a manager opens a specific record.
+フォームによって、マネージャーが特定のレコードを開いたときにどのフィールドが表示されるかが制御されます。
 
-1. Under **Work Orders** in the app designer, select **Work Orders form**.
+1. アプリ デザイナーの **[作業指示書]** の下で **[作業指示書フォーム]** を選択します。
 
-1. Select the pencil icon next to the form name to open the form designer.
+1. フォーム名の横にある鉛筆アイコンを選択して、フォーム デザイナーを開きます。
 
-1. In the **Table columns** pane, unselect **Show only unused table columns**.
+1. **[テーブル列]** のペインで **[未使用のテーブル列のみを表示]** を選択解除します。
 
-1. Review the form layout. Confirm the following fields are visible on the form. If they are not, drag fields from the right panel and around in the form so they appear in the following order:
+1. フォームのレイアウトをレビューします。 フォームに次のフィールドが表示されていることを確認します。 そうでない場合、次の順番で表示されるように、右側のパネルからフォーム内にフィールドをドラッグします。
     - Customer Name
     - Customer Email
     - Issue Description
-    - Priority
-    - Request Status
-    - Assigned Technician
-    - Resolved Date
+    - 優先順位
+    - 要求の状態
+    - 割り当てられた技術者
+    - 解決日
     - Owner
 
-1. Add a **section** to organize the form more clearly:
-    - Select **Components** from the left pane.
-    - Select **1-column section**. The section will be added below the Owner field.
-    - Label the new section `Resolution Details` from the **Properties** pane on the right.
-    - Drag the **Resolved Date** field into this section.
+1. フォームをよりわかりやすく整理するために **[セクション]** を追加します。
+    - 左側のウィンドウで、**コンポーネント**を選択します。
+    - **[1 列のセクション]** を選択します。 このセクションは [所有者] フィールドの下に追加されます。
+    - 右側の **[プロパティ]** パネルから新しいセクション `Resolution Details` にラベルを付けます。
+    - **[解決日]** フィールドをこのセクションにドラッグします。
 
-1. Select **Save and publish** to publish the form changes.
+1. **[保存して公開]** を選択して、フォームの変更を公開します。
 
-1. Close the form designer tab and return to the app designer.
+1. [フォーム デザイナー] タブを閉じて、アプリ デザイナーに戻ります。
 
-## Task 5: Create a custom view for high-priority requests
+## タスク 5: 優先度が高いリクエスト用のカスタム ビューを作成する
 
-Views let you define exactly which records appear and which columns are shown when a manager opens the app. You'll create a filtered view that surfaces only the most urgent Work Orders, giving managers a focused queue without having to manually filter every time.
+ビューによって、マネージャーがアプリを開いたときにどのレコードとどの列が表示されるようにするかを正確に定義できます。 マネージャーが毎回手動でフィルターしなくても目的のキューが表示されるように、特に緊急の作業指示書だけを表示するフィルター ビューを作成します。
 
-1. Open a new browser tab and navigate to [**Power Apps**](https://make.powerapps.com) at `https://make.powerapps.com`. Keep the app designer tab open so you can return to it later.
+1. 新しいブラウザー タブを開き、[**Power Apps**](https://make.powerapps.com) (`https://make.powerapps.com`) に移動します。 [アプリ デザイナー] タブは後から戻れるように、開いたままにしておきます。
 
-1. In the left navigation, select **Solutions** and open the **Contoso Field Services** solution.
+1. 左ナビゲーションで **[ソリューション]** を選択し、**[Contoso Field Services]** ソリューションを開きます。
 
-1. Select **Objects**, expand **Tables**, and expand the **Work Order** table.
+1. **[オブジェクト]** を選択し、**[テーブル]** を展開し、**[作業指示書]** テーブルを展開します。
 
-1. Select **Views**, then select **+ New view**. Configure the new view:
-    - **Name**: `High Priority Work Orders`
-    - **Description**: `Shows only High and Critical priority Work Orders for manager triage`
+1. **[ビュー]** を選択し、**[+ 新しいビュー]** を選択します。 次のようにして、新しいビューを構成します。
+    - **名前**: `High Priority Work Orders`
+    - **説明**: `Shows only High and Critical priority Work Orders for manager triage`
 
-    Select **Create**. The view designer opens.
+    **［作成］** を選択します ビュー デザイナーが開きます。
 
-1. Configure the columns for this view. Select **+ View column** to add the following columns, removing any others that aren't needed:
-    - **Customer Name**
-    - **Issue Description**
-    - **Priority**
-    - **Request Status**
-    - **Assigned Technician**
+1. このビューの列を構成します。 **[+ ビュー列]** を選択して、次の列を追加し、それ以外の不要な列を削除します。
+    - **[顧客名]**
+    - **問題の説明**
+    - **優先順位**
+    - **[リクエストの状態]**
+    - **[割り当て済みの技術者]**
 
-1. Before you can filter by Priority, you need to make it available as a filter option. By default, columns are not always enabled for Advanced Find, which is the underlying search and filter engine used by views. Select the dropdown arrow next to the **Priority** column header in the view designer and select **Edit table column**.
+1. 優先度でフィルター処理するには、まずフィルター オプションとして利用できるようにする必要があります。 既定では、ビューで使用される基本の検索およびフィルター エンジンである [高度な検索] では、列が必ずしも有効になっていません。 ビュー デザイナーの **[優先度]** 列ヘッダーの横にあるドロップダウン矢印を選択し、**[テーブル列の編集]** を選択します。
 
-1. In the column properties panel, check the box next to **Enabled for Advanced Find**, then select **Save**. Priority will now appear as an option when configuring view filters.
+1. 列のプロパティ パネルで **[高度な検索に有効]** の横にあるボックスをチェックし、**[保存]** を選択します。 これで、ビュー フィルターの設定時に、優先度がオプションとして表示されます。
 
-1. Select **Edit filters** in the right pane to add a filter condition.
+1. 右側のペインで **[フィルターの編集]** を選択してフィルター条件を追加します。
 
-1. Select **+ Add** > **+ Add row**. In the column picker, type `Priority` to search for it and select it. Set the operator to **Equals**. In the value picker, select both **High** and **Critical**.
+1. **[+ 追加]** > **[+ 行の追加]** を選択します。 列ピッカーで `Priority` と入力して検索し、これを選択します。 演算子を**等しい**に設定します。 値ピッカーで **[高]** と **[クリティカル]** の両方を選択します。
 
-1. Select **Ok**.
+1. **OK** を選択します。
 
-1. You should see the High and Critical Work Orders from your sample data populated in the view.
+1. サンプル データが入力されたビューに、[高] および [クリティカル] の作業指示書が表示されるはずです。
 
-1. Select **Save and publish**.
+1. **保存と公開**を選択します。
 
-1. Return to the tab with your model-driven app designer. In the left **Pages** pane, select **Work Orders view**.
+1. モデル駆動型アプリ デザイナーのタブに戻ります。 左側の **[ページ]** ペインで **[作業指示書ビュー]** を選択します。
 
-1. Expand the **Work Orders** pane on the right. In the **Views** tab, look for **High Priority Work Orders** under **In this app**. If it doesn't appear there, find it under **Not in this app**, select **...** next to it, and select **Add**.
+1. 右側の **[作業指示書]** パネルを展開します。 **[ビュー]** タブの **[In this app]\(このアプリ内\)** の下で **[高優先度の作業指示書]** を探します。 表示されない場合は、**[Not in this app]\(このアプリ以外\)** の下を探し、その横にある **[...]** を選択し、**[追加]** を選択します。
 
-1. Select **Save**.
+1. **[保存]** を選択します。
 
-## Task 6: Create a chart for the Work Order table
+## タスク 6: 作業指示書テーブルのチャートを作成する
 
-Charts give managers a visual snapshot of data without any code. You'll create a pie chart that shows how Work Orders are distributed across priority levels — a quick health check at a glance. Charts are defined at the table level and can then be embedded in dashboards.
+グラフはコードを使用せずにマネージャーにデータの視覚的なスナップショットを提供します。 作業指示書がどのような優先度レベルで分布しているかを示す円グラフを作成します。これで、一目で正常性チェックができます。 グラフはテーブル レベルで定義し、ダッシュボードに埋め込むことができます。
 
-1. Return to the **Contoso Field Services** solution tab. Select **Objects**, expand **Tables**, and expand the **Work Order** table.
+1. **[Contoso Field Services]** ソリューション タブに戻ります。**[オブジェクト]** を選択し、**[テーブル]** を展開し、**[作業指示書]** テーブルを展開します。
 
-1. Select **Charts**, then select **+ New chart**. The chart designer opens.
+1. **[グラフ]** を選択し、**[+ 新しいグラフ]** を選択します。 グラフ デザイナーが開きます。
 
    > [!NOTE] 
-   > The chart designer opens in the classic Unified Interface layout, which looks different from the modern app designer you've been using. This is expected.
+   > グラフ デザイナーは、これまで使っていた最新のアプリ デザイナーとは見た目が異なる、クラシックな統一インターフェイスのレイアウトで開きます。 これは "予期されること" です。
 
-1. Name the chart `Requests by Priority`.
+1. グラフに `Requests by Priority` という名前を付けます。
 
-1. Select **Pie chart** as the chart type.
+1. チャートの種類として **[円グラフ]** を選択します。
 
-1. Configure the chart data:
-    - **Legend Entries (Series)**: Set to **Work Order** and **Count:All**. This counts the number of records in each group.
-    - **Horizontal (Category) Axis Labels**: Set to **Priority**. This groups the records by their Priority value.
+1. 次のようにして、グラフのデータを設定します。
+    - **[Legend Entries (Series)]\(凡例エントリ (系列)\)**: **[作業指示書]** および **[Count:All]\(カウント: すべて\)** に設定します。 これで各グループのレコード数がカウントされます。
+    - **[横 (カテゴリ) 軸ラベル]**: **[優先度]** に設定します。 これでレコードが優先度の値ごとにグループ化されます。
 
-1. In the **Description** field, enter `Pie chart showing the distribution of Work Orders by priority level`.
+1. **説明**フィールドに、`Pie chart showing the distribution of Work Orders by priority level` を入力します。
 
-1. Select **Save & close**.
+1. **[保存して閉じる]** を選択します。
 
-1. Back in the charts page of the Solution, select **Done**.
+1. ソリューションのグラフ ページに戻り、**[完了]** を選択します。
 
-## Task 7: Add a dashboard page
+## タスク 7: ダッシュボード ページを追加する
 
-Dashboards let managers see their most important data at a glance in a single page. You'll build a dashboard that combines the **High Priority Work Orders** view and the **Requests by Priority** chart side by side, then add it to the app as a page.
+ダッシュボードで、マネージャーが特に重要なデータを 1 ページにまとめて一目で確認できるようになります。 **[高優先度の作業指示書]** ビューと **[Requests by Priority]\(優先度別リクエスト\)** グラフを左右に並べて表示したダッシュボードを構築し、それをアプリにページとして追加します。
 
-1. Return to the **Contoso Field Services** solution page and select **All**.
+1. **[Contoso Field Services]** ソリューション ページに戻り、**[すべて]** を選択します。
 
-1. Select **+ New** > **Dashboard** > **2-Column overview** from the command bar.
-
-   > [!NOTE]
-   > The dashboard designer opens in the classic Unified Interface layout, which looks different from the modern app designer you've been using. This is expected.
-
-   This is a standard dashboard layout that supports List and Chart components.
-
-1. Name the dashboard `Service Manager Dashboard`.
-
-1. In the left column component, select the **List** icon (the grid icon in the center of the panel). Configure it and select **Add**:
-    - **Record type**: Work Order
-    - **View**: High Priority Work Orders
-
-1. In the right column component, select the **Chart** icon. Configure it and select **Add**:
-    - **Record type**: Work Order
-    - **View**: Active Work Orders
-    - **Chart**: Requests by Priority
-
-1. Select **Save**, then select **Close** to return to the solution.
-
-1. On the solution command bar, select **Publish all customizations** and wait for it to complete. This ensures the dashboard is available to add to the app — customizations created in the classic designer aren't visible in the modern app designer until published.
-
-1. Return to the app designer tab. Select **+ Add page**.
-
-1. Select **Dashboard**.
-
-1. Find and select **Service Manager Dashboard**, then select **Add**.
+1. コマンド バーから **[+ 新規]** > **[ダッシュボード]** > **[2 列の概要]** を選択します。
 
    > [!NOTE]
-   > If **Service Manager Dashboard** doesn't appear in the list, close the app designer tab and reopen the app from the solution. The modern app designer sometimes caches the available components and needs a full reload to pick up dashboards published from the classic designer.
+   > ダッシュボードデザイナーは、これまで使っていた最新のアプリ デザイナーとは見た目が異なる、クラシックな統一インターフェイスのレイアウトで開きます。 これは "予期されること" です。
 
-1. In the **Pages** pane, select the ellipses on **Service Manager Dashboard**, then select **Move up**. The dashboard will now be the first item users see when they open the app.
+   これはリストとグラフのコンポーネントをサポートする標準的なダッシュボード レイアウトです。
 
-1. Select **Save**.
+1. ダッシュボードに `Service Manager Dashboard` という名前を付けます。
 
-## Task 8: Test the app
+1. 左の列コンポーネントで、**[リスト]** アイコン (パネル中央のグリッド アイコン) を選択します。 これを構成し、**[追加]** を選択します。
+    - **[レコードの種類]**: [作業指示書]
+    - **[表示]**: [高優先度の作業指示書]
 
-1. Select **Publish** to ensure all changes are published.
+1. 右の列コンポーネントで **[グラフ]** アイコンを選択します。 これを構成し、**[追加]** を選択します。
+    - **[レコードの種類]**: [作業指示書]
+    - **[表示]**: [アクティブな作業指示書]
+    - **[グラフ]**: [Requests by Priority]\(優先度別リクエスト\)
 
-1. Select **Play** to open the app in a new tab.
+1. **[保存]** を選択してから、**[閉じる]** を選択してソリューションに戻ります。
 
-1. Navigate to **Work Orders** in the left navigation and confirm the **High Priority Work Orders** view is available in the view selector.
+1. ソリューション コマンド バーで **[すべてのカスタマイズの公開]** を選択して完了を待ちます。 これにより、ダッシュボードをアプリに追加できるようになり、クラシック デザイナーで作成されたカスタマイズは公開されるまで最新のアプリ デザイナーに表示されなくなります。
 
-1. Select **+ New** to create a test Work Order:
-    - **Customer Name**: `Alpine Equipment Co.`
-    - **Issue Description**: `Office printer on second floor making occasional noise`
-    - **Priority**: `Low`
-    - **Request Status**: `New`
+1. [アプリ デザイナー] タブに戻ります。**[+ ページの追加]** を選択します。
 
-1. Select **Save & Close** and confirm the new record appears in the **Active Work Orders** view.
+1. **ダッシュボード**を選択します。
 
-1. Select **Service Manager Dashboard.** Your pie chart should have updated to show a Low priority work order.
+1. 「**Service Manager Dashboard**」を検索して選択し、**[追加]** を選択します。
+
+   > [!NOTE]
+   > **[Service Manager Dashboard]** がリストに表示されない場合は、[アプリ デザイナー] タブを閉じてソリューションからアプリを再度開いてください。 最新のアプリ デザイナーで利用可能なコンポーネントがキャッシュされ、クラシック デザイナーから公開されたダッシュボードを取得するにはフル リロードが必要になることがあります。
+
+1. **[ページ]** ペインで **[Service Manager Dashboard]** の省略記号を選択し、**[上へ移動]** を選択します。 このダッシュボードが、アプリを開いたときに最初にユーザーに表示されるアイテムになります。
+
+1. **[保存]** を選択します。
+
+## タスク 8: アプリをテストする
+
+1. **[公開]** を選択して、すべての変更が公開されていることを確認します。
+
+1. **[再生]** を選択して、新しいタブでアプリを開きます。
+
+1. 左ナビゲーションで **[作業指示書]** に移動し、ビュー セレクターで **[高優先度の作業指示書]** が表示されていることを確認します。
+
+1. **[+ 新規]** を選択して作業指示書のテストを次のように作成します。
+    - **[顧客名]**: `Alpine Equipment Co.`
+    - **[問題の説明]**: `Office printer on second floor making occasional noise`
+    - **優先度**: `Low`
+    - **[リクエストの状態]**: `New`
+
+1. **[保存して閉じる]** を選択し、新しいレコードが **[アクティブな作業指示書]** ビューに表示されるかを確認します。
+
+1. **[Service Manager Dashboard]** を選択します。 円グラフが低優先度の作業指示書を表示するように更新されているはずです。

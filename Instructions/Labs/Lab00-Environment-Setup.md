@@ -1,114 +1,114 @@
-﻿---
+---
 lab:
-    title: 'Set up your lab environment'
-    description: 'Activate your Power Platform trial and configure your environment before starting the course labs'
-    duration: '20 minutes'
-    level: 100
-    islab: true
+  title: ラボ環境をセットアップする
+  description: コース ラボを始める前に Power Platform 試用版をアクティブ化して自分の環境を構成する
+  duration: 20 minutes
+  level: 100
+  islab: true
 ---
 
-# Set up your lab environment
+# ラボ環境をセットアップする
 
-In this exercise, you activate your Power Platform trial and verify that your environment is ready for the hands-on labs in this course.
+この演習では、Power Platform 試用版をアクティブ化し、自分の環境がこのコースのハンズオン ラボに使える状態であることを確認します。
 
-This exercise should take approximately **20** minutes to complete.
+この演習の所要時間は約 **20** 分です。
 
-## About Contoso Field Services
+## Contoso Field Services について
 
-Throughout this course, all labs follow a single, connected scenario based on a fictional company called **Contoso Field Services**.
+このコースのラボはすべて、**Contoso Field Services** という架空の会社に基づく単一のつながったシナリオに沿って進めていきます。
 
-Contoso Field Services installs and repairs industrial equipment for business customers across the region. When a customer's equipment fails — a conveyor belt stops mid-shift, a hydraulic press loses pressure, a cooling system goes offline — they need help fast.
+Contoso Field Services は産業用機器の設置と修理を行う会社であり、地域全域の企業を顧客としています。 顧客の機器が故障したとき、たとえばコンベアー ベルトが稼働中に停止する、油圧プレスの圧力が低下する、冷却システムがオフラインになるといったときは、迅速な手助けが必要です。
 
-Today, Contoso's process is entirely manual:
+現在、Contoso のプロセスは次のように全体が手作業で行われています。
 
-- Customers call or email to report issues
-- Agents record requests in spreadsheets
-- Managers assign technicians by phone
-- Technicians receive job details verbally or by text
-- Customers have no way to check their request status without calling back
+- 顧客が電話またはメールで問題を報告する
+- エージェントが要求をスプレッドシートに記録する
+- マネージャーが電話で技術者を割り当てる
+- 技術者は職務の詳細を口頭またはテキストで受け取る
+- 顧客が自分の要求の状態を確認するには折り返し電話をかけるしかない
 
-Over the course of these labs, you'll build a complete Power Platform solution that transforms this process. By the end of Day 3, Contoso will have:
+これらのラボを進めていきながら、あなたはこのプロセスを変革する完全な Power Platform ソリューションを構築します。 第 3 日の終了時点で、Contoso は次のものを持つ状態になります。
 
-- A **Dataverse data model** to store and manage Work Orders
-- A **canvas app** for field technicians to view and update their jobs on mobile
-- A **model-driven app** for service managers to track and prioritize all open requests
-- A **customer portal** built with Power Pages where customers can submit requests and check status online
-- **Automated flows** that notify technicians when they're assigned and route critical requests through a manager approval
-- An **AI-powered assistant** that lets agents query Contoso's service history in natural language
+- **Dataverse データ モデル**: 作業指示 (Work Orders) を保存して管理するため
+- **キャンバス アプリ**: フィールド技術者が自分の担当作業をモバイルで見て更新するため
+- **モデル駆動型アプリ**: サービス マネージャーがすべての未完要求を把握して優先順位を決定するため
+- **顧客ポータル**: Power Pages で構築され、ここで顧客が要求の提出と状況の確認をオンラインで行うことができる
+- **自動化されたフロー**: 技術者を割り当てると本人に通知が送られ、クリティカルな要求はマネージャーの承認を得るために回す
+- **AI アシスタント**: これを使ってエージェントが Contoso のサービス履歴を自然言語で照会できる
 
-Every table, app, flow, and automation you build will be part of this single solution — so what you create in one lab is used in the next.
+あなたが構築するテーブル、アプリ、フロー、自動化はどれも、この単一のソリューションの一部となります。つまり、あるラボで作成したものは次のラボで使われます。
 
-## Before you start
+## 開始する前に
 
-You will be provided with a **Microsoft 365 license** by your Authorized Lab Host (ALH). This gives you a work email address in the format `username@domain.onmicrosoft.com`. You will use this account as your identity for all Power Platform services throughout the course.
+**Microsoft 365 ライセンス**が認定ラボ ホスト (ALH) から提供されます。 これで、あなたは `username@domain.onmicrosoft.com` という形式の仕事用メール アドレスを持つことになります。 このコースで使用する Power Platform サービスすべてに対して、このアカウントをあなたの ID として使用します。
 
 > [!NOTE]
-> Do not use a personal Microsoft account for these labs. The Microsoft 365 account provided by your ALH includes the organizational permissions required to create Dataverse environments and access Power Platform features.
+> 個人用 Microsoft アカウントをこれらのラボに使用しないでください。 ALH から提供される Microsoft 365 アカウントには、組織として Dataverse 環境を作成して Power Platform の機能にアクセスするために必要なアクセス許可が含まれています。
 
-## Task 1: Sign in to Power Apps and start your trial
+## タスク 1: Power Apps にサインインして試用を開始する
 
-1. Open a browser and go to [**Power Apps**](https://make.powerapps.com) at `https://make.powerapps.com`.
+1. ブラウザーを開いて [**Power Apps**](https://make.powerapps.com) (`https://make.powerapps.com`) に移動します。
 
-1. Sign in using the Microsoft 365 credentials provided by your Authorized Lab Host.
+1. 認定ラボ ホストから提供された Microsoft 365 資格情報を使用してサインインします。
 
-1. If prompted to choose an account type, select **Work or school account**.
+1. アカウントの種類を選択する画面が表示された場合は、**[職場または学校アカウント]** を選択します。
 
-1. Once signed in, look for the **Build apps with Dataverse** section on the home screen. Under that header, find the environment selector and select **Dev One** from the list.
+1. サインインしたら、ホーム画面の **[Dataverse によるアプリのビルド]** セクションを探します。 そのヘッダーの下にある環境セレクターを見つけて、リストから **Dev One** を選択します。
 
-1. If prompted to **Start a free trial** or **Try Power Apps for free**, select it. This activates a 30-day Power Apps Premium trial on your account.
+1. **[無料試用の開始]** または **[Power Apps を無料で試す]** が表示された場合は、それを選択します。 これで、あなたのアカウントでの 30 日間の Power Apps Premium 試用がアクティブになります。
 
-1. When prompted, select your **country/region** and select **Get started**.
+1. 画面の指示に従って自分の**国/地域**を選択し、**[開始する]** を選択します。
 
-1. Confirm that the environment picker in the top-right corner now shows **Dev One**. This is the environment you will use throughout all labs in this course.
-
-   > [!NOTE]
-   > Dev One includes Microsoft Dataverse, which is required for all labs in this course. If you don't see Dev One in the environment list, let your instructor know.
-
-## Task 2: Verify your Power Automate access
-
-1. Open a new browser tab and go to [**Power Automate**](https://make.powerautomate.com) at `https://make.powerautomate.com`.
-
-1. Sign in with the same Microsoft 365 credentials.
-
-1. Confirm you are in the **Dev One** environment (check the environment picker in the top-right). If it shows a different environment, select it and switch to **Dev One**.
-
-1. In the left navigation, select **+ Create**. Confirm you can see **Automated cloud flow** as an option.
+1. 右上隅の環境ピッカーに **Dev One** と表示されていることを確認します。 この環境を、このコースのすべてのラボで使用します。
 
    > [!NOTE]
-   > Labs 8 and 9 use the Dataverse connector in Power Automate, which is a premium connector. Your Power Apps trial includes premium Power Automate capabilities. If you see a message about upgrading your plan when building flows, let your instructor know.
+   > Dev One には、このコースのすべてのラボで必要になる Microsoft Dataverse が含まれています。 環境のリストに Dev One が見当たらない場合は、講師に知らせてください。
 
-## Task 3: Start your Power Pages trial
+## タスク 2: Power Automate にアクセスできることを確認する
 
-Power Pages is a separate product from Power Apps and requires its own trial activation. You will need this for Lab 7 (Day 3).
+1. 新しいブラウザー タブを開いて [**Power Automate**](https://make.powerautomate.com) (`https://make.powerautomate.com`) に移動します。
 
-1. Open a new browser tab and go to [**Power Pages**](https://make.powerpages.microsoft.com) at `https://make.powerpages.microsoft.com`.
+1. 同じ Microsoft 365 資格情報を使用してサインインします。
 
-1. Sign in with the same Microsoft 365 credentials.
+1. 現在の環境が **Dev One** であることを確認します (右上の環境ピッカーを確認してください)。 別の環境が表示されている場合は、選択して **Dev One** に切り替えてください。
 
-1. If prompted to start a trial, select **Get started** and follow the prompts.
-
-1. Confirm that the Power Pages home screen loads and shows the option to create a new site.
+1. 左側のナビゲーションで、**[+ 作成]** を選択します。 **[自動化されたクラウド フロー]** というオプションがあることを確認します。
 
    > [!NOTE]
-   > You don't need to create a site now — just confirm that your trial is active. You'll build the Contoso customer portal in Lab 7.
+   > ラボ 8 と 9 で Power Automate の Dataverse コネクタを使用しますが、これはプレミアム コネクタです。 あなたが使用する Power Apps 試用版には Power Automate のプレミアム機能が含まれています。 フローを構築するときにプランのアップグレードに関するメッセージが表示された場合は、講師に知らせてください。
 
-## Task 4: Verify AI Builder access
+## タスク 3: Power Pages の試用を開始する
 
-AI Builder is used in Lab 10 to create a grounded prompt that queries Contoso's service history. AI Builder requires credits, which are included with your Power Platform trial.
+Power Pages は Power Apps とは別の製品であり、この製品自身の試用版アクティブ化が必要です。 これはラボ 7 (第 3 日) に必要になります。
 
-1. Return to [Power Apps](https://make.powerapps.com) at `https://make.powerapps.com` and confirm you are in the **Dev One** environment.
+1. 新しいブラウザー タブを開いて [**Power Pages**](https://make.powerpages.microsoft.com) (`https://make.powerpages.microsoft.com`) に移動します。
 
-1. In the left navigation, select **AI hub**.
+1. 同じ Microsoft 365 資格情報を使用してサインインします。
 
-1. Confirm that the AI hub loads and you can see options for **Prompts**, **AIModels**, and other AI Builder features.
+1. 試用開始の画面が表示された場合は、**[開始する]** を選択し、画面の指示に従ってください。
 
-1. If you see a message about AI Builder credits or a prompt to start a trial, select **Try AI Builder** or **Start trial** to activate your AI Builder credits.
+1. Power Pages のホーム画面が読み込まれて新しいサイト作成のオプションが表示されていることを確認します。
 
    > [!NOTE]
-   > AI Builder credits are consumed each time a prompt is run or a model is used. Use the **Test** feature thoughtfully during Lab 10 to avoid depleting your trial credits before completing the exercise.
+   > この時点ではサイトを作成する必要はありません。試用版がアクティブであることを確認してください。 Contoso の顧客ポータル構築はラボ 7 で行います。
 
-## You're ready
+## タスク 4: AI Builder にアクセスできることを確認する
 
-Once you've completed all four tasks, you are ready to begin Lab 1. Keep your browser open with Power Apps and Power Automate tabs active — you'll use them throughout the course.
+AI Builder はラボ 10 で使用します。この目的は Contoso のサービス履歴を照会するための、典拠のあるプロンプトを作成することです。 AI Builder を使用するにはクレジットが必要ですが、これはあなたの Power Platform 試用版に含まれています。
 
-Your instructor will confirm that everyone's environment is set up before the first lab begins.
+1. [Power Apps](https://make.powerapps.com) (`https://make.powerapps.com`) に戻り、現在の環境が **Dev One** であることを確認します。
+
+1. 左側のナビゲーションで **[AI ハブ]** を選択します。
+
+1. AI ハブが読み込まれて **[プロンプト]**、**[AI モデル]**、およびその他の AI Builder の機能に対応するオプションが表示されていることを確認します。
+
+1. AI Builder のクレジットに関するメッセージまたは試用開始の画面が表示された場合は、**[AI Builder を試す]** または **[試用版の開始]** を選択して AI Builder クレジットをアクティブにしてください。
+
+   > [!NOTE]
+   > AI Builder のクレジットは、プロンプトが実行されるたびに、またはモデルが使用されるたびに消費されます。 ラボ 10 で**テスト**機能を使用しますが、演習完了前に試用版クレジットを使い切ることがないよう、考えて使用してください。
+
+## 準備は万端です
+
+4 つのタスクすべてを完了すると、ラボ 1 を開始できる状態になります。 ブラウザーを開いたままにして、Power Apps と Power Automate のタブをアクティブにしておいてください。これらは、このコース全体で使用します。
+
+最初のラボを開始する前に、全員の環境のセットアップが完了していることを講師が確認します。
