@@ -1,5 +1,5 @@
 ---
-title: Exercise Instructions
+title: 演習の手順
 permalink: index.html
 layout: home
 ---
@@ -10,7 +10,7 @@ Change the title above AND IN THE _config.yml FILE (so that the page header in t
 When you're ready for the labs to be live - make the repo public and enable GitHub Pages publishing from the main branch (in the repo Settings | Pages).
 -->
 
-This page lists exercises associated with Microsoft skilling content on [Microsoft Learn](https://learn.microsoft.com)
+このページには、[Microsoft Learn](https://learn.microsoft.com) の Microsoft スキルアップ コンテンツに関連付けられている演習が記載されています
 
 <!-- You can edit the paragraph above to provide a more specific description and links to content on Learn.
 
@@ -29,7 +29,7 @@ If a more complex setup is required, create a separate markdown file with setup 
 ### [{{ activity.lab.title }}]({{ site.github.url }}{{ activity.url }})
 
 
-{% if activity.lab.level %}**Level**: {{activity.lab.level}} \| {% endif %}{% if activity.lab.duration %}**Duration**: {{activity.lab.duration}}{% endif %}
+{% if activity.lab.level %}**レベル**: {{activity.lab.level}} \| {% endif %}{% if activity.lab.duration %}**期間**: {{activity.lab.duration}}{% endif %}
 
 {% if activity.lab.description %}
 *{{activity.lab.description}}*
